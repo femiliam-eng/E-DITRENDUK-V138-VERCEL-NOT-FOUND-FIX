@@ -179,7 +179,7 @@ function createApp({pool,storage,attachmentStorage}={}){
  return http.createServer(async(req,res)=>{
   res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','SAMEORIGIN');res.setHeader('Content-Security-Policy',csp(process.env.NODE_ENV==='production'));
   let url;try{url=new URL(req.url,'http://localhost');}catch{return json(res,400,{ok:false});}
-  if(!originAllowed({method:req.method,origin:req.headers.origin,fetchSite:req.headers['sec-fetch-site'],appOrigin:process.env.APP_ORIGIN,isProd:process.env.NODE_ENV==='production',host:req.headers.host,devOrigins:['http://localhost:3000','http://127.0.0.1:3000']}))return json(res,403,{ok:false,message:'Origin tidak diizinkan.'});
+  if(!originAllowed({method:req.method,origin:req.headers.origin,fetchSite:req.headers['sec-fetch-site'],appOrigin:process.env.APP_ORIGIN,isProd:process.env.NODE_ENV==='production',host:req.headers.host,vercelProductionUrl:process.env.VERCEL_PROJECT_PRODUCTION_URL,vercelDeploymentUrl:process.env.VERCEL_URL,vercelBranchUrl:process.env.VERCEL_BRANCH_URL,devOrigins:['http://localhost:3000','http://127.0.0.1:3000']}))return json(res,403,{ok:false,message:'Origin tidak diizinkan.'});
   try{if(url.pathname.startsWith('/api/'))return await api(req,res,url);
    if(!['GET','HEAD'].includes(req.method))return json(res,405,{ok:false});
    const target=resolvePublicFile(__dirname,url.pathname==='/'?'/login.html':url.pathname);
