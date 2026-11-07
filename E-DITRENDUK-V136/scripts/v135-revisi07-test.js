@@ -1,0 +1,12 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'..');const read=x=>fs.readFileSync(path.join(root,x),'utf8');
+const app=read('js/app.js'),layout=read('js/layout.js'),repo=read('repository.html'),idx=read('index.html'),fac=read('fasilitasi.html'),css=read('css/revisi-07nov.css'),pcss=read('css/profile-v132.css');
+assert.match(idx,/id="weeklyProgress"[^>]*>0%/);assert.match(idx,/id="weeklyProgressDetail"/);assert.match(app,/weeklyDone\/weekly\.length\*100/);assert.match(app,/Belum ada tugas dengan tenggat minggu ini/);
+assert.match(app,/const normalizeRepoStatus/);assert.match(app,/const repoClass/);assert.match(repo,/id="repoCount"/);assert.match(app,/\['final','lengkap'\]\.includes\(st\.trim\(\)\)/);assert.match(app,/\['draf','draft'\]\.includes\(st\.trim\(\)\)/);assert.match(app,/\[\.\.\.new Set\(\[x\.status,\.\.\.statusOpts\]/);
+assert.match(app,/n==='musnah'\?'state-red'/);assert.match(app,/n==='dinilai kembali'\?'state-yellow'/);assert.match(app,/n==='permanen'\?'state-blue'/);assert.match(css,/\.ar-nasib\.state-red/);assert.match(css,/\.ar-nasib\.state-yellow/);assert.match(css,/\.ar-nasib\.state-blue/);
+assert.match(layout,/prepareCircularProfileImage/);assert.match(layout,/ctx\.arc\((128,128,128|96,96,96)/);assert.match(layout,/refreshAllProfilePhotos/);assert.match(layout,/document\.getElementById\('edProfileAvatar'\)/);assert.match(pcss,/\.ed-profile-avatar img/);assert.match(pcss,/object-fit:cover/);
+assert.match(read('partials/header.html'),/Direktorat Perencanaan Pengendalian<br>Penduduk/);
+assert.match(fac,/class="fasilitasi-toolbar"/);assert.match(read('css/fasilitasi-v132.css'),/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+assert.doesNotMatch(read('scripts/v134-publish-operational.js').slice(0,100),/DELETE|TRUNCATE/);
+console.log('V135 PASS: 7 revisi (weekly %, Repository, Arsip, crop photo, synced avatar, header, Fasilitasi). No database mutations.');

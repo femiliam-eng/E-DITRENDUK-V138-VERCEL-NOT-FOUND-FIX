@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Audit Log — E-DITRENDUK</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="audit">
+  <div id="appHeader"></div><div id="appSidebar"></div>
+  <main class="main">
+    <div class="crumb">E-DITRENDUK · KEAMANAN SISTEM</div>
+    <div class="page-head"><div><h1>Audit Log</h1><p>Riwayat aktivitas penting pengguna yang tercatat di backend.</p></div><button class="btn btn-outline" id="refreshAudit">↻ Muat ulang</button></div>
+    <section class="card">
+      <div class="section-title"><div><h3>Aktivitas sistem</h3><span id="auditMeta">Memuat data...</span></div></div>
+      <div class="form-grid" style="margin-bottom:18px">
+        <div class="form-group"><label>Pencarian</label><input class="field" id="auditSearch" placeholder="Nama, aksi, modul, ID..."></div>
+        <div class="form-group"><label>Aksi</label><select class="field" id="auditAction"><option value="">Semua aksi</option><option>CREATE</option><option>UPDATE</option><option>DELETE</option><option>LOGIN</option><option>LOGOUT</option><option>RESET_PASSWORD</option><option>CHANGE_PASSWORD</option><option>EXPORT</option></select></div>
+        <div class="form-group"><label>Modul</label><select class="field" id="auditResource"><option value="">Semua modul</option><option>account</option><option>monitoring</option><option>logbook</option><option>archive</option><option>disposisi</option><option>schedules</option><option>notulen</option></select></div>
+      </div>
+      <div class="table-wrap"><table class="table"><thead><tr><th>Waktu</th><th>Pengguna</th><th>Aksi</th><th>Modul</th><th>ID Data</th><th>Detail</th></tr></thead><tbody id="auditBody"></tbody></table></div>
+      <div style="display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:16px"><button class="btn btn-outline" id="auditPrev">← Sebelumnya</button><span id="auditPage">1 / 1</span><button class="btn btn-outline" id="auditNext">Berikutnya →</button></div>
+    </section>
+  </main>
+  <script src="js/data.js"></script><script src="js/api.js"></script><script src="js/layout.js"></script><script src="js/audit.js"></script>
+  <script src="js/ux.js"></script>
+</body></html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Arsip — E-DITRENDUK
+  </title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="css/style.css" rel="stylesheet"/>
+ </head>
+ <body data-page="arsip">
+  <div id="appHeader">
+  </div>
+  <div id="appSidebar">
+  </div>
+  <main class="main">
+   <div class="crumb">
+    E-DITRENDUK · 2026
+   </div>
+   <div class="page-head">
+    <div>
+     <h1>
+      Arsip
+     </h1>
+     <p>
+      Kelola klasifikasi, retensi, akses, dan nasib akhir arsip.
+     </p>
+    </div>
+   </div>
+   <section class="card">
+    <div class="section-title">
+     <div>
+      <h3>
+       Daftar Isi Berkas 2026
+      </h3>
+      <span>
+       Arsip aktif dan inaktif Direktorat Perencanaan Pengendalian Penduduk.
+      </span>
+     </div>
+     <button class="btn btn-navy" id="addArchive">
+      + Tambah arsip
+     </button>
+    </div>
+    <div class="toolbar">
+     <input class="field" id="archiveSearch" placeholder="Cari kode atau uraian arsip"/>
+    </div>
+    <div class="table-wrap">
+     <table class="table">
+      <thead>
+       <tr>
+        <th>
+         No.
+        </th>
+        <th>
+         Kode
+        </th>
+        <th>
+         Item
+        </th>
+        <th>
+         Uraian Informasi Arsip
+        </th>
+        <th>
+         Tanggal
+        </th>
+        <th>
+         Jumlah
+        </th>
+        <th>
+         Keterangan
+        </th>
+        <th>
+         Klasifikasi Keamanan
+        </th>
+        <th>
+         Hak Akses
+        </th>
+        <th>
+         Jangka Waktu Penyimpanan
+        </th>
+        <th>
+         Media Arsip
+        </th>
+        <th>
+         Nasib Akhir
+        </th>
+       </tr>
+      </thead>
+      <tbody id="archiveBody">
+      </tbody>
+     </table>
+    </div>
+   </section>
+   <div class="modal-overlay" id="archiveModal">
+    <div class="modal">
+     <div class="modal-head">
+      <div>
+       <small>
+        E-DITRENDUK
+       </small>
+       <h3>
+        Tambah arsip
+       </h3>
+      </div>
+      <button class="modal-close" data-close="">
+       ×
+      </button>
+     </div>
+     <div class="modal-body">
+      <div class="form-grid">
+       <div class="form-group">
+        <label>
+         Nomor berkas
+        </label>
+        <input class="field"/>
+       </div>
+       <div class="form-group">
+        <label>
+         Kode klasifikasi
+        </label>
+        <input class="field"/>
+       </div>
+       <div class="form-group">
+        <label>
+         Nomor item
+        </label>
+        <input class="field"/>
+       </div>
+       <div class="form-group full">
+        <label>
+         Uraian arsip
+        </label>
+        <textarea class="field"></textarea>
+       </div>
+       <div class="form-group">
+        <label>
+         Keamanan
+        </label>
+        <input class="field" value="Biasa"/>
+       </div>
+       <div class="form-group">
+        <label>
+         Hak akses
+        </label>
+        <input class="field" value="Internal"/>
+       </div>
+       <div class="form-group">
+        <label>
+         Retensi
+        </label>
+        <input class="field" placeholder="Contoh: 1+4 tahun"/>
+       </div>
+       <div class="form-group">
+        <label>
+         Nasib akhir
+        </label>
+        <select class="field">
+         <option>
+          Dinilai kembali
+         </option>
+         <option>
+          Musnah
+         </option>
+         <option>
+          Permanen
+         </option>
+        </select>
+       </div>
+      </div>
+     </div>
+     <div class="modal-foot">
+      <button class="btn btn-outline" data-close="">
+       Batal
+      </button>
+      <button class="btn btn-navy" id="saveArchive">
+       Simpan arsip
+      </button>
+     </div>
+    </div>
+   </div>
+  </main>
+  <script src="js/data.js">
+  </script>
+  <script src="js/api.js"></script>
+  <script src="js/layout.js">
+  </script>
+  <script src="js/app.js">
+  </script>
+  <script src="js/pages/arsip.js"></script>
+   <script src="js/v6.js"></script>
+   <script src="js/ux.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+'use strict';
+const assert=require('node:assert/strict');
+const {DatabaseSync}=require('node:sqlite');
+const {createMeetingRepository}=require('../backend/meeting-repository');
+const db=new DatabaseSync(':memory:');
+db.exec(`PRAGMA foreign_keys=ON;
+CREATE TABLE meetings(id TEXT PRIMARY KEY,topic TEXT,team TEXT,meeting_date TEXT,meeting_time TEXT,place TEXT,leader TEXT,notulis TEXT,checked_by TEXT,approved_by TEXT,approval_date TEXT,participants TEXT,status TEXT,created_by TEXT,created_at TEXT DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE meeting_sections(id TEXT PRIMARY KEY,meeting_id TEXT REFERENCES meetings(id) ON DELETE CASCADE,section_order INTEGER,title TEXT);
+CREATE TABLE meeting_notes(id TEXT PRIMARY KEY,section_id TEXT REFERENCES meeting_sections(id) ON DELETE CASCADE,speaker TEXT,organization TEXT,body TEXT,note_order INTEGER);
+CREATE TABLE meeting_documentation(id TEXT PRIMARY KEY,meeting_id TEXT REFERENCES meetings(id) ON DELETE CASCADE,file_name TEXT,data_url TEXT,photo_order INTEGER);`);
+const repo=createMeetingRepository(db);let i=0;const makeId=()=>String(++i);
+const base={topic:'Rapat',participants:['A'],sections:[{title:'Pembukaan',notes:[{speaker:'A',body:'Isi'}]}],documentation:[]};
+repo.create({id:'m1',body:base,accountId:'u1',makeId,saveImage:()=>'',cleanFileName:x=>x});
+assert.equal(repo.list().length,1);assert.equal(repo.detail('m1').sections[0].notes[0].body,'Isi');assert.deepEqual(repo.detail('m1').participants,['A']);
+assert.equal(repo.detail('missing'),null);
+assert.throws(()=>repo.create({id:'m2',body:{...base,documentation:[{fileName:'x',dataUrl:'bad'}]},accountId:'u1',makeId,saveImage:()=>{throw Error('invalid image')},cleanFileName:x=>x}),/invalid image/);
+assert.equal(repo.detail('m2'),null);assert.equal(db.prepare('SELECT count(*) AS n FROM meeting_sections').get().n,1);
+db.close();console.log('Meeting repository V29: LULUS (CRUD read, relasi, rollback)');

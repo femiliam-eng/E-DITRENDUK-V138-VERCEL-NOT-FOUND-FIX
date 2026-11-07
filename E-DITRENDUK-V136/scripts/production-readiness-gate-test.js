@@ -1,0 +1,10 @@
+const assert = require('node:assert/strict');
+const {check} = require('./production-readiness-gate');
+const a = check({}, () => false);
+assert.equal(a.ok, false);
+assert(a.checks.some(x => x.id === 'postgres-full-http-runtime' && x.status === 'BLOCK'));
+assert(a.checks.some(x => x.id === 'https-origin' && x.status === 'BLOCK'));
+const b = check({NODE_ENV:'production', SESSION_SECRET:'x'.repeat(48), APP_ORIGIN:'https://editrenduk.example.org', NOTULEN_UPLOAD_DIR:'/persistent/uploads', CONFIRM_PERSISTENT_UPLOAD_STORAGE:'YES', DATABASE_URL:'postgresql://user@db:5432/ditrenduk', INSTITUTION_HOSTING_APPROVED:'YES', BACKUP_RESTORE_VERIFIED:'YES'}, p => p === '/persistent/uploads');
+assert.equal(b.ok, false, 'production must stay blocked until complete PG HTTP migration');
+assert.equal(b.checks.filter(x => x.status === 'BLOCK').length, 1);
+console.log('PASS production readiness fail-closed tests');

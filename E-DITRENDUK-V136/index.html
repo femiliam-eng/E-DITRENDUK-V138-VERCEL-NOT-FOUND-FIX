@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Beranda — E-DITRENDUK
+  </title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="css/style.css" rel="stylesheet"/>
+ </head>
+ <body data-page="beranda">
+  <div id="appHeader">
+  </div>
+  <div id="appSidebar">
+  </div>
+  <main class="main">
+   <div class="crumb">
+    E-DITRENDUK · 2026
+   </div>
+   <div class="page-head">
+    <div>
+     <h1>
+      Beranda
+     </h1>
+     <p>
+      Ringkasan pekerjaan yang membutuhkan perhatian.
+     </p>
+    </div>
+   </div>
+   <section class="card" style="padding:18px 24px;margin-bottom:20px"><strong>Tim / unit kerja saya</strong><p id="myTeam" style="margin:8px 0 0">Memuat informasi tim...</p></section><section class="hero">
+    <div>
+     <h2>
+      Selamat datang, <span id="workspaceWelcomeName">Pegawai</span> 👋
+     </h2>
+     <p>
+      Selamat datang di E-DITRENDUK. Lanjutkan pekerjaan, rapat, dokumen, dan tindak lanjut dari satu workspace.
+     </p>
+     <button class="btn btn-gold" id="continueBtn">
+      Lanjutkan pekerjaan
+     </button>
+    </div>
+    <div class="hero-score">
+     <div>
+      <b id="weeklyProgress" aria-live="polite">0%</b>
+      <small>
+       progres tugas minggu ini
+      <span id="weeklyProgressDetail" class="weekly-progress-detail">Memuat tugas…</span>
+      </small>
+     </div>
+    </div>
+   </section>
+   <div class="kpis">
+    <div class="kpi">
+     <b id="kpiMeet">
+      0
+     </b>
+     <span>
+      Kegiatan termonitor
+     </span>
+    </div>
+    <div class="kpi">
+     <b id="kpiTask">
+      0
+     </b>
+     <span>
+      Tugas belum selesai
+     </span>
+    </div>
+    <div class="kpi">
+     <b id="kpiDocs">
+      0
+     </b>
+     <span>
+      Dokumen lengkap
+     </span>
+    </div>
+    <div class="kpi">
+     <b id="kpiLog">
+      0
+     </b>
+     <span>
+      Catatan logbook
+     </span>
+    </div>
+   </div>
+   <div class="grid-2">
+    <section class="card">
+     <div class="section-title">
+      <div>
+       <h3>
+        Lanjutkan pekerjaan
+       </h3>
+       <span>
+        Tugas yang masih perlu ditindaklanjuti
+       </span>
+      </div>
+     </div>
+     <div id="workList">
+     </div>
+    </section>
+    <section class="card">
+     <div class="section-title">
+      <div>
+       <h3>
+        Prioritas hari ini
+       </h3>
+       <span>
+        Kelengkapan dokumen
+       </span>
+      </div>
+     </div>
+     <div id="quickList">
+     </div>
+    </section>
+   </div>
+  </main>
+  <script src="js/data.js">
+  </script>
+  <script src="js/api.js"></script>
+  <script src="js/layout.js">
+  </script>
+  <script src="js/app.js">
+  </script>
+  <script src="js/pages/index.js"></script>
+   <script src="js/v6.js"></script>
+   <script src="js/ux.js"></script>
+</body>
+</html>
