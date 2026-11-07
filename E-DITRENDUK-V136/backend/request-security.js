@@ -1,17 +1,32 @@
 'use strict';
 // Production requests must come from the explicitly configured canonical origin.
 // Do not derive a security boundary from untrusted Host/X-Forwarded-* headers.
-function originAllowed({method,origin,fetchSite,appOrigin,isProd,host,devOrigins=[]}) {
+function canonicalHttpsOrigin(value) {
+  try {
+    const url = new URL(String(value || '').startsWith('https://') ? String(value) : `https://${value}`);
+    if (url.protocol !== 'https:' || !url.hostname || url.pathname !== '/' || url.search || url.hash || url.username || url.password) return null;
+    return url.origin;
+  } catch { return null; }
+}
+// V139: Vercel's system-provided production/branch/deployment URLs are trusted
+// configuration values, unlike incoming Host or X-Forwarded-Host headers.
+// This supports a stable production domain even if APP_ORIGIN was configured
+// for an older deployment, without accepting arbitrary cross-origin requests.
+function originAllowed({method,origin,fetchSite,appOrigin,isProd,host,devOrigins=[],vercelProductionUrl,vercelDeploymentUrl,vercelBranchUrl}) {
   if (['GET','HEAD','OPTIONS'].includes(method)) return true;
   if(fetchSite==='cross-site')return false;
   if(isProd){
-    if(!appOrigin)return false;
-    let canonical;
-    try { const u=new URL(appOrigin);if(u.protocol!=='https:'||u.pathname!=='/'||u.search||u.hash||u.username||u.password)return false;canonical=u.origin; }
-    catch{return false}
-    // Browser fetches from this app send Origin on unsafe requests; deny missing Origin
-    // to prevent cross-site form submission and forged same-site subdomain requests.
-    return origin===canonical;
+    const canonical=canonicalHttpsOrigin(appOrigin);
+    if(!canonical)return false;
+    const accepted=new Set([canonical]);
+    if(process.env.VERCEL==='1'){
+      for(const candidate of [vercelProductionUrl,vercelDeploymentUrl,vercelBranchUrl]) {
+        const normalized=canonicalHttpsOrigin(candidate);
+        // System deployment aliases must belong to Vercel's own HTTPS domain.
+        if(normalized && new URL(normalized).hostname.endsWith('.vercel.app'))accepted.add(normalized);
+      }
+    }
+    return typeof origin==='string' && accepted.has(origin);
   }
   const expected=`http://${host}`;
   return !origin||origin===expected||devOrigins.includes(origin);
