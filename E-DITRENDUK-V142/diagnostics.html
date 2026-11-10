@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Diagnostik Sistem — E-DITRENDUK</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="diagnostics">
+  <div id="appHeader"></div><div id="appSidebar"></div>
+  <main class="main">
+    <div class="crumb">E-DITRENDUK · ADMINISTRASI SISTEM</div>
+    <div class="page-head"><div><h1>Diagnostik Sistem</h1><p>Pemeriksaan kesehatan aplikasi, database, storage, dan runtime. Hanya Admin/PIC.</p></div><button class="btn btn-outline" id="refreshDiagnostics">↻ Periksa ulang</button></div>
+    <section class="card"><div class="section-title"><div><h3>Status layanan</h3><span id="diagTime">Memuat...</span></div><span class="status-pill" id="diagOverall">MEMERIKSA</span></div><div id="diagCards" class="form-grid"></div></section>
+    <section class="card" style="margin-top:18px"><div class="section-title"><div><h3>Jumlah data</h3><span>Record yang saat ini tersimpan di database.</span></div></div><div class="table-wrap"><table class="table"><thead><tr><th>Tabel</th><th>Jumlah</th></tr></thead><tbody id="diagCounts"></tbody></table></div></section>
+    <section class="card" style="margin-top:18px"><div class="section-title"><div><h3>Catatan operasional</h3><span>Gunakan Request ID ketika melaporkan error agar log server mudah ditelusuri.</span></div></div><p id="diagNote">—</p></section>
+  </main>
+  <script src="js/data.js"></script><script src="js/api.js"></script><script src="js/layout.js"></script><script src="js/diagnostics.js"></script>
+  <script src="js/ux.js"></script>
+</body></html>

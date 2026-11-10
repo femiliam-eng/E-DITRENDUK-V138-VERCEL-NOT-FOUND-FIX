@@ -1,0 +1,20 @@
+'use strict';
+const assert=require('node:assert/strict');
+const path=require('node:path');
+const {validateEnv,MAGIC}=require('./pg-backup-secure');
+const {check,ROUTES}=require('./public-security-smoke');
+const {originAllowed}=require('../backend/request-security');
+const base={DATABASE_URL:'postgresql://example.invalid/db',BACKUP_ENCRYPTION_PASSPHRASE:'this is a long passphrase with 32 chars'};
+assert.throws(()=>validateEnv(base),/BACKUP_OUTPUT_DIR/);
+assert.throws(()=>validateEnv({...base,BACKUP_OUTPUT_DIR:path.resolve(__dirname,'..','backups')}),/di luar source/);
+assert.equal(validateEnv({...base,BACKUP_OUTPUT_DIR:'/var/backups/editrenduk'}),'/var/backups/editrenduk');
+assert(MAGIC.length>10);
+assert.equal(originAllowed({method:'POST',origin:'https://evil.example',appOrigin:'https://app.example',isProd:true}),false);
+assert.equal(originAllowed({method:'POST',origin:'https://app.example',appOrigin:'https://app.example',isProd:true}),true);
+(async()=>{
+ const mock=async url=>({status:ROUTES.find(x=>url.pathname===x[0])[1]});
+ assert.equal((await check('https://app.example/',mock)).ok,true);
+ assert.equal((await check('https://app.example/',async()=>({status:200}))).ok,false);
+ await assert.rejects(check('http://app.example/',mock),/HTTPS/);
+ console.log('PASS V78: backup safeguards, production origin, public security smoke');
+})().catch(e=>{console.error(e);process.exitCode=1});

@@ -1,0 +1,187 @@
+{
+  "preparedOnly": true,
+  "databaseImported": false,
+  "sources": [
+    {
+      "name": "Agenda Kegiatan Ditrenduk 2026  (1)(4).xlsx",
+      "sheet": "Agenda Kegiatan",
+      "nonEmptyRows": 614
+    },
+    {
+      "name": "Agenda Kegiatan Ditrenduk 2026  (1)(4).xlsx",
+      "sheet": "Task Deadline",
+      "nonEmptyRows": 172
+    },
+    {
+      "name": "Agenda Kegiatan Ditrenduk 2026  (1)(4).xlsx",
+      "sheet": "Jadwal Petugas Apel",
+      "nonEmptyRows": 13
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "📅 Deadline (Calendar View)",
+      "nonEmptyRows": 16
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "PIC Prov NEW Agts 2026",
+      "nonEmptyRows": 61
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Task Deadline",
+      "nonEmptyRows": 55
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Tim Kerja",
+      "nonEmptyRows": 70
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "🛠 Setup",
+      "nonEmptyRows": 16
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Home",
+      "nonEmptyRows": 10
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Jadwal Rakom",
+      "nonEmptyRows": 21
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Petugas Rakom",
+      "nonEmptyRows": 23
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Jadwal rapat Tim Kerja",
+      "nonEmptyRows": 35
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Notulen RakomConcept Note 2026",
+      "nonEmptyRows": 829
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Disposisi Tahun 2026",
+      "nonEmptyRows": 690
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Daftar Berkas Arsip 2026",
+      "nonEmptyRows": 221
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Daftar Isi Berkas 2026",
+      "nonEmptyRows": 1138
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Surat Pelayanan Fasilitasi",
+      "nonEmptyRows": 90
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Monitoring Kegiatan",
+      "nonEmptyRows": 133
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "CONCEPT NOTE",
+      "nonEmptyRows": 177
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Customization",
+      "nonEmptyRows": 7
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "📑 Goal Tracker",
+      "nonEmptyRows": 1071
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Monitoring Pengunjung Website",
+      "nonEmptyRows": 11
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Output WFH 2026",
+      "nonEmptyRows": 28
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Monitoring Hotline",
+      "nonEmptyRows": 211
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Monitoring Layanan Offline",
+      "nonEmptyRows": 40
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Monitoring Pengisian SKM",
+      "nonEmptyRows": 3
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Monitoring Pemanfaatan Living D",
+      "nonEmptyRows": 3
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Data Pemanfaatan Living Databas",
+      "nonEmptyRows": 581
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Monitoring Pemanfaatn Tool Proy",
+      "nonEmptyRows": 295
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Monitoring Pemanfaatan Tools Pr",
+      "nonEmptyRows": 3
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Data Pemanfaatan Tools Proyeksi",
+      "nonEmptyRows": 367
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Evaluasi Output Ditrenduk 2025",
+      "nonEmptyRows": 14
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Monitoring SKM",
+      "nonEmptyRows": 13
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "INSTRUCTIONS",
+      "nonEmptyRows": 9
+    },
+    {
+      "name": "LOG BOOK Ditrenduk 2026(4).xlsx",
+      "sheet": "Weekly Schedule View (Duplicate",
+      "nonEmptyRows": 49
+    }
+  ],
+  "mappedModuleRows": {
+    "agenda_kegiatan": 422,
+    "task_deadline": 53
+  },
+  "totalSourceRows": 7089,
+  "totalMappedRows": 475
+}

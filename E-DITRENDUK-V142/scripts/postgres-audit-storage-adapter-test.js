@@ -1,0 +1,24 @@
+'use strict';
+const assert=require('node:assert/strict');
+const {createPostgresAuditRepository}=require('../backend/postgres-audit-repository');
+const {createPostgresStorageRepository}=require('../backend/postgres-storage-repository');
+(async()=>{
+ const calls=[];
+ const pool={query:async(sql,params=[])=>{calls.push({sql,params});return {rows:[{id:'x'}],rowCount:1};}};
+ const audit=createPostgresAuditRepository(pool);
+ assert.equal((await audit.add({id:'x',action:'LOGIN',resource:'auth',detail:{ok:true}})).id,'x');
+ assert.equal(calls[0].params[5],'{"ok":true}');
+ await audit.list({accountId:'a',resource:'auth',limit:900,offset:-4});
+ assert.deepEqual(calls[1].params,['a','auth',200,0]);
+ const storage=createPostgresStorageRepository(pool);
+ await storage.add({id:'f',resource:'notulen',resourceId:'m',fileName:'test.pdf',storedPath:'notulen/test.pdf',sizeBytes:1024});
+ assert.deepEqual(calls[2].params,['f','notulen','m','test.pdf','notulen/test.pdf',null,1024]);
+ await storage.list('notulen','m');
+ assert.equal(await storage.remove('f'),true);
+ assert.equal(calls.length,5);
+ assert.ok(calls.every(c=>c.sql.includes('$1')));
+ assert.rejects(storage.add({id:'f',resource:'n',resourceId:'m',fileName:'a',storedPath:'a',sizeBytes:-1}),RangeError);
+ assert.throws(()=>createPostgresAuditRepository(null),TypeError);
+ assert.throws(()=>createPostgresStorageRepository(null),TypeError);
+ console.log('V35 PostgreSQL audit/storage adapter self-test LULUS');
+})().catch(e=>{console.error(e);process.exitCode=1});

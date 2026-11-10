@@ -1,0 +1,20 @@
+'use strict';
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const {check}=require('./public-url-smoke');
+(async()=>{
+  const compose=fs.readFileSync('compose.yaml','utf8');
+  const docker=fs.readFileSync('Dockerfile','utf8');
+  assert.match(compose,/DATABASE_URL: \$\{DATABASE_URL:\?/);
+  assert.match(compose,/NOTULEN_STORAGE_PROVIDER: supabase/);
+  assert.match(compose,/SUPABASE_SERVICE_ROLE_KEY: \$\{SUPABASE_SERVICE_ROLE_KEY:\?/);
+  assert.match(compose,/127\.0\.0\.1:/);
+  assert.match(docker,/CMD \["node","server-postgres\.js"\]/);
+  assert.doesNotMatch(compose,/DB_DRIVER: sqlite/);
+  assert.doesNotMatch(docker,/CMD \["node","server\.js"\]/);
+  const fake=async url=>({status:200,headers:new Map([['content-type',String(url).includes('/api/')?'application/json':'text/html']]),json:async()=>({ok:true})});
+  assert.equal((await check('https://example.org',fake)).ok,true);
+  await assert.rejects(()=>check('http://example.org',fake),/HTTPS/);
+  await assert.rejects(()=>check('https://user:pass@example.org',fake),/kredensial/);
+  console.log('PASS deployment kit: PostgreSQL-only runtime, private Supabase storage, loopback port, public URL smoke');
+})().catch(e=>{console.error(e);process.exitCode=1;});

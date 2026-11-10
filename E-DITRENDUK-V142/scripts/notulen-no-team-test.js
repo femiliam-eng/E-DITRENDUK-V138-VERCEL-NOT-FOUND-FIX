@@ -1,0 +1,10 @@
+const fs=require('fs'),assert=require('assert');
+const html=fs.readFileSync('notulen.html','utf8');
+const js=fs.readFileSync('js/notulen-submissions.js','utf8');
+const server=fs.readFileSync('server.js','utf8');
+assert(!/for="team"|id="team"/.test(html),'Kolom tim kerja masih muncul');
+assert(!/r\.team|Tim belum diisi|getElementById\(['"]team['"]\)/.test(js),'Tim kerja masih digunakan pada UI');
+assert(/const team='';/.test(server),'Server belum mengabaikan input tim kerja baru');
+assert(/api\.submitNotulen/i.test(js),'Unggah notulen hilang');
+assert(/listNotulenSubmissions/.test(js),'Daftar notulen hilang');
+console.log('PASS: Pengumpulan notulensi tanpa tim kerja, unggah dan daftar tetap tersedia');

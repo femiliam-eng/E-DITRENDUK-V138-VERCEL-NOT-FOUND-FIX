@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Login — E-DITRENDUK
+  </title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="css/style.css" rel="stylesheet"/>
+   <link rel="stylesheet" href="css/login-motion.css"/>
+  <link rel="stylesheet" href="css/login-v141.css"/>
+ </head>
+ <body class="login-page login-motion">
+  <main class="login-shell">
+   <section class="login-side">
+    <a class="brand" href="login.html">
+     <span class="brand-badge">
+      D
+     </span>
+     <span>
+      <b>
+       DITRENDUK
+      </b>
+      <small>
+       Portal Kerja Internal
+      </small>
+     </span>
+    </a>
+    <div>
+     <p class="login-kicker">
+      E-DITRENDUK
+     </p>
+     <h1>
+      Selamat datang.
+     </h1>
+     <p>
+      Akses modul E-DITRENDUK melalui akun yang telah diberikan. Sistem ini akan terhubung sebagai fitur di portal utama.
+     </p>
+    </div>
+    <a href="login.html">
+     Portal internal E-DITRENDUK
+    </a>
+   </section>
+   <section class="login-card">
+    <div>
+     <small>
+      AKSES WORKSPACE
+     </small>
+     <h2>
+      Login
+     </h2>
+     <p>
+      Masukkan akun E-DITRENDUK Anda.
+     </p>
+    </div>
+    <form id="loginForm" novalidate>
+     <label>
+      Email / username
+     </label>
+     <input class="field" id="loginUser" placeholder="nama@ditrenduk.go.id" required=""/>
+     <label>
+      Kata sandi
+     </label>
+     <div class="password-field"><input class="field" id="loginPass" placeholder="••••••••" required type="password"><button class="password-toggle" id="passwordToggle" type="button" aria-label="Tampilkan kata sandi" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+     <div class="login-row">
+      <label>
+       <input type="checkbox"/>
+       Ingat saya
+      </label>
+      <a href="#" id="forgot">
+       Lupa kata sandi?
+      </a>
+     </div>
+     <button class="btn btn-navy" type="submit">
+      Masuk ke E-DITRENDUK →
+     </button>
+    </form>
+    <p id="loginStatus" class="login-note" role="status" aria-live="polite">
+     Gunakan akun E-DITRENDUK yang aktif untuk masuk.
+    </p>
+   </section>
+  </main>
+  <div class="modal-overlay" id="forgotModal"><div class="modal modal-sm"><div class="modal-head"><div><small>PEMULIHAN AKUN</small><h3>Lupa kata sandi</h3></div><button class="modal-close" data-close>×</button></div><div class="modal-body"><p>Masukkan username atau email. Permintaan akan diteruskan ke Admin/PIC tanpa menampilkan apakah akun terdaftar.</p><div class="form-group"><label>Username / email</label><input class="field" id="forgotIdentity" autocomplete="username"></div><p class="login-note" id="forgotStatus" role="status" aria-live="polite"></p></div><div class="modal-foot"><button class="btn btn-outline" data-close>Batal</button><button class="btn btn-navy" id="sendForgot" type="button">Kirim permintaan</button></div></div></div>
+  <script src="js/api.js"></script>
+  <script src="js/pages/login.js"></script>
+   <script src="js/ux.js"></script>
+</body>
+</html>

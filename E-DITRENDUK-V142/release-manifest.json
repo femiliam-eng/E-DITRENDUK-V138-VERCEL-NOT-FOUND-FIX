@@ -1,0 +1,1570 @@
+{
+  "format": 1,
+  "version": "9.0.0",
+  "files": {
+    ".dockerignore": {
+      "sha256": "c0d6ad9c7e578fe5befde2432c093d7b173f8ba30e81a19248e87aa377ddc7fc",
+      "bytes": 241
+    },
+    ".gitignore": {
+      "sha256": "1974141e92136b09d4004b58a295293698dbcf53f9f92cf61ce11779821a8d5d",
+      "bytes": 338
+    },
+    "api/index.js": {
+      "sha256": "86b453e53511bd0d86bbb1724e8422263d7fc4ce5f8f8ddb2ea8a68dda2b94cc",
+      "bytes": 1807
+    },
+    "arsip.html": {
+      "sha256": "102f053ea399ed3070d8b43b15c5a0ad55a5cf7cc395a390c65c7b9219d1c6b1",
+      "bytes": 4251
+    },
+    "assets/logo-bkkbn-mark.png": {
+      "sha256": "d4fe6b4b03c0d4cbc92743294b361d2982001bf75ae4d7fd00edbd1a355d7680",
+      "bytes": 44155
+    },
+    "assets/logo-bkkbn-original-user.png": {
+      "sha256": "7fa7ab9a2df1935fbe7c8dba7169770ce91e69ddfbab6faad15c553492dc2c80",
+      "bytes": 124859
+    },
+    "assets/logo-bkkbn.png": {
+      "sha256": "5f407f7b6a053f9a9e60fd4a0fc3fe0b5ceb16b2bc221563d0456f2322f45112",
+      "bytes": 205384
+    },
+    "AUDIT-ARSIP-04NOV.md": {
+      "sha256": "0ccfaa0d9f2e688634d382b3bd053d1c49a8c3645bc7e4318ccf065e7a02acf5",
+      "bytes": 1175
+    },
+    "AUDIT-DATA-DAN-PROGRES-04NOV.md": {
+      "sha256": "53baa39c5ef96baaf5502c8e8c5d5e99680167dc5b0df8b7926cefefded69807",
+      "bytes": 2291
+    },
+    "audit.html": {
+      "sha256": "3a8e72de66ac7c8f0238bae8e23d062114aeb73e4708620f5bef55fad0aa7464",
+      "bytes": 2500
+    },
+    "backend/account-repository.js": {
+      "sha256": "3c09a62395bf3a4f09a659a8539d025bef489dc6942896b1ea84e489924f7dc3",
+      "bytes": 2580
+    },
+    "backend/agenda-attachments.js": {
+      "sha256": "29ab7bfc9122e0e313e27f0f850f61806daeba911376a65e4b006145b3c416c5",
+      "bytes": 6152
+    },
+    "backend/agenda-task-import.json": {
+      "sha256": "712a22912a03a15300109e23467d959367e7ec87e2599ea64dd9ecf5d9fe5b74",
+      "bytes": 172743
+    },
+    "backend/audit-repository.js": {
+      "sha256": "519ebf864780d922b3028f9d89ff5653e9b5b414d95627a9a2d9bc82d127ce14",
+      "bytes": 1896
+    },
+    "backend/database-readiness.js": {
+      "sha256": "2a3cb7948b8e986cdba6d9a738521a8e1c76f2ba8328a85be6edeb97a4a7f26d",
+      "bytes": 848
+    },
+    "backend/database.js": {
+      "sha256": "c4a9f8780beffc207d442343ba3dada9b5b9ea91c03b4bef5eddd94bec509849",
+      "bytes": 983
+    },
+    "backend/legacy-agenda-task-read.js": {
+      "sha256": "7508e6b7c6536230ad0cb4ed9368c14b42ee014ba0ef228bf83453c4a55aba13",
+      "bytes": 328
+    },
+    "backend/local-private-storage.js": {
+      "sha256": "239aad1f74302d61ccb44c7b61d56f6a0323e6a8ae819c113dcb3c3a6775e01d",
+      "bytes": 963
+    },
+    "backend/meeting-repository.js": {
+      "sha256": "7fcb4927a1b3d4055a6dc2e96f22abd3a4cfb52ff92229014824fb2ab3e37ee9",
+      "bytes": 2694
+    },
+    "backend/meeting-validation.js": {
+      "sha256": "a49d19047ef5c8cbc6a4e529c4c4c9efd34f48c502698e9150a4e0c77f669438",
+      "bytes": 1706
+    },
+    "backend/payload-repository.js": {
+      "sha256": "ad548cdfd19c591de34da7827b8c43e484e9d19b4b240c3f6a4fe654ed080616",
+      "bytes": 1245
+    },
+    "backend/postgres-account-repository.js": {
+      "sha256": "9d0785b8b9c983edeb3ff23d5211fc1e634ab777213bba22ac9ac3b0d5968e92",
+      "bytes": 1536
+    },
+    "backend/postgres-admin-accounts.js": {
+      "sha256": "c99065809ef913c6fc7df0b934e42f4018020e9f415958afe3d0c8aa6f8466f6",
+      "bytes": 6007
+    },
+    "backend/postgres-agenda-task-handler.js": {
+      "sha256": "e3d6f6ec1f69b1f1055c6edd97689231827cdd182ad28e3144d6b7f4d1253cea",
+      "bytes": 3550
+    },
+    "backend/postgres-audit-repository.js": {
+      "sha256": "37ff49208353610ef04818b7d3a5214ebf0665647e3aecfdc25e1797eb69b831",
+      "bytes": 1343
+    },
+    "backend/postgres-notulen-handler.js": {
+      "sha256": "ef6740c5a4057bd70c7887a4a046540d583376c280bfe34c39adb09c263db3a6",
+      "bytes": 4330
+    },
+    "backend/postgres-parity-gateway.js": {
+      "sha256": "d13e7364a4b3bf3ed4627f30ea5c5c2ac5be72897c4d1ccea9a99b35fe00fcf3",
+      "bytes": 840
+    },
+    "backend/postgres-password-reset-repository.js": {
+      "sha256": "ed190bb049e6bd8bb266b2874064100543a006c0ff70c4a20d52ece7f29fcf72",
+      "bytes": 2027
+    },
+    "backend/postgres-payload-repository.js": {
+      "sha256": "55cd7bfb2cc249d1adc44282294049acba18f73158946b333caae4d6def5f4ef",
+      "bytes": 2811
+    },
+    "backend/postgres-production-readiness.js": {
+      "sha256": "ea30306b4b2ae500d22993fd0a68add048a1dcec2e7bd584c9321924395a7af6",
+      "bytes": 4238
+    },
+    "backend/postgres-read-gateway.js": {
+      "sha256": "86c1c386f995de6047f376191da4d1295388e6361ea08713832e4d9449529b7c",
+      "bytes": 1894
+    },
+    "backend/postgres-session-repository.js": {
+      "sha256": "2b8f311c740934620d5d22bec38638f3cd1a8a563e0785bd7889e88a05414184",
+      "bytes": 2494
+    },
+    "backend/postgres-shared-limiter.js": {
+      "sha256": "7ff445bda15142536532d521a4d94c1c21beb40c457c8b12d4fad6a9c708eeae",
+      "bytes": 1027
+    },
+    "backend/postgres-storage-repository.js": {
+      "sha256": "6f925c896d0d24d6a0a7c69a8ed742bfb68575a7be484fed293a8bf84e9f5ea4",
+      "bytes": 1386
+    },
+    "backend/postgres-unified-handler.js": {
+      "sha256": "0d08ca21cef289ae3a999f5151dc3c98ce974111c99215c9c2295f239bb0b9dd",
+      "bytes": 12224
+    },
+    "backend/production-runtime-gate.js": {
+      "sha256": "cdeaeed7d611f8ffce0b2504dbb9753862603e210bb391670f972fc1e9fba9b3",
+      "bytes": 634
+    },
+    "backend/request-security.js": {
+      "sha256": "9e0a22c2edec01c0d4efb5edb10dd4f0c21e5642ab51224138fd4cff155c3385",
+      "bytes": 1344
+    },
+    "backend/session-repository.js": {
+      "sha256": "28a04b429536b30075497c611171bac33f496c65c96b4f78f91af4065e15a298",
+      "bytes": 2217
+    },
+    "backend/static-file-policy.js": {
+      "sha256": "0c302b495b4ba98b81f8297a48740ee395cd35ee9c0157003a770785ebb6cde1",
+      "bytes": 1868
+    },
+    "backend/storage-repository.js": {
+      "sha256": "275702a6b575a7411b127994ae5f9d8bda6eac8e31464e2c7f722240600c611b",
+      "bytes": 1075
+    },
+    "backend/supabase-storage.js": {
+      "sha256": "7759a9f02d1f8e7aa08b7a98e2caaeb9e50ab0880c95be36e151ac07982b2733",
+      "bytes": 2102
+    },
+    "CATATAN-REVISI-04NOV.md": {
+      "sha256": "e2f6819e62f8dec235c58848e4176ff040265a76110bd8745a9ca3100e39ea36",
+      "bytes": 796
+    },
+    "CATATAN-REVISI-AGENDA-TASK-04NOV.md": {
+      "sha256": "09bcaea18754d08d40470ae81680e19ea921131dca1f9bf59544b70d33bce623",
+      "bytes": 503
+    },
+    "CATATAN-REVISI-LINTAS-MODUL-04NOV.md": {
+      "sha256": "5f2da29cf529a482ba0d7f111b83bd47b813158ae6d04e9491ab1a7e7b0e83c1",
+      "bytes": 845
+    },
+    "CHECKLIST-PENERIMAAN-27-29OKT-04NOV.md": {
+      "sha256": "15b04d208e1c1278f22ff8243082dcb9b89b8b98ecc8a5524222a3f3324c998a",
+      "bytes": 1887
+    },
+    "compose.yaml": {
+      "sha256": "090853f52ec17b2771bff984533b042204690e886bd5f10ad046db523b662467",
+      "bytes": 1041
+    },
+    "css/fasilitasi-v132.css": {
+      "sha256": "96c035e1d4d3d04229ca44aa004dddc6b29c1ac1cc63ba793987e25c0bcef7da",
+      "bytes": 4213
+    },
+    "css/login-motion.css": {
+      "sha256": "9187e0ac77f5ac321f68e7c0499c32a172feaf6f99486a83dc6fc4f03325906b",
+      "bytes": 2013
+    },
+    "css/profile-v132.css": {
+      "sha256": "a1b3803c96fb1d5d3249d0537c135364834541be387ec96e34d66f1630b43a00",
+      "bytes": 2232
+    },
+    "css/revisi-07nov-v136.css": {
+      "sha256": "76e44636d45d45faf82439e76b48c879e7bff91c1d1a84e28bdbab2a0d8d4810",
+      "bytes": 3799
+    },
+    "css/revisi-07nov.css": {
+      "sha256": "6ef59b25432824cdce93cf3721586a9132b468d852e831dea21b12632ef6719a",
+      "bytes": 1359
+    },
+    "css/style.css": {
+      "sha256": "46711e4fe3079217826396e0fa6ebf3430dac9912596a9f87e8856307cc5fcbf",
+      "bytes": 45779
+    },
+    "data-import/excel-v132-manifest.json": {
+      "sha256": "6390671c54b4074f8cbcdc43f22072dac4bef50155900e8ef016486e0f77efc9",
+      "bytes": 4682
+    },
+    "data-import/excel-v132-modules.jsonl.gz": {
+      "sha256": "1e1f4e3677205a17d426bef7dc3dd148a0d94753b3c0df007570d0e45e78193c",
+      "bytes": 52535
+    },
+    "data-import/excel-v132-source.jsonl.gz": {
+      "sha256": "00ec9c9a7bd9b0d216a00afb5b3a7309ac6230cd5c23b415bcec3621123c74da",
+      "bytes": 431221
+    },
+    "DATA-PARITY-AUDIT-04NOV.json": {
+      "sha256": "da2a1706df8709e52bda3c7fc434b18e02e1511fc5668b7d6500b05c93e93d53",
+      "bytes": 1965
+    },
+    "DATA-QUALITY-AUDIT-04NOV.json": {
+      "sha256": "3965ab06b6d7445084a0d9bca406e909b113fe3a1585c422327bca9c634fcee3",
+      "bytes": 954
+    },
+    "DEPLOY-SUPABASE-VERCEL.md": {
+      "sha256": "3963f1bd66637d3759b7cf2a5735f9299c32cb037e89ae2a1dcbd6c60065d2ba",
+      "bytes": 2421
+    },
+    "DEPLOYMENT-READY-NEXT-04NOV.md": {
+      "sha256": "63d086835c90c2e1197638fc083f3e6d93bc4eb17facbf2f2c247e1c53120d66",
+      "bytes": 1879
+    },
+    "diagnostics.html": {
+      "sha256": "74bbc114359701e267661b2feb7ca32baa0b5178f79c1a56490dafb93459d720",
+      "bytes": 1851
+    },
+    "Dockerfile": {
+      "sha256": "8fa5ef1f4d8cae35c25b783bdff6cc8a3c39071dcc8b76c2a24875ac48a950e9",
+      "bytes": 440
+    },
+    "docs/DEPLOYMENT-STAGING-V100.md": {
+      "sha256": "f64f1f1e37c6bc3617a52b4682dd725f3093856019652a222d32df38c96e683d",
+      "bytes": 2317
+    },
+    "docs/OPERASIONAL-HOSTING.md": {
+      "sha256": "0b9931067fdbb4689b1777e53d68577e8b55ccc06a2461bfa841f741a7df589a",
+      "bytes": 5680
+    },
+    "docs/V83-ROADMAP-MIGRASI-POSTGRESQL.md": {
+      "sha256": "5d651f96933c8a95863d4615215a8862c3ad0949b5af7771846e93f1d1ac8ea5",
+      "bytes": 1451
+    },
+    "docs/V91-AUDIT-LANJUTAN.md": {
+      "sha256": "37de4b038eb95ec7eb208946da2ffa62048bcfc7f820d9e4f750630b607e119c",
+      "bytes": 1778
+    },
+    "ERD.md": {
+      "sha256": "5943dbd1d3f94b0ac3e6806ce92257c02d5ef6f8234e35988bed09a6614303a5",
+      "bytes": 1263
+    },
+    "fasilitasi.html": {
+      "sha256": "ba48d8511a52310b13ac24362f6cb33ad9caef5799030c04b2b431ad3fd111d6",
+      "bytes": 2750
+    },
+    "HASIL-REVISI-V134-SUPABASE-LIVE.md": {
+      "sha256": "83ab8e6b36806e9f4625cc61d4813f3d04d5609c20e3d90f170377456bf590db",
+      "bytes": 3196
+    },
+    "IMPORT-SUPABASE-FREE.ps1": {
+      "sha256": "71cb894b332a5cf69b8d2ffdc69439ec783cb635fbc06a8e176841b9c1143ff2",
+      "bytes": 2766
+    },
+    "index.html": {
+      "sha256": "1c59de6ec1fd4c43525469cd0e39208c7cb98d30dc74dea518328b96bdc8ea26",
+      "bytes": 2988
+    },
+    "jadwal.html": {
+      "sha256": "3084842504a87cdccb405e943e5ef4e840cfd4b59fb9260db870f583d3d9e8d5",
+      "bytes": 1154
+    },
+    "js/api.js": {
+      "sha256": "79a4be65f5613c4c360885e1170629f28cc0e63e712f36e58cbaa838b9521fdb",
+      "bytes": 4855
+    },
+    "js/app.js": {
+      "sha256": "6f774c72a30e6cdf2ad559858cfbc86e8df18ff7b9b58f49a377a3550635ffa3",
+      "bytes": 84812
+    },
+    "js/audit.js": {
+      "sha256": "0ad178051b3195aa8d02bf4325b93cbeb73f398f372b6f6d08defc7c03d1e4d4",
+      "bytes": 1903
+    },
+    "js/data.js": {
+      "sha256": "f2b14e485ef5ce2f7229ad3c10e520fe66fad817c4578171472d5fa609fd9b95",
+      "bytes": 376646
+    },
+    "js/diagnostics.js": {
+      "sha256": "64b8f9356305da2d77d773b4d4af4778d72b41e2982473c341baff9e59d23c47",
+      "bytes": 1641
+    },
+    "js/fasilitasi.js": {
+      "sha256": "8714167948021a13d3f3dd07f8a7cf9b70d098166c744aadbe6c27e703817af2",
+      "bytes": 6246
+    },
+    "js/layout.js": {
+      "sha256": "eab6fc5713027b9dbbd80616744c04ba67591f4165b07d7cef501fce861ed5f2",
+      "bytes": 29150
+    },
+    "js/notulen-submissions.js": {
+      "sha256": "e15ed1fdbb99d3afb7e1e4da09f15b98652fc1a19554fbb6b23b54659ded0dd2",
+      "bytes": 2725
+    },
+    "js/pages/agenda-task.js": {
+      "sha256": "98675242bf5bf0a09aa3c5aa47bde17b7d75b950ab200bd5ea85cab4c01056a5",
+      "bytes": 23707
+    },
+    "js/pages/arsip.js": {
+      "sha256": "8fd6951aa7bc1225dbcf1e9d5cfde577ea5b5bfeb0de87743724442e312b1ab5",
+      "bytes": 60
+    },
+    "js/pages/index.js": {
+      "sha256": "9101b09bb0d88562a12d59b61454aa283940db9b91d2d98766e56de45cd78278",
+      "bytes": 2522
+    },
+    "js/pages/jadwal.js": {
+      "sha256": "c7a1f95b1b7e5f3fab3450b38f41d18eb071f2e12bdcedbf724175596910f383",
+      "bytes": 61
+    },
+    "js/pages/landing.js": {
+      "sha256": "c4dfc4402e6491c6929a3f20ba5e63390f8dbbbac79e675969dfa1370577b705",
+      "bytes": 1044
+    },
+    "js/pages/logbook.js": {
+      "sha256": "9ad9f8d7d769f97cd3172ffdf815f0ef26b3a2820f8f14da3ad9d058fe45e7af",
+      "bytes": 62
+    },
+    "js/pages/login.js": {
+      "sha256": "0cfdb4ccbee04b98e4019925ff696c15032d27fed0ee58e0479886fc33882478",
+      "bytes": 2343
+    },
+    "js/pages/monitoring.js": {
+      "sha256": "77a63abea188fbf499976d05a17835c6e1f41a10eddf83427ecf95fcc61dc6c0",
+      "bytes": 65
+    },
+    "js/pages/notulen.js": {
+      "sha256": "0f7a9e61d2e52b29df53933069f44c3528876f81c7a877bbbe2c542d63c0ef07",
+      "bytes": 233
+    },
+    "js/pages/pengguna.js": {
+      "sha256": "83c2e8155ae52db0d69a5331be25acde4b419454eb1c381f4942a2defaab139a",
+      "bytes": 8020
+    },
+    "js/pages/rakom.js": {
+      "sha256": "8a3205368123e305df9a2ac40b2c14fda319967e50f6ac1eb4b089a3324f7b05",
+      "bytes": 60
+    },
+    "js/pages/repository.js": {
+      "sha256": "1e6af22cb4ac453d0628532f3f627b5cdf0e0fe1390d472dbf365c2c5535ca0c",
+      "bytes": 65
+    },
+    "js/revisi27.js": {
+      "sha256": "c67382f3f1471f4f5698ddf510fec1d526a44c9698a97d5d5e4d3fa2fb4c2c03",
+      "bytes": 242
+    },
+    "js/ux.js": {
+      "sha256": "eb3cb6aa1f7ca051bbabe8517195abe8967ffe624d7b2f4d698852e9d7219680",
+      "bytes": 1909
+    },
+    "js/v6.js": {
+      "sha256": "a6a4a8c3ec41927907f19c1a0c50bbc5151a25074e05e1e682b74dbe353856ae",
+      "bytes": 2653
+    },
+    "KRITERIA-REVISI-GABUNGAN-27-29OKT.md": {
+      "sha256": "aacfa3cb0a6a259493dfd7abcaf83697bc7a4cef016b3cea68f71f898cb58963",
+      "bytes": 2279
+    },
+    "landing.html": {
+      "sha256": "95b8808a2c9d80529fd91005bb31828f365db00bfc752cb864900a950a1aa326",
+      "bytes": 310
+    },
+    "LAPORAN-PROGRES-PENGGUNA-04NOV.md": {
+      "sha256": "1b5bf8009043542c928298d72fa25a9509b1a56f7cbc5796549aab4bc3890a86",
+      "bytes": 1264
+    },
+    "LAPORAN-PROGRES-VALIDASI-04NOV.md": {
+      "sha256": "e5b3db7e3dc1d77e6c272b1fafe4d802cc097fce98a215250175c5be9b36a455",
+      "bytes": 995
+    },
+    "LAPORAN-REVISI-JADWAL-REPOSITORY-04NOV.md": {
+      "sha256": "815c94528ff365d16b58cb4473ba98b647fd8d3c8892c888fa7734e883b9cd92",
+      "bytes": 1376
+    },
+    "LAPORAN-V124-05NOV.md": {
+      "sha256": "0bdda12fab11e9418f9241342493a790397e7317ce53d29d625b9fdc969eaffc",
+      "bytes": 2162
+    },
+    "logbook.html": {
+      "sha256": "ef7a0224f2d38165a9dadec00663e16b67ea72441ba0ed3865f0c2b3f9a8fbd1",
+      "bytes": 5460
+    },
+    "login.html": {
+      "sha256": "ed5a2bdbfcfd95c8d56b5a4dfd54bb8d1c4aedbccaeb79e78c6a0548e343eb87",
+      "bytes": 3317
+    },
+    "migrations/001-baseline.sql": {
+      "sha256": "aa9187ae37d31b82d67b4043d8e336092e631c6100df643ec3e2ba817afbc04d",
+      "bytes": 3306
+    },
+    "migrations/002-performance-indexes.sql": {
+      "sha256": "6b2e63d76be2b50584461d0f03e4a4043237a458f1bf1bf96a020ec21f03b9d1",
+      "bytes": 443
+    },
+    "migrations/003-storage-registry.sql": {
+      "sha256": "7331418a9680bf8cec6842c12a59b1b40bbdacad70ccc8879ff1be2484fdceb1",
+      "bytes": 485
+    },
+    "migrations/004-server-sessions.sql": {
+      "sha256": "a0355cf14fdb6ca12ea9b5a36ebb1c4991f3e05d5f2e69e268f98f3c099afb1b",
+      "bytes": 576
+    },
+    "migrations/005-password-reset-requests.sql": {
+      "sha256": "a8218b476e53b0e4b7cfa9917cb11079ce06df60dc994307aa9e9480a31ee14b",
+      "bytes": 430
+    },
+    "migrations/2026-10-28-profile-photo.sql": {
+      "sha256": "ddf270eb1b32971fdf594f5f5aabccd80e984b72e5655f21e8b01467a5838b2d",
+      "bytes": 303
+    },
+    "monitoring.html": {
+      "sha256": "652ff86da9f422de826cbb60239220901403cb252352ee19c61611f196bde6b7",
+      "bytes": 3766
+    },
+    "notulen.html": {
+      "sha256": "63b25c7973c9918c6e38c7b4c51a6834fd790d553f10daacb9f16a07ee2bf88c",
+      "bytes": 1994
+    },
+    "package-lock.json": {
+      "sha256": "53e2b6865eb21600abc699c2a49e8b64c03ad8e02ebd97bd48b863ea28ea4efa",
+      "bytes": 5688
+    },
+    "package.json": {
+      "sha256": "fa27549ed06d8c2ad4c032ed065f6b6be8e27b09a7ed05797621406081937899",
+      "bytes": 12422
+    },
+    "PANDUAN-FOTO-PROFIL-POSTGRES.md": {
+      "sha256": "3621cc070bbf81814f28171348b2a954db599b81d4763f43a9f1c6a1c44b2d7b",
+      "bytes": 486
+    },
+    "PANDUAN-GO-LIVE-V125.md": {
+      "sha256": "d797ab51f41b8ef3ec3864307c74443842d70820547b082798eb8c75a42b5129",
+      "bytes": 2825
+    },
+    "PANDUAN-IMPORT-V133.md": {
+      "sha256": "c906a404365a9a56c4c6da3b7e1d3e831643afdd1ecc48f770a5057f703f9c6e",
+      "bytes": 1245
+    },
+    "PANDUAN-LOGIN-V131.md": {
+      "sha256": "9f2cf0f3864d089e604c1d46a1ee81e37e053f15f286c80c2d2931c8b3f3a422",
+      "bytes": 2147
+    },
+    "PANDUAN-REVISI-05NOV-V132.md": {
+      "sha256": "2e640e21b83a6dfde344405ee644da724fbed0dfb3f1918ee2e88d64d7a5feac",
+      "bytes": 2935
+    },
+    "PANDUAN-V136-REVISI-LANJUTAN-7NOV.md": {
+      "sha256": "69582801965c88546c1c782fd02e01baba698d37f33bb1716d22f1a7bb98b63f",
+      "bytes": 1740
+    },
+    "partials/header.html": {
+      "sha256": "8acac0a98172ec4466e7063dfeb21661300c7b187c5aa3017a8360d3889de630",
+      "bytes": 1407
+    },
+    "partials/sidebar.html": {
+      "sha256": "4efd9b3443e71a1ca9620a62996bf5b6c9d4e173e95053d6ec71e3599cc54839",
+      "bytes": 1400
+    },
+    "pengguna.html": {
+      "sha256": "89a1ac8936aae02b8bd5b045d60c871bde553c59a3b328f18c31d1d27e727ac4",
+      "bytes": 6342
+    },
+    "PERBAIKAN-04NOV-ARSIP-URUT-TANGGAL.md": {
+      "sha256": "8a36ad29986e109a7b431709a7482b5b1facc08d9d923e5dfd3969d26922dfe9",
+      "bytes": 580
+    },
+    "PERBAIKAN-04NOV.md": {
+      "sha256": "437bdf1b8078befddf31ccb44dc7e8c3bf486a035f0cdaf2e10723ed4ce538d5",
+      "bytes": 867
+    },
+    "PERBAIKAN-FILTER-04NOV.md": {
+      "sha256": "2dc0121701d5467afade17d0477bd69513f8af9f5449ab0b295fb825746006e4",
+      "bytes": 1129
+    },
+    "PERBAIKAN-INTEGRITAS-FILTER-JADWAL-PENGGUNA-04NOV.md": {
+      "sha256": "99c3b0fc1a6262d84c84eda11d32c6044dbbcdb115c01654d722352d84510bee",
+      "bytes": 801
+    },
+    "PERBAIKAN-KEAMANAN-FASILITASI-04NOV.md": {
+      "sha256": "4518be26fc25eb4cfffb25d2f524aa1073b1d0e9507a309a7583a569189825a7",
+      "bytes": 439
+    },
+    "PERBAIKAN-LAMPIRAN-FASILITASI-04NOV.md": {
+      "sha256": "fba2051b2ce1f7fd0e86b8ac525f59dfa5f6a736ffeded59ee5cbd6e3cdc59c8",
+      "bytes": 579
+    },
+    "PERBAIKAN-MONITORING-POSTGRES.md": {
+      "sha256": "8ef823f775bfde69e246ba8723486634b43efbfd2c053e53ad34c7438ffe5f68",
+      "bytes": 609
+    },
+    "PERBAIKAN-NOT-FOUND-FASILITASI-04NOV.md": {
+      "sha256": "66535aa36a8be45801944e9380eb97fa67c77ba1aaa0bdb11922022c352e4f3f",
+      "bytes": 862
+    },
+    "PERBAIKAN-REVISI-02NOV.md": {
+      "sha256": "38342df6f305c31087bd244fe0dba2275d3fbc646b1185122845d9bcb78293d5",
+      "bytes": 832
+    },
+    "PERBAIKAN-SINKRON-UNIT.md": {
+      "sha256": "d3f4bea2059268f2043cd4f68345829a9bff247573a719abd8f295d63690a215",
+      "bytes": 624
+    },
+    "PERBAIKAN-TERUKUR-02NOV.md": {
+      "sha256": "081a3eeea713f182daf275a2c3f0cac6eb12196236062ee292100649279cd914",
+      "bytes": 792
+    },
+    "PERBAIKAN-TRANSAKSI-03NOV.md": {
+      "sha256": "b2e561e66a0020474a331cf658ed8de1640c31d1eba0af42176c794c01a1d8de",
+      "bytes": 873
+    },
+    "PERUBAHAN-04NOV-LOGO-DAN-SUMBER-DATA.md": {
+      "sha256": "8c75b8847e087d9269c0a7bfb86de6c94bf2d7eeb7c790bbb971ecb3289333cd",
+      "bytes": 856
+    },
+    "PERUBAHAN-BESAR-04NOV-DASHBOARD-RAKOM.md": {
+      "sha256": "beb1cb9356b6ded49ba9f7b5ae63ceaa8c20ccf8ff044415fdafff761571eb35",
+      "bytes": 2024
+    },
+    "PERUBAHAN-LINTAS-MODUL-04NOV.md": {
+      "sha256": "90035a4f23c3a291539473efc0ef0e5e6c522d7b2f6abb692fd9f49c268bac7d",
+      "bytes": 924
+    },
+    "postgres/migrations/v116-shared-rate-limit.sql": {
+      "sha256": "972027faa35cf02d4d9d600e4e2dc73b29cc4c002e4e3591e9c959133efa89cd",
+      "bytes": 503
+    },
+    "postgres/migrations/v117-profile-photos.sql": {
+      "sha256": "14205e9054a5d7aef05d660c5187197b74a4d07acffe3a2b88db1c846523a6d4",
+      "bytes": 400
+    },
+    "postgres/migrations/v123-fasilitasi.sql": {
+      "sha256": "9e46c50dc2f275604916d2dce18c1eb34501bcaa80d3971389c1f0aef718605c",
+      "bytes": 306
+    },
+    "postgres/migrations/v46-notulen-submissions.sql": {
+      "sha256": "b8e49b2ba3d42f4983ce8b271ab0f15ec8114538a8fe28964fb382d3a16f67ec",
+      "bytes": 568
+    },
+    "postgres/migrations/v65-agenda-task.sql": {
+      "sha256": "9bc7f70efe669b015daa043340940d76e519de5a991fc7ce2ca46fe9b6672415",
+      "bytes": 432
+    },
+    "postgres/migrations/v67-password-reset.sql": {
+      "sha256": "1804b870449b03a5489508feb411a5b8c6de2cee30a5a64b545f3c8fe43e4442",
+      "bytes": 548
+    },
+    "postgres/schema.sql": {
+      "sha256": "02ef54fe5e921706fa679437810d59a4e7cf2a5ae8cb616cc0daa197d69e9128",
+      "bytes": 6536
+    },
+    "POSTGRES-CUTOVER-WORKLIST.json": {
+      "sha256": "f438e24f4c52c2e56812338f37821d18b9e22b057af8f836b860be29cafc9d74",
+      "bytes": 4826
+    },
+    "POSTGRES-LOCAL-FIX.md": {
+      "sha256": "5cb395b89aacf794913e48e863c19c84321f26300ef2cfc3e15b4d2a9da619ca",
+      "bytes": 854
+    },
+    "PROGRES-KEAMANAN-04NOV-V116.md": {
+      "sha256": "7a3504e2bc54e387a564b438af6f6cb1813f8b72bb47d26cb2f1266f4650744c",
+      "bytes": 1153
+    },
+    "PROGRES-LANJUTAN-04NOV.md": {
+      "sha256": "aee1c40f1542dd48129a7f77f0006b7c704f10868eec3d9ee0bcd59132751887",
+      "bytes": 2219
+    },
+    "PROGRES-V117-READINESS-04NOV.md": {
+      "sha256": "3352cd903631de8d052d0a783356959c22fd78d732d46d43b151396b77f726a5",
+      "bytes": 2039
+    },
+    "PROGRES-V118-04NOV.md": {
+      "sha256": "0e6f8cc774145d115d759ad2f61b5ddd2299d852afbe5dd1be4d5242a240a75a",
+      "bytes": 1043
+    },
+    "PROGRES-V119-04NOV.md": {
+      "sha256": "6573e57c9495dc6783b502104d5c72ee886a8896ec7ab68b026d8ac89a48b840",
+      "bytes": 1578
+    },
+    "PROGRES-V120-04NOV.md": {
+      "sha256": "3bcd09da7cd69cf2bbcb66c0888750f5eb371012f0a8cf43c4affe806bf3871b",
+      "bytes": 1442
+    },
+    "PROGRES-V121-05NOV.md": {
+      "sha256": "162683e0db2774e63e2460a640cd01b156676931b72dd9cb75d61195328567c9",
+      "bytes": 1908
+    },
+    "rakom.html": {
+      "sha256": "2d4d4a3569dbd0b147f9fde4a289f1e00a6a693cddffed16aab63d4576a21704",
+      "bytes": 4018
+    },
+    "README-BACKEND.md": {
+      "sha256": "6692a46672d73c047db8873cc47620ec281666668ebe4a4f57b3af2026a9bba3",
+      "bytes": 14173
+    },
+    "README-DEPLOY.md": {
+      "sha256": "ca9d290ea981941fa089f4cefc7e0db5a1374bb6af660db85890a360abd74500",
+      "bytes": 15684
+    },
+    "README-REVISI.md": {
+      "sha256": "b911d3fa11cb9b9025fa8634f90cb7d441403bf35e60bc4796b45c1c950ff663",
+      "bytes": 48317
+    },
+    "repository.html": {
+      "sha256": "9b60325dc6803144bafddad7741d483ace692c62a4be59b41d217d3150247856",
+      "bytes": 3914
+    },
+    "REVISI-04NOV-AGENDA-TASK-PRODUKTIVITAS.md": {
+      "sha256": "a34728fbee9947fe4f55b815cd6c13324122612903d3f46b9a5696a5a090c7d1",
+      "bytes": 1254
+    },
+    "REVISI-04NOV-BERANDA-PROFIL-RAKOM.md": {
+      "sha256": "d5a85bacb99cdf1a1f2185c0c9963e88aa1ef414ee9e9b1fefff8da748a1942a",
+      "bytes": 1836
+    },
+    "REVISI-04NOV-JADWAL-PENGGUNA.md": {
+      "sha256": "4c5775ea27c6398ad3ef87b801647d468701bcd5765d123050e1e7338e8af0bb",
+      "bytes": 701
+    },
+    "REVISI-04NOV-RAKOM-TASK-INTEGRITAS.md": {
+      "sha256": "2a146a324a5b5343a2e0c1322eb1c7b2de3a8ac1483e46800757b69f3af8c42a",
+      "bytes": 822
+    },
+    "REVISI-04NOV-VALIDASI-TANGGAL-DAN-FILTER.md": {
+      "sha256": "e253da865e974584fc0ee8b7cdd65153ed2b0ead6782a06c334e41a32746a29d",
+      "bytes": 1419
+    },
+    "REVISI-27-OKTOBER-IMPLEMENTASI.md": {
+      "sha256": "22dd8a75c057258b2c0c6e6571ae7acd90780f1e354fc326d01375debfab826f",
+      "bytes": 2346
+    },
+    "REVISI-27-OKTOBER-TAHAP-2.md": {
+      "sha256": "4990f09409778d3e8d72b74503eb31bb82e9283301ad73e40906ddbe3f756729",
+      "bytes": 1337
+    },
+    "REVISI-7-NOVEMBER-V135.md": {
+      "sha256": "4712d1ed3990099f13d502f0981ce43330faf70dcb9b0483c40262e973113258",
+      "bytes": 3018
+    },
+    "REVISI-LANJUTAN-04NOV-NOTIFIKASI-TASK.md": {
+      "sha256": "52f8da856b2f9b8ce92f3517bfe22b371910fc60f038d01d4747197bfdb930e1",
+      "bytes": 736
+    },
+    "REVISI-LANJUTAN-STATUS.md": {
+      "sha256": "29f05e6d4db13f461ed9d4a20bcfcd46e82cb35f21b0a53b37a69ec51faf64c5",
+      "bytes": 752
+    },
+    "REVISI-LINTAS-MODUL-04NOV.md": {
+      "sha256": "39072a9cf2f19491d016f5b8d63709fef8737203bbdb1f44a183f9819c6a12a8",
+      "bytes": 845
+    },
+    "REVISI-LOGBOOK-KUALITAS-DATA-04NOV.md": {
+      "sha256": "e066215a650290b79b024fa3250b7f27327d7e60ec65427d292d753bc87bc5a8",
+      "bytes": 695
+    },
+    "REVISI-MONITORING-KUALITAS-DATA-04NOV.md": {
+      "sha256": "ed9d61c6a7ad03a52e879079a793fe1990a722ef927cb1cbafe3eb3be73d35dc",
+      "bytes": 1040
+    },
+    "REVISI-NOTIFIKASI-POSTGRES.md": {
+      "sha256": "727832b8acc71f008fe683456a7154e15f41a0728915db19261d18b2cdf8b0d1",
+      "bytes": 601
+    },
+    "REVISI-RAKOM-FILTER-EXPORT-REFRESH-04NOV.md": {
+      "sha256": "dc9f6e13e28640dc242c1580fc6c637f887b1e2e7d2b220d5ca08c4655019aad",
+      "bytes": 496
+    },
+    "REVISI-RAKOM-REPOSITORY-LOGBOOK-04NOV.md": {
+      "sha256": "9cd27cf5ec75d0b689f2e360bbc4785bc091f353c8eb150c81ec91952e5b9f44",
+      "bytes": 1241
+    },
+    "REVISI-UPLOAD-FASILITASI.md": {
+      "sha256": "5a34902876467f66e577b8c6fd9b00fea847844db131796ab63e5958b41cf922",
+      "bytes": 662
+    },
+    "scripts/account-repository-test.js": {
+      "sha256": "910be37d6cafa3fd1cb41d2cf0e555ee8eecb077a011e19d66920f65dcf363e1",
+      "bytes": 2233
+    },
+    "scripts/agenda-task-http-test.js": {
+      "sha256": "4283f03c364119b7975dbc1aaa65be8a9dc0268653354704fc7dcd33a4271b14",
+      "bytes": 3360
+    },
+    "scripts/agenda-task-quality-04nov-test.js": {
+      "sha256": "6431029688e39a7f64c8b9a6022463055b083dbc5e61de0e89d0db8ec23c8152",
+      "bytes": 1488
+    },
+    "scripts/archive-quality-regression-test.js": {
+      "sha256": "295a942093ded6ddc0b0613e90c6b7e634620208f5f0c8c9ef29c625c6302af2",
+      "bytes": 1703
+    },
+    "scripts/audit-storage-repository-test.js": {
+      "sha256": "caf251a2fddad4c1afb9cf2f9b51b0c7fcc006d303302c488de84320fe2003c2",
+      "bytes": 2481
+    },
+    "scripts/backup.js": {
+      "sha256": "8bcd4a56928b98556fa8b3fc786df24ceff4795cceb5ee348bb9817e9208c2ee",
+      "bytes": 2130
+    },
+    "scripts/check-db.js": {
+      "sha256": "0791128426cb3911ac830fc9f4dff748ef36767bf5054f9af7875b4328f0f8e9",
+      "bytes": 504
+    },
+    "scripts/database-adapter-test.js": {
+      "sha256": "6976f0dbe2c07cc8260ecfbd04eea1b02b13180073aa83fe5052efbc541afa2c",
+      "bytes": 1265
+    },
+    "scripts/deploy-config-check.js": {
+      "sha256": "b1bbd927d8f2a40c2e12e1522460b140c5e0e79e08c44128844f2c92ff5dfd26",
+      "bytes": 1188
+    },
+    "scripts/deployment-kit-test.js": {
+      "sha256": "c5fb3e76a3e461b4c24aafba05d7c5ad47df135ca84537a8fc5b54a5c7684d66",
+      "bytes": 1243
+    },
+    "scripts/duplicate-source-audit.js": {
+      "sha256": "a31acdcbbc9796e23449e744657356078aa0c3282e89ff4abece08d8019f7ab8",
+      "bytes": 1035
+    },
+    "scripts/export-postgres.js": {
+      "sha256": "bca57c9f7477408fb9e2b33f1f23224a870f670e722442937ec5444439165cf9",
+      "bytes": 1399
+    },
+    "scripts/fasilitasi-regression-test.js": {
+      "sha256": "d5eda555a9b8cd8586ac8c16d1361ab715f66796cc9ba7109dc0ef8ee6996d3d",
+      "bytes": 723
+    },
+    "scripts/frontend-api-global-test.js": {
+      "sha256": "47e6e2c2c020488794894ea4523f71926a393e74c365ae1bf8d9a6574701481a",
+      "bytes": 698
+    },
+    "scripts/frontend-auth-failclosed-test.js": {
+      "sha256": "6ee7b32320f3d0c2779d07f4ea0ca48350565aaf0be22aa17c56dce1fae963f8",
+      "bytes": 829
+    },
+    "scripts/frontend-contract-test.js": {
+      "sha256": "9ad0807d892b8b50cccef37af4c81e1d5ccf0a17a94c8505fed2580ff39eec7e",
+      "bytes": 905
+    },
+    "scripts/hosting-preflight-test.js": {
+      "sha256": "1d184d96b2623d99e31e60f03711a463e0e42162b4e426eebbf91d22854c883b",
+      "bytes": 918
+    },
+    "scripts/hosting-preflight.js": {
+      "sha256": "2652e41d6f44456e4723168acc76fd80d65099ed1efd61bb7d75279d8be22ca6",
+      "bytes": 1243
+    },
+    "scripts/local-private-storage-test.js": {
+      "sha256": "f9e016ea29a344b473fb9a49326f404dff513be480e861763c6d9a38fafc6970",
+      "bytes": 973
+    },
+    "scripts/logbook-quality-04nov-test.js": {
+      "sha256": "d4eff517084bc5feebf44c9369b35243596f7a02e67b76564f2612f9b180e1f8",
+      "bytes": 496
+    },
+    "scripts/login-flow-test.js": {
+      "sha256": "41480f4bbecf58cc9d724a566f40e740be175ef7258ad015a1307b23e98d4df0",
+      "bytes": 1546
+    },
+    "scripts/meeting-repository-test.js": {
+      "sha256": "1f852a77660c56fd338bf314f9b5c3076f4709474cbbe3d0b6f5949fab7ddb6e",
+      "bytes": 1917
+    },
+    "scripts/meeting-validation-test.js": {
+      "sha256": "82135563ef6c143dc3adb50d164c652ac7dded03a152d1a4be17312afd46e621",
+      "bytes": 867
+    },
+    "scripts/migrate.js": {
+      "sha256": "fb4b09c0753bb88c9bb51c89368b12528f62a717832f27856fb41e58c19c2b5a",
+      "bytes": 1102
+    },
+    "scripts/monitoring-quality-regression-test.js": {
+      "sha256": "178d647d6026716cb10ed744a15c3ed7d588101dc1c8a59a908f850608600e4a",
+      "bytes": 1032
+    },
+    "scripts/notulen-no-team-test.js": {
+      "sha256": "589cc5f9037d67d2bfd07b9659f023ed0acd235a35b06415af0e16365aa16721",
+      "bytes": 711
+    },
+    "scripts/nov4-acceptance-integrity-test.js": {
+      "sha256": "e934aa96df406f11b05c161cfc22086bf62c8c01c172d144ef6cddb492cf906f",
+      "bytes": 1581
+    },
+    "scripts/nov4-crossmodule-regression.js": {
+      "sha256": "12642c60d086204e699eb61720f9e8711510deb9d332d6b369dd06a6d058d53a",
+      "bytes": 1585
+    },
+    "scripts/nov4-date-csv-behavior-test.js": {
+      "sha256": "fb96eb75ffc6c6a5e4c96a7a1716ebd1195cb8b8b3063f0174057dee78af657a",
+      "bytes": 1672
+    },
+    "scripts/nov4-schedule-repository-regression-test.js": {
+      "sha256": "e17b8827d609677b8588ec41cd3a15253b4bc98b81ccf55adbe4e7f894441caf",
+      "bytes": 1382
+    },
+    "scripts/nov4-source-audit-regression-test.js": {
+      "sha256": "23dcb3b84392bf2b131cd0334eb74914ca00a058e8d7623f788865230a8c425e",
+      "bytes": 1417
+    },
+    "scripts/nov4-user-management-release-regression.js": {
+      "sha256": "8002bda9483c49de67bc920b58a46279aaca8bb319dd2b2b8482edc24dc1e93d",
+      "bytes": 1908
+    },
+    "scripts/payload-repository-test.js": {
+      "sha256": "128ea90b1a8867187eb036b9db4a01d5c3f304de585a62a87c5153082407a043",
+      "bytes": 1649
+    },
+    "scripts/pg-authorization-regression-test.js": {
+      "sha256": "d570b2f0dc97b6546a0560ec8030f8b86e1c5ea8a56ac82375862970288e754e",
+      "bytes": 2289
+    },
+    "scripts/pg-backup-inspect.js": {
+      "sha256": "f8c6778c3355d95e32cf0ad30bfcb88fbf083df4e57dd21f7f1fc45ba00161ec",
+      "bytes": 2214
+    },
+    "scripts/pg-backup-secure.js": {
+      "sha256": "89cd2c29adc5099937eee41ad74b585f15620701c3fcd1987313659e5f6d5c47",
+      "bytes": 2702
+    },
+    "scripts/postgres-account-adapter-test.js": {
+      "sha256": "48a707a0069c0dc4fbaae0a3c6d3a1bdef58b98773634a4794d74e862286f8c1",
+      "bytes": 1048
+    },
+    "scripts/postgres-admin-accounts-test.js": {
+      "sha256": "78d0aa9c9a5408afda82701cbaa22269bedf2d82c081d86c1b609edfa31e89f2",
+      "bytes": 2565
+    },
+    "scripts/postgres-agenda-auth-combined-test.js": {
+      "sha256": "b0a1fb5c9fb4d8557c521cde9aa720de00bf4beeb21dd96a24ead92f109124a9",
+      "bytes": 2447
+    },
+    "scripts/postgres-agenda-task-import-test.js": {
+      "sha256": "8171eb74c78092131112c78891b89b924056d7b1fc93cec1fceb6eee7b39625e",
+      "bytes": 1015
+    },
+    "scripts/postgres-agenda-task-import.js": {
+      "sha256": "10eb76ca3640c09be6a3ff66c0f5dc56777c7612610d890b0e51eab4e98efd24",
+      "bytes": 3896
+    },
+    "scripts/postgres-agenda-task-migrate.js": {
+      "sha256": "ed9ebf3e3bcc3554fd72222fea24135354560aaa12b510bcf0696429b3e00595",
+      "bytes": 587
+    },
+    "scripts/postgres-apply.js": {
+      "sha256": "88831464a323aa5e2de30ef88c87d8c6a9e3e6c083bab402250f5ba40869b87f",
+      "bytes": 511
+    },
+    "scripts/postgres-atomic-patch-test.js": {
+      "sha256": "6f95346ab8872b0b92fd59603e122cfdefc1154b09de3aad7e4e2c8e3d11a255",
+      "bytes": 839
+    },
+    "scripts/postgres-audit-storage-adapter-test.js": {
+      "sha256": "85a3ee82c5f5dff911ae9ac94a468dcaa98ad064dc69874758a47e8a7021dd34",
+      "bytes": 1520
+    },
+    "scripts/postgres-auth-import-test.js": {
+      "sha256": "c46cf6ea6bdc98f5d3fbe2d667c7954daeafca6a9d767cb24feac289bc97541b",
+      "bytes": 1898
+    },
+    "scripts/postgres-auth-import.js": {
+      "sha256": "e65c758b541090ed819e4fc505a2c30fc137ae44892db09d51b5adc8302231cd",
+      "bytes": 4723
+    },
+    "scripts/postgres-auth-live-smoke.js": {
+      "sha256": "1c7885da8cb1f8e993b4ca21a5076046aae629e9b06a6e40fb5f58bc5d51ba2f",
+      "bytes": 2815
+    },
+    "scripts/postgres-auth-parity-test.js": {
+      "sha256": "16e6210d09bc28aba2cc881c63afb413e9ad469fdf522a77f6067fb0ea920de3",
+      "bytes": 1411
+    },
+    "scripts/postgres-auth-parity.js": {
+      "sha256": "1423e1d0222b4829ec6c636d0b020825d0be0b3fe83151e27aca1639ab71a277",
+      "bytes": 3259
+    },
+    "scripts/postgres-auth-routing-test.js": {
+      "sha256": "fe135dec005bf4df8893e67e82b924691dc6cf569f328729b3f0ecc0895f5fef",
+      "bytes": 513
+    },
+    "scripts/postgres-auth-selfservice-test.js": {
+      "sha256": "8387ffcdc7d0e6ad2c9429dd0bce63fa680335a3e00b73565b08853445fe5a13",
+      "bytes": 783
+    },
+    "scripts/postgres-check.js": {
+      "sha256": "2a8b224feb1bc1909d8ebab518ab7203ac875f5090d76a40e7493a325d77d6cd",
+      "bytes": 1355
+    },
+    "scripts/postgres-contract-test.js": {
+      "sha256": "929dc8086828e9dd32bbe70a647def29a8e2e68aab505eb6fc6b1d59cfe608b5",
+      "bytes": 934
+    },
+    "scripts/postgres-cutover-inventory-test.js": {
+      "sha256": "dfea680dbad15a828720c544f471971a5db1e0c92e617a31f09a8a60eb479e63",
+      "bytes": 601
+    },
+    "scripts/postgres-cutover-inventory.js": {
+      "sha256": "8f57aec391d6cc3f8c02cad02ccec754cf3f8d28383f5c58b9da107c67ef3cd3",
+      "bytes": 1179
+    },
+    "scripts/postgres-cutover-run.js": {
+      "sha256": "6fc14e6601d6d001656da818deac2f0419dd945276fd0df5b40afd13f9d2b679",
+      "bytes": 1767
+    },
+    "scripts/postgres-data-parity.js": {
+      "sha256": "950f35653264387c1078102b2f5874f65e4da908a494859f86d054128916a848",
+      "bytes": 3074
+    },
+    "scripts/postgres-full-migration-gate-test.js": {
+      "sha256": "87908937633b67d1c712fc307daae1bf77c17121a72588818574b262684ec926",
+      "bytes": 611
+    },
+    "scripts/postgres-full-migration-gate.js": {
+      "sha256": "91bd7a41b7169dfe0a49b2e7e25295b0946585aa48312c91c5ea5446dc3e189a",
+      "bytes": 1489
+    },
+    "scripts/postgres-import-all-safe.js": {
+      "sha256": "84294b36cb44d26a3849038c2bbcf5f77811cce2567a6846c5f8d3eea6ba1be9",
+      "bytes": 5829
+    },
+    "scripts/postgres-import.js": {
+      "sha256": "d4448468a715b195f162645e53c09dbe52a9e5032dbf95f3d86bf2b2ac96ec79",
+      "bytes": 2146
+    },
+    "scripts/postgres-live-smoke.js": {
+      "sha256": "ae2cf5010ad81c3c6aa9e51fa40b27d1c421ef1df3655febbab199c7e4dc6133",
+      "bytes": 1849
+    },
+    "scripts/postgres-notulen-migrate.js": {
+      "sha256": "fd5d3919c4692ac3dc4ad56ce67c942c5372ff4b357abfb3429325d296d183ac",
+      "bytes": 656
+    },
+    "scripts/postgres-notulen-test.js": {
+      "sha256": "285c998f04648fe37123ebe1d9734470d34b1d47ea92ec4e0d0f20339dc418ae",
+      "bytes": 2079
+    },
+    "scripts/postgres-only-runtime-test.js": {
+      "sha256": "88bda4b702f3bbc20c1a4940a4dc662e71be4c18e88032e23c08c51aaad94125",
+      "bytes": 1437
+    },
+    "scripts/postgres-parity-gateway-test.js": {
+      "sha256": "cfe77e997fee4320b676668837455e713ec8eef24f972a21ef7aa2eddc4d0552",
+      "bytes": 865
+    },
+    "scripts/postgres-parity.js": {
+      "sha256": "abf0aeae38d2c1aee7aba22036f672f1bbc7f62f21844a69635ee06d51d6e982",
+      "bytes": 2221
+    },
+    "scripts/postgres-payload-adapter-test.js": {
+      "sha256": "3c65cd97b09582154cb266c1ecdb111328a8282784d74cc2d87767fa55e24521",
+      "bytes": 969
+    },
+    "scripts/postgres-primary-live-crud.js": {
+      "sha256": "430a3a6613775f3bfb9e418397b43520d8820e7449f75ee8657b185ac787aed4",
+      "bytes": 1981
+    },
+    "scripts/postgres-primary-routing-test.js": {
+      "sha256": "e36a8d085c34318bcd42d94219ea8b93fce8da7f51f5989ebf36606d733af7bf",
+      "bytes": 1376
+    },
+    "scripts/postgres-read-gateway-test.js": {
+      "sha256": "fe352782a13a416798d3b0cc026be6ff92add2e4cad3113af7dd3fbeb86b63cf",
+      "bytes": 1327
+    },
+    "scripts/postgres-reset-migrate.js": {
+      "sha256": "aceb6ee09ce20deaef290a26d157b0dde4d52a9fe9f4ba1c5498c673767b5104",
+      "bytes": 547
+    },
+    "scripts/postgres-reset-repository-test.js": {
+      "sha256": "da48ce3f6a6f7eab70673c63fcf862c5d05e9cf030c3f93d54f9dfe1ce1b1b40",
+      "bytes": 1367
+    },
+    "scripts/postgres-runtime-gate-test.js": {
+      "sha256": "5fb52cdad795ad1aa608c0c3be0a2d2cddc38fe0b5df4590adc623c640c9a5b1",
+      "bytes": 1102
+    },
+    "scripts/postgres-runtime-gate.js": {
+      "sha256": "db09ee845c4945e88604385160d6c0dbcf8e71a6874ec03d9e9a07f5a544bc31",
+      "bytes": 2143
+    },
+    "scripts/postgres-runtime-readiness.js": {
+      "sha256": "c8b2b7499f5ca84c89c64a403d51150b5f14c85cffc35658d24cbe0607bcce37",
+      "bytes": 2175
+    },
+    "scripts/postgres-session-adapter-test.js": {
+      "sha256": "7d74cea1581b58d7db759d9f8eb0cd85d2d98b5d8a73e7a319e202143c857abd",
+      "bytes": 1366
+    },
+    "scripts/postgres-sql-audit.js": {
+      "sha256": "800b57e88034581d899e3939d8a8bfcf4f20738774bec515b8aa3a8fd372bcf6",
+      "bytes": 3276
+    },
+    "scripts/postgres-unified-handler-test.js": {
+      "sha256": "5e3633de4158baf8b494125ff382abe0a1a7a2e63373553ec9fdb0544e97640d",
+      "bytes": 2858
+    },
+    "scripts/postgres-upload-limiter-test.js": {
+      "sha256": "34bd78b529e96f0139596352034f804949229ad6833c75accff3b04d31bdde28",
+      "bytes": 489
+    },
+    "scripts/postgres-v46-test.js": {
+      "sha256": "98e54ac4d382a03ca70774e793f84ddaabec28d7089fb7f9e5c155a6d3a9952c",
+      "bytes": 829
+    },
+    "scripts/postgres-write-gateway-test.js": {
+      "sha256": "58f027bd3ebf1bb5f7417dc59a9ec66440ea11bfef1b5fe6aea35685046ef1b1",
+      "bytes": 943
+    },
+    "scripts/preflight.js": {
+      "sha256": "70c2ffa2b37662084a060693f9711abf79e6b7a4f0dcc2ad372e4c144a1b31c8",
+      "bytes": 868
+    },
+    "scripts/production-audit.js": {
+      "sha256": "262fb9d7760dab0aefbc82e7c8daed238d9945f3e7550566028277c77f015249",
+      "bytes": 1941
+    },
+    "scripts/production-deployment-safety-test.js": {
+      "sha256": "662d4565fbf1562e90abe00a2145361b23f746058fd6c3025fee8891f56f66f9",
+      "bytes": 1560
+    },
+    "scripts/production-readiness-gate-test.js": {
+      "sha256": "4f6276cc57775e86cd741ab0057024cf3d2ea60f5e3e332b08c2d0a68b358896",
+      "bytes": 905
+    },
+    "scripts/production-readiness-gate.js": {
+      "sha256": "288e0a1eb2061262dcb1d21a49180171e6f9357daa7d08d71e4fd0d1eb9acdef",
+      "bytes": 2434
+    },
+    "scripts/production-runtime-gate-test.js": {
+      "sha256": "3c8bacfa7de4661d7f428c0f0e26ca89105b13ec6a69144077ff7e1a326e7459",
+      "bytes": 1065
+    },
+    "scripts/public-security-smoke.js": {
+      "sha256": "3063c8c3315a09d6cac9a31669619dc8a14628d520e399454273ad64f2903d1c",
+      "bytes": 1408
+    },
+    "scripts/public-url-smoke.js": {
+      "sha256": "4e43e4e4b60eb2781959d45a9241e46ffaf56c0915d924cfb32a81d54a19f9ce",
+      "bytes": 1788
+    },
+    "scripts/qa-flow-test.js": {
+      "sha256": "940e0f2ac8f78203fcf9466687d3a196e036893d5cd90d7a97fdc39cc7c652bd",
+      "bytes": 2285
+    },
+    "scripts/rakom-refresh-export-regression-test.js": {
+      "sha256": "9b465fd069631f27ac829282f9c0fead689e6e777c59a4ade8c5bc779fc68785",
+      "bytes": 689
+    },
+    "scripts/release-manifest.js": {
+      "sha256": "2b2a800eefdddcfbd95748e35265bc6274eeab124d9e252fb0f884e68013a6e4",
+      "bytes": 2421
+    },
+    "scripts/request-security-test.js": {
+      "sha256": "307567fbfe63a0f84f9c921e12631c43014a039152e2ff7bb66c0e8780de9fc9",
+      "bytes": 1223
+    },
+    "scripts/reset-startup-test.js": {
+      "sha256": "133e5cc2fe414b4080a5633ec9d69de184cc585c7a4838d0bc26bc4aa0f3df23",
+      "bytes": 1092
+    },
+    "scripts/restore-drill.js": {
+      "sha256": "171cd9854ed8e009ebbc46f64430a713fba1734ff940072a28b3a6aeb854fdf6",
+      "bytes": 1803
+    },
+    "scripts/restore.js": {
+      "sha256": "590b99a29c911d35db4a1a53ff093db60e64e9328f854790b0b656817d5022ab",
+      "bytes": 1567
+    },
+    "scripts/revisi-27-29-audit.js": {
+      "sha256": "81fe36a5558b73905b21a86367e776140867edb1c2f80f37673eb65fe8677156",
+      "bytes": 1387
+    },
+    "scripts/revisi-27-29-nov4-regression-test.js": {
+      "sha256": "1cf545548c051c78ec5eb5dfe39bad412003611df44cf6a0410aab4a9f272fad",
+      "bytes": 1973
+    },
+    "scripts/revisi-27-29-regression-test.js": {
+      "sha256": "e66eb52323bd4936b246cbe7fe44c8463550a6a73e30c76fde856354eaf7baf1",
+      "bytes": 1104
+    },
+    "scripts/revisi-dashboard-profile-regression-04nov.js": {
+      "sha256": "b828abe4946b5c9560bf91f41dce2a569e915d92e5c482839af0e05b5f697854",
+      "bytes": 2128
+    },
+    "scripts/revisi-integritas-rakom-task-04nov-test.js": {
+      "sha256": "e318bb3aa70c968e74a3c476e9d27f6264be6ba0f6755bbd74b81465cd56aef3",
+      "bytes": 1364
+    },
+    "scripts/revisi-jadwal-pengguna-04nov-test.js": {
+      "sha256": "7d2e29f15c446a689c9c94a76b780a763db413645b8466aee3618892f30db8ed",
+      "bytes": 1003
+    },
+    "scripts/revisi-lintas-modul-test.js": {
+      "sha256": "45ce86ac574defb6f7811be5217e3020fb5b3397786e779d79603113741ef630",
+      "bytes": 654
+    },
+    "scripts/revision-27-29-nov4-regression-test.js": {
+      "sha256": "ffccf9c072669e464ef251a6d812242fe7313bee9984690249acf5084de7a9fa",
+      "bytes": 1132
+    },
+    "scripts/revision-27-29-regression.js": {
+      "sha256": "6d3be71665d1f33a55305c71ee2fb8da0d3b1d273eb9f59871ca4eff11ee5cd1",
+      "bytes": 877
+    },
+    "scripts/revision-92-date-quality-test.js": {
+      "sha256": "29f0347aae532f6bcdf76923d22186ae4caf2d857428d3fc8523f6410c995d4e",
+      "bytes": 1564
+    },
+    "scripts/revision-92-sqlite-data-review.js": {
+      "sha256": "a57b11348f348fd71d14ec0a7f0d073dcc29563a65f5c74dbabe36cba1251e36",
+      "bytes": 998
+    },
+    "scripts/revision-big-integrity-test.js": {
+      "sha256": "230bf1139983f45fc13d17a9ec939cc9241ea6735de0ae9bbb766a9f6480d49d",
+      "bytes": 1431
+    },
+    "scripts/security-v42-test.js": {
+      "sha256": "3067e0373873699f2aabb4337b420ba16686f93ddafd83f423e5cb4e52e52b29",
+      "bytes": 1996
+    },
+    "scripts/security-v43-test.js": {
+      "sha256": "45854764cf4dc3b49a039d50cd8702e7d8c1d7f33a03f5112d52bc3b90f24193",
+      "bytes": 915
+    },
+    "scripts/security-v44-test.js": {
+      "sha256": "49adec57e6ac21d2ac006970cc42b39c48f00446364ad35d46c017685a692408",
+      "bytes": 453
+    },
+    "scripts/session-repository-test.js": {
+      "sha256": "972726e3d391a3d66d1111582800f25e2112b3611e871b57c39a33f67dc7bb7f",
+      "bytes": 2203
+    },
+    "scripts/session-test.js": {
+      "sha256": "ae3632592966f7646ca3193696ad4bfc36de8e43ab6c1aa4f664f14b1893a4c4",
+      "bytes": 1753
+    },
+    "scripts/smoke-test.js": {
+      "sha256": "768a729eae0895baaca126445a71a6fb302a79ad150482518d5322f3bc88a262",
+      "bytes": 2730
+    },
+    "scripts/source-data-parity-audit.py": {
+      "sha256": "cb845c5db6fd79ff4865fdb04e7a37f2678600311d65d742daddefaa9874fc31",
+      "bytes": 2889
+    },
+    "scripts/source-data-quality-audit.py": {
+      "sha256": "35e27c28f824f18a811869403af676a6f9a8c08f7c1c17cbbec470d1efa7dfdf",
+      "bytes": 1647
+    },
+    "scripts/static-file-policy-test.js": {
+      "sha256": "eba2b3efada64528bd9bc337f02c8b7c4131e305b1843bb279b452762699ee30",
+      "bytes": 1396
+    },
+    "scripts/storage-check.js": {
+      "sha256": "2f02b3f0cfc5ecd0a879a8d7cadf8c599895c91eca08c9aa2bf0ca492cde81bb",
+      "bytes": 1672
+    },
+    "scripts/supabase-backup-restore.js": {
+      "sha256": "7a4aafc5a7a9ba1f93f8ff3d68d399d07f49ff73e40b62678d681eab0cb98e3b",
+      "bytes": 2994
+    },
+    "scripts/supabase-backup-verify.js": {
+      "sha256": "ce23affada59257133da03900d9f68ed4b5db83b780554a7fd40447e7e794d53",
+      "bytes": 2403
+    },
+    "scripts/supabase-storage-backup.js": {
+      "sha256": "3860b3227964e30bd84571574b1be6fac076bf7e6ab18e7a0c6c137db12a80d1",
+      "bytes": 4432
+    },
+    "scripts/supabase-storage-test.js": {
+      "sha256": "8b5bb3aca3adb2937ed934f5476b53e3aa8e097f88670d94f561aa76d9b2009c",
+      "bytes": 1395
+    },
+    "scripts/v100-deployment-hardening.js": {
+      "sha256": "b177303372c591c2756f1bfb7e01009d0e8ee1097738ded90bf987ccbfde58c4",
+      "bytes": 1953
+    },
+    "scripts/v105-database-readiness-test.js": {
+      "sha256": "efee8e57182e0b4573332ebff21db78b834112f71df3db7e9acf01d6f8ae0081",
+      "bytes": 1331
+    },
+    "scripts/v116-shared-limiter-test.js": {
+      "sha256": "883bb6463bed2e978eccfc4e89b723785331c4968be9590bf197f2467048896f",
+      "bytes": 1877
+    },
+    "scripts/v117-production-readiness-test.js": {
+      "sha256": "ed894abe4822ee57791689cc66dd1e47026d92b3fdb3d1c4720c98cdf4d2ef98",
+      "bytes": 2999
+    },
+    "scripts/v118-login-abuse-http-test.js": {
+      "sha256": "98ae97ad3c7190e2070c56c2e5f5e3157780067894d7502c1b39175bbc79a125",
+      "bytes": 1481
+    },
+    "scripts/v119-trusted-proxy-http-test.js": {
+      "sha256": "08468cd92f20f94446c6aa8052eea7c7277e00ac7ec96947f6a116926e89150b",
+      "bytes": 2129
+    },
+    "scripts/v120-runtime-entry-test.js": {
+      "sha256": "57df8f0fb312037ef0d867bde1512129b56bc6de6f27fc7edb5af68183f2dedb",
+      "bytes": 1542
+    },
+    "scripts/v121-go-live-http-test.js": {
+      "sha256": "f7cde06d7febeb011d3e7e0365839c4b5e6a097f87594d5313f45e83ee19e5cf",
+      "bytes": 777
+    },
+    "scripts/v121-go-live-smoke-test.js": {
+      "sha256": "6bb8bbc9108e17f440b7b34e8d192f2ceaef59025e5562e9012ac1b5c0159298",
+      "bytes": 2327
+    },
+    "scripts/v121-go-live-smoke.js": {
+      "sha256": "3f376cc99c7b6f4b92ec44931ad8145661309470f128a9d47eb07e99a3f50ff0",
+      "bytes": 2788
+    },
+    "scripts/v122-schema-readiness-test.js": {
+      "sha256": "6c0a74bf83d8c1074db543a6326749846a5a51c6ae0ee56a908c42a0b1007db9",
+      "bytes": 2066
+    },
+    "scripts/v123-safe-migration-test.js": {
+      "sha256": "94bbca8f3c59acab2d982bb046cef38bb96b1264e7d3a70e02b5b211492dffbc",
+      "bytes": 2525
+    },
+    "scripts/v123-safe-postgres-migrate.js": {
+      "sha256": "d8f7731900b0f1902d1b4acc20076481c43036a8f8b45c41295cb1c98e13e97c",
+      "bytes": 4226
+    },
+    "scripts/v124-production-config-test.js": {
+      "sha256": "bb8ab5ce8d633984688be3a8f9988d34079e6c54cd7bb10969d45c76d06da0c8",
+      "bytes": 2639
+    },
+    "scripts/v124-release-check.js": {
+      "sha256": "9f53813f1c503cf428ad5e68b06b5a883b5e500fc2062e6bc4dd36db1fa31581",
+      "bytes": 1666
+    },
+    "scripts/v125-live-dependencies-test.js": {
+      "sha256": "cea351bfcb85e208fdaab2106622aa294ba231afb8302a9a7390951158e8c9f6",
+      "bytes": 2649
+    },
+    "scripts/v125-live-dependencies.js": {
+      "sha256": "e9f87902f2a256a9dedce707c654c6a7e25025f92ac796cea4c97d4aa6cac5f2",
+      "bytes": 3060
+    },
+    "scripts/v126-employee-go-live-gate-test.js": {
+      "sha256": "9ee1faa70103c13049a7c3f38a0c4a140462df85902667d6405740d60fdf7eb8",
+      "bytes": 2752
+    },
+    "scripts/v126-employee-go-live-gate.js": {
+      "sha256": "81afd7557ecd4db340912316b456177e72e5987d9204e1ca5c7cae815e1e420d",
+      "bytes": 3949
+    },
+    "scripts/v127-employee-acceptance.js": {
+      "sha256": "4439cd85fc915bef6896b2444ddc22170ac8f633d5a7c7f10428fbda54b8e150",
+      "bytes": 966
+    },
+    "scripts/v127-employee-login-smoke-test.js": {
+      "sha256": "a8e756ac1a031e64556eb60493446f659ddb714699b53ccc03418b00b385f212",
+      "bytes": 2412
+    },
+    "scripts/v127-employee-login-smoke.js": {
+      "sha256": "dffe9b08bb1bc16dd091f5f6895970635d1f9d44b52f81f31c804a774a9cee8b",
+      "bytes": 3744
+    },
+    "scripts/v128-bootstrap-superadmin-test.js": {
+      "sha256": "cfd163682a2609bdde2b2dde5c99d770a67f4da476d49124de022ff781cf2b3a",
+      "bytes": 2133
+    },
+    "scripts/v128-bootstrap-superadmin.js": {
+      "sha256": "1bd8bb3acf94da97e7278fd71620ebff5ae2b5472ae5fc675a5db05045de2162",
+      "bytes": 3282
+    },
+    "scripts/v129-first-login-enforcement-test.js": {
+      "sha256": "4e49f0323110bfff486393426cc9b47dea812da6b7ceffe4df80403dc994f795",
+      "bytes": 3669
+    },
+    "scripts/v130-go-live-progress-test.js": {
+      "sha256": "f0ba31ba1ec8b2368f9a8cbc2fc1504dcc858a723e5a1201e3219506b65b2133",
+      "bytes": 1638
+    },
+    "scripts/v130-go-live-progress.js": {
+      "sha256": "990263d54de6164282925bf9eb6260ea608c4771a6f42ccb3f6149838dbccc38",
+      "bytes": 3209
+    },
+    "scripts/v130-reminder-calendar-test.js": {
+      "sha256": "cae1fe7cc78eea8e6e0d5535e67f4d38ee5c3fe31ec55ab5e2fc1c17917d0f18",
+      "bytes": 2138
+    },
+    "scripts/v131-login-repair-test.js": {
+      "sha256": "46fea76143d47a2998f254bae2cadf3ff090025717a70b08b704e070c937f281",
+      "bytes": 1479
+    },
+    "scripts/v131-recover-accounts.js": {
+      "sha256": "fc318114bceeeefb8bceb82589df3b949564cf1a63de3f58500e96575f174642",
+      "bytes": 3563
+    },
+    "scripts/v132-import-supabase.js": {
+      "sha256": "36041f367e81fa344ce2adf21de22fd99b572c424c33e20aa7b7e8bfc0a17a1f",
+      "bytes": 5034
+    },
+    "scripts/v132-prepare-excel.py": {
+      "sha256": "157f3068295f290165d315b48c39102d4ba38b2622f000bc029d9f8b260e24d1",
+      "bytes": 6201
+    },
+    "scripts/v132-revisi-test.js": {
+      "sha256": "32b0f97cde35eb9318c5e3b35e414216f73f5f4867108862929ba1842ccb5e54",
+      "bytes": 1558
+    },
+    "scripts/v134-publish-operational.js": {
+      "sha256": "0d5de0e98ff195e694120ab43ebfe9bceba9d4fe70a28e30a8ec0d449aa1ec06",
+      "bytes": 7900
+    },
+    "scripts/v135-revisi07-test.js": {
+      "sha256": "eabb655b2c7a8f26f9616ef08e961026b1165ae56acc18f9760710ae2834a32f",
+      "bytes": 2001
+    },
+    "scripts/v136-revisi07-followup-test.js": {
+      "sha256": "a08bfac2889678cc02d28dc5f2b20025d4573360eb9a30ca7dad1bc742cea94f",
+      "bytes": 1745
+    },
+    "scripts/v78-backup-roundtrip-test.js": {
+      "sha256": "d38200e42e43f565176b4205930eef5225a810378cb35d13288eba4fbb2c0998",
+      "bytes": 1825
+    },
+    "scripts/v78-security-ops-test.js": {
+      "sha256": "1f09271672a653f0aa19d87fbbe7b0da4d00340d46a894d91365278c4a7262e7",
+      "bytes": 1404
+    },
+    "scripts/v79-storage-backup-test.js": {
+      "sha256": "26334b171d367474a1239cad4fb82827cad7e60f546164a2f22d4dfbf1713763",
+      "bytes": 2356
+    },
+    "scripts/v80-restore-test.js": {
+      "sha256": "fc48b5f6177b60a136cce23673028a4d754c46577096072de98c1d5322967c91",
+      "bytes": 2231
+    },
+    "scripts/v81-backup-integrity-test.js": {
+      "sha256": "cf274962849e1352f410143d75a768b7dd90864a4715bc17a922ff77bb03ce64",
+      "bytes": 2489
+    },
+    "scripts/v82-release-status.js": {
+      "sha256": "5aeddc351d16de3a1350f90b390ca67dd031f79fcc7f302e4d491cbe4109c88e",
+      "bytes": 1036
+    },
+    "scripts/v82-restore-collision-test.js": {
+      "sha256": "a64f338915ac776f448fc67b67d801baed7ab27f95059ac1ce8539da24c8353e",
+      "bytes": 1296
+    },
+    "scripts/v83-runtime-inventory-test.js": {
+      "sha256": "1843c39b1ae125b96f3ad1a6950bbe6a8ccd18ffc0f26c7c11575c90f36636cd",
+      "bytes": 437
+    },
+    "scripts/v83-runtime-inventory.js": {
+      "sha256": "00e5393c25592ae22d98a7465d35517940df5faf9bea55b3492a6a921c03aa9f",
+      "bytes": 2122
+    },
+    "scripts/v84-agenda-attachments-test.js": {
+      "sha256": "55f034ab68d933a3c5faca0b0f22a4a72047ba966654c692020cb403b367310d",
+      "bytes": 2048
+    },
+    "scripts/v85-agenda-lifecycle-test.js": {
+      "sha256": "c9becda61b9b1cf258ab1db0748051ec2ea2a1410753bed86b0c62c83d553e0c",
+      "bytes": 516
+    },
+    "scripts/v86-pg-agenda-attachment-test.js": {
+      "sha256": "d5a8e4e40310769c4cb688761132e457cbd48715e0ff3137275bbe9f21708ea1",
+      "bytes": 1029
+    },
+    "scripts/v87-agenda-concurrency-test.js": {
+      "sha256": "eb7ecf45f6a9cce8f67b05a59946d765d3f451f6e2290b59026d282074d88171",
+      "bytes": 1503
+    },
+    "scripts/v88-attachment-validation-test.js": {
+      "sha256": "b6996eb54a14b7996ca4acf8fdd21265a07455dbcd64df3ff9b73a7d9c5fc7a0",
+      "bytes": 1384
+    },
+    "scripts/v89-attachment-security-test.js": {
+      "sha256": "078bec9a9458d61ebca4a8e3767da2e12c949b29619784df08fd3f1c6566217a",
+      "bytes": 1727
+    },
+    "scripts/v90-attachment-cas-test.js": {
+      "sha256": "fddfa55174611b54936cb585ed35f6646781d1e13884f6d15aa2e61a321a9755",
+      "bytes": 1847
+    },
+    "scripts/v92-public-url-check-test.js": {
+      "sha256": "fdbfadb979205abaf782282985e4661fc1aec2d4314e5a9532f50160210e1d69",
+      "bytes": 662
+    },
+    "scripts/v92-public-url-check.js": {
+      "sha256": "9613c28d84f17fde8d12a74afe5e5178bcae10fc964db81f4b7e7722ed56829b",
+      "bytes": 1390
+    },
+    "scripts/v93-deployment-plan-check.js": {
+      "sha256": "79e65aa425beadc466fc3d70c7ea5aeb92ee95d16bd0f5a58ffc9fcdd19d9094",
+      "bytes": 1668
+    },
+    "scripts/v94-deployment-audit-test.js": {
+      "sha256": "6ae410a4a8171282afa9fd28c13375ecefbd201ed4ed28cb48b0ada7fab37722",
+      "bytes": 1283
+    },
+    "scripts/v94-deployment-audit.js": {
+      "sha256": "0b372d58a894740a68857e3eebafd6a2a55cd1debdc5a8f174af6568af7a0559",
+      "bytes": 3108
+    },
+    "scripts/verify-backup.js": {
+      "sha256": "aaa2238b51ab2af95bab80cb2e059a687a82ebea99b5d0e2bd1d883e60932c56",
+      "bytes": 2944
+    },
+    "server-postgres.js": {
+      "sha256": "705d76192506dc146945f259901ef0f282062f641fb3757982e4f2f559cf3fa4",
+      "bytes": 19629
+    },
+    "server.js": {
+      "sha256": "14cba51674bd4ce364dc422d1d1976b6eb6a726c6b6a860096571067dc8db0e5",
+      "bytes": 73786
+    },
+    "START-LOCAL-PREVIEW.md": {
+      "sha256": "ee350fe66191a13a7516552f2ab3ed84589b920751475a65b702a26f9d2c7b74",
+      "bytes": 779
+    },
+    "STATUS-NOTIFIKASI-PANDUAN-03NOV.md": {
+      "sha256": "ee10d15fae123159ee5cbe2f9928ae6d3a516bf6da680de867c831ceeb85d7d9",
+      "bytes": 905
+    },
+    "STATUS-PERBAIKAN-03NOV.md": {
+      "sha256": "39ebe2c3cd3a29c00e71be418a33e55a1262e2ccbe0c8a9b906779d0f07b4c60",
+      "bytes": 1393
+    },
+    "STATUS-REVISI-03NOV-BERANDA.md": {
+      "sha256": "61d87ad48728a26c55c1238f17b27fb88e5edb2a49356cc1f1cf5ed93cb3c9e1",
+      "bytes": 900
+    },
+    "STATUS-REVISI-03NOV-MONITORING.md": {
+      "sha256": "43c5d4da5a9de1a43cc278e5de08c2861a91867b7d06a6a0cd3b44e6949f775c",
+      "bytes": 1125
+    },
+    "STATUS-REVISI-03NOV-NOTIFIKASI.md": {
+      "sha256": "22bcb2218b1cb0eaced7b26ce3cedaa41f3a9edcd69a54963d1a302ca4af5c5e",
+      "bytes": 613
+    },
+    "STATUS-REVISI-03NOV.md": {
+      "sha256": "d2a97c26df9cdf6239d959d1af780b9496b70041516ac0fa4bcfb73195467388",
+      "bytes": 837
+    },
+    "task-deadline.html": {
+      "sha256": "c136adece986fcd57a4437296423671b3ccf7ab447866197b3986c20298f937b",
+      "bytes": 1244
+    },
+    "V101-POSTGRES-MIGRATION-STATUS.md": {
+      "sha256": "c8e1fbd725408235afe5d518aa1e470b8128361c80d2b623a6d2765d52ded1e6",
+      "bytes": 1859
+    },
+    "V102-STATUS.md": {
+      "sha256": "1a2743189928271f2476c8c6291aaa5127c1be8c8d574950d9d0940c414d675f",
+      "bytes": 276
+    },
+    "V103-MIGRATION-STATUS.md": {
+      "sha256": "80c25b9990819b52e12afccd4e5f46234939c7a6b31245182c1b8fceb431cf19",
+      "bytes": 942
+    },
+    "V104-STATUS.md": {
+      "sha256": "9ea8e301b416ebfd3c9c5f0c6f2ddec79911c035916076345f63c02d4f3267e3",
+      "bytes": 674
+    },
+    "V105-CHANGELOG.md": {
+      "sha256": "320b68d6429aefc1d5a3d970d8a916048c1a79eec90f6d87945d3464c10694d6",
+      "bytes": 769
+    },
+    "V106-STATUS.md": {
+      "sha256": "f82199b825ce2af62beb9ed83a13a8af84ffb1c2e2765aad3aa12eee0c130547",
+      "bytes": 620
+    },
+    "V107-STATUS.md": {
+      "sha256": "ef84a0dac2258da2988c1029646ff39d44d34c5170828b08ffe4c435f8414073",
+      "bytes": 646
+    },
+    "V108-POSTGRES-CUTOVER.md": {
+      "sha256": "f8587623dbee4f3427396a07747d9e135fcf0064ed4a5218b5143aefc091d800",
+      "bytes": 1303
+    },
+    "V111-POSTGRES-ONLY.md": {
+      "sha256": "abd6f81b9f1344ee2f5d1dc5a053311a8787362fee8c99869674485e35463090",
+      "bytes": 1373
+    },
+    "V112-STATUS.md": {
+      "sha256": "71dfaf92b1e01567f2edf4b86e2ef36ca8590c4b480c3c2c4f042edac3111d18",
+      "bytes": 582
+    },
+    "V113-STATUS.md": {
+      "sha256": "0907729a074d6e066b4dd261e67c83c79652ea82076d3bce211df0a60411834e",
+      "bytes": 270
+    },
+    "V114-STATUS.md": {
+      "sha256": "452f5fd64d5ad770d0fd3e712c45e04b3cf9d70c3f34023039644d1a0897e27a",
+      "bytes": 317
+    },
+    "V122-LAPORAN-PROGRES-05NOV.md": {
+      "sha256": "8a929234848773c36dd89ed94a4feeb701db5ae0c4d456ad93f4fb2a3dcab0db",
+      "bytes": 2105
+    },
+    "V123-GO-LIVE-MIGRASI-AMAN.md": {
+      "sha256": "14a8c83faed78a6e38236e70ac3969d8b93a26cbbef25536d78ebee2a2019e0a",
+      "bytes": 2483
+    },
+    "V123-LAPORAN-PROGRES-05NOV.md": {
+      "sha256": "9df472086145c1144c4ffcca95d92c345481abfcad3befce428e78fd04d5ea56",
+      "bytes": 1955
+    },
+    "V126-HASIL-DAN-GO-LIVE.md": {
+      "sha256": "360f3b88d5125e7fa7ba83493536328da72cefb918317d447045e7a021068bb6",
+      "bytes": 2599
+    },
+    "V127-LAPORAN-PROGRES-05NOV.md": {
+      "sha256": "7ceb84e5b1a8cbcf150bcef458df7fbaaec083ad8fbb6f8165d38c1498e8a05d",
+      "bytes": 1351
+    },
+    "V127-PANDUAN-UJI-KARYAWAN.md": {
+      "sha256": "e8dd586e7daefe362819698ce318d47a98a44c856c715382e0e7446a9a338f0b",
+      "bytes": 1825
+    },
+    "V128-PANDUAN-BOOTSTRAP.md": {
+      "sha256": "20d649557d8fc46b6dc0a4e5b4d215c41bc2201dac170f886defc6698e885af8",
+      "bytes": 1265
+    },
+    "V129-LAPORAN-PERBAIKAN-LOGIN-PERTAMA.md": {
+      "sha256": "457fe762b9703186b9b2addc70bf27b287d67c60b7c6ea8d05d9db06a8fcead4",
+      "bytes": 2166
+    },
+    "V130-LAPORAN-PROGRES-05NOV.md": {
+      "sha256": "e5a5c46df20cb45fd6dce3620df22874deea3c4e3fabec0351fa288294ff83e4",
+      "bytes": 2769
+    },
+    "V92-DEPLOYMENT-ROADMAP.md": {
+      "sha256": "9bf1c36976c5331d95dfcd99e8b1e860010d591abe9920f86a87675799d1b262",
+      "bytes": 2185
+    },
+    "V93-START-FROM-ZERO.md": {
+      "sha256": "affb5dd3336ffa0f2fb6b401edf066fd8dadd39edd25863e0eef2c9bd7ea540f",
+      "bytes": 2249
+    },
+    "V94-DEPLOYMENT-ROADMAP.md": {
+      "sha256": "fe91f2234ed992506367bb708ba48051979ffefaef2641edac955276866f78f0",
+      "bytes": 2720
+    },
+    "vercel.json": {
+      "sha256": "e17055374fcff245f24bc330fbe999ad9e57dee246635ce66a9c9fac6bcd5225",
+      "bytes": 312
+    }
+  }
+}
