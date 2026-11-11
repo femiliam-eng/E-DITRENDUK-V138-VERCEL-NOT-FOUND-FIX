@@ -43,5 +43,21 @@ function initialize() {
 }
 module.exports = (req,res) => {
   try { initialize().emit('request',req,res); }
-  catch(err) { console.error('Vercel initialization failed:',err.message); if(!res.headersSent){res.statusCode=503;res.setHeader('Content-Type','application/json');res.end(JSON.stringify({ok:false,message:'Konfigurasi server belum siap.'}));} }
+  catch(err) { console.error('Vercel initialization failed:',err.message); if(!res.headersSent){res.statusCode=503;res.setHeader('Content-Type','application/json');const preview = process.env.VERCEL === '1' && process.env.VERCEL_ENV === 'preview';
+    const detail = String(err && err.message || '');
+    const code = preview && /DATABASE_URL|PostgreSQL online|kredensial asli/i.test(detail)
+      ? 'PREVIEW_DATABASE_CONFIG'
+      : preview && /APP_ORIGIN/i.test(detail)
+        ? 'PREVIEW_ORIGIN_CONFIG'
+        : preview && /Supabase Storage/i.test(detail)
+          ? 'PREVIEW_STORAGE_CONFIG'
+          : 'SERVER_CONFIG';
+    const message = code === 'PREVIEW_DATABASE_CONFIG'
+      ? 'Preview belum memiliki konfigurasi koneksi database yang valid. Data tidak diubah.'
+      : code === 'PREVIEW_ORIGIN_CONFIG'
+        ? 'Alamat Preview belum dikenali server.'
+        : code === 'PREVIEW_STORAGE_CONFIG'
+          ? 'Penyimpanan privat Preview belum siap.'
+          : 'Konfigurasi server belum siap.';
+    res.end(JSON.stringify({ok:false,message,code}));} }
 };
