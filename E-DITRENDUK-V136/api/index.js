@@ -20,15 +20,22 @@ function initialize() {
       }
     } catch (_) { /* readiness validation will report the missing origin */ }
   }
-  const configErrors=validateProductionEnvironment(process.env);
+  // Only Preview may omit optional private attachment storage. Database and
+  // origin validation remain mandatory. Production still requires all settings.
+  const isPreview = process.env.VERCEL === '1' && process.env.VERCEL_ENV === 'preview';
+  const configErrors=validateProductionEnvironment(process.env,{requireStorage:!isPreview});
   if(configErrors.length)throw new Error('Konfigurasi produksi belum siap: '+configErrors.join(' '));
   if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL wajib; tidak ada fallback SQLite.');
-  if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    throw new Error('Supabase Storage privat belum dikonfigurasi.');
-  }
+  const storageConfigured = process.env.NOTULEN_STORAGE_PROVIDER === 'supabase'
+    && !!process.env.SUPABASE_URL && !!process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!isPreview && !storageConfigured) throw new Error('Supabase Storage privat belum dikonfigurasi.');
   const gateway = createPostgresReadGateway({ connectionString: process.env.DATABASE_URL });
-  const notulen = createSupabaseStorage({url:process.env.SUPABASE_URL,key:process.env.SUPABASE_SERVICE_ROLE_KEY,bucket:process.env.SUPABASE_STORAGE_BUCKET||'notulen-private'});
-  const attachments = createSupabaseStorage({url:process.env.SUPABASE_URL,key:process.env.SUPABASE_SERVICE_ROLE_KEY,bucket:process.env.AGENDA_STORAGE_BUCKET||'agenda-private'});
+  const notulen = storageConfigured
+    ? createSupabaseStorage({url:process.env.SUPABASE_URL,key:process.env.SUPABASE_SERVICE_ROLE_KEY,bucket:process.env.SUPABASE_STORAGE_BUCKET||'notulen-private'})
+    : null;
+  const attachments = storageConfigured
+    ? createSupabaseStorage({url:process.env.SUPABASE_URL,key:process.env.SUPABASE_SERVICE_ROLE_KEY,bucket:process.env.AGENDA_STORAGE_BUCKET||'agenda-private'})
+    : null;
   app = createApp({pool:gateway.pool,storage:notulen,attachmentStorage:attachments});
   return app;
 }
