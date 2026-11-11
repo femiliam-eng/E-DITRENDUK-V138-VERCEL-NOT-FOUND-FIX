@@ -669,3 +669,6 @@ table :is(input,select,button) { font-size: 13px; }
 .ed-access-group > label { display:block; margin-bottom: 12px; }
 .ed-sort-original { position:absolute !important; width:1px !important; height:1px !important; opacity:0 !important; pointer-events:none !important; }
 .ed-sort-toggle { font-size:13px !important; }
+
+/* V142: show the Task Deadline source and breakdown clearly below the KPI label. */
+.kpi .kpi-task-detail{display:block;margin-top:5px;font-size:11px;line-height:1.45;font-weight:400;color:#64748b;white-space:normal}
