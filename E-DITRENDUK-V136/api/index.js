@@ -11,8 +11,10 @@ function initialize() {
   // V144: A Vercel Preview deployment may not inherit Production-only APP_ORIGIN.
   // Use ONLY a Vercel-generated HTTPS .vercel.app URL as a Preview fallback.
   // Never derive the trusted origin from incoming request Host/Origin headers.
-  if (process.env.VERCEL === '1' && process.env.VERCEL_ENV === 'preview' && !process.env.APP_ORIGIN) {
-    const candidate = process.env.VERCEL_BRANCH_URL || process.env.VERCEL_URL;
+  if (process.env.VERCEL === '1' && process.env.VERCEL_ENV === 'preview') {
+    // Always use the deployment URL for Preview; an inherited or placeholder
+    // Production APP_ORIGIN must not prevent initialization.
+    const candidate = process.env.VERCEL_URL || process.env.VERCEL_BRANCH_URL;
     try {
       const url = new URL(`https://${String(candidate || '').replace(/^https:\/\//, '')}`);
       if (url.protocol === 'https:' && url.hostname.endsWith('.vercel.app') && url.pathname === '/' && !url.search && !url.hash && !url.username && !url.password) {
