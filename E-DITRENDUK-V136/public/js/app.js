@@ -21,7 +21,11 @@ function pageIndex(){
  const mon=Array.isArray(D.monitoring)?D.monitoring:[],disp=Array.isArray(D.disposisi)?D.disposisi:[],logs=Array.isArray(D.logbook)?D.logbook:[];
  const complete=mon.filter(x=>['lengkap','final'].includes(String(x.verifikasi||'').trim().toLowerCase())).length;
  const tasksSource=Array.isArray(window.ED_TASK_DEADLINES)?window.ED_TASK_DEADLINES:[];
- const unfinished=tasksSource.filter(x=>!['done','selesai'].includes(String(x.status||'').trim().toLowerCase()));
+ const uniqueTasks=new Map();
+ tasksSource.forEach((x,i)=>{const key=String(x.id??x.task_id??`index-${i}`);uniqueTasks.set(key,x)});
+ const unfinished=[...uniqueTasks.values()].filter(x=>!['done','selesai','completed','selesai dikerjakan'].includes(String(x.status||'').trim().toLowerCase()));
+ const taskCountEl=document.getElementById('kpiTask');
+ if(taskCountEl)taskCountEl.title='Jumlah tugas berstatus belum selesai pada modul Task Deadline (berdasarkan ID tugas unik); bukan jumlah RAKOM.';
  const set=(id,value)=>{const e=document.getElementById(id);if(e)e.textContent=value};
  set('kpiMeet',mon.length);set('kpiTask',Array.isArray(window.ED_TASK_DEADLINES)?unfinished.length:'—');set('kpiDocs',complete);set('kpiLog',logs.length);
  // Tidak ada angka contoh: progres hanya dihitung dari tugas yang jatuh tempo pada minggu berjalan.
@@ -554,7 +558,7 @@ function pageArsip(){
  const toolbar=q.closest('.toolbar')||q.parentElement;
  const ensure=(id,tag,html,label)=>{let el=toolbar.querySelector('#'+id);if(!el){el=document.createElement(tag);el.id=id;el.className=tag==='select'?'field compact-date-sort':'btn btn-outline';el.innerHTML=html;el.setAttribute('aria-label',label);toolbar.appendChild(el)}return el};
  const sort=ensure('archiveDateSort','select','<option value="desc">Tanggal terbaru</option><option value="asc">Tanggal terlama</option>','Urutan tanggal arsip');
- const quality=ensure('archiveQualityFilter','select','<option value="all">Semua tanggal</option><option value="invalid">Tanggal perlu diperiksa</option>','Filter kualitas tanggal arsip');
+ const quality=ensure('archiveQualityFilter','select','<option value="all">Semua tanggal</option><option value="invalid">Perlu diperiksa (tanggal/keterangan)</option>','Filter kualitas tanggal atau keterangan arsip');
  const summary=ensure('archiveResultCount','span','','Jumlah arsip');summary.className='muted';summary.setAttribute('aria-live','polite');
  const reset=ensure('archiveResetFilter','button','Reset filter','Reset filter arsip');reset.type='button';
  const exportBtn=ensure('archiveExportCsv','button','Ekspor CSV','Ekspor arsip yang ditampilkan');exportBtn.type='button';
@@ -565,9 +569,9 @@ function pageArsip(){
  let visible=[];
  function render(){
   const s=q.value.trim().toLocaleLowerCase('id-ID');
-  visible=rows.filter(x=>(!s||[x.uraian,x.kode,x.item,x.nomor,x.media].some(v=>String(v??'').toLocaleLowerCase('id-ID').includes(s)))&&(quality.value!=='invalid'||!Number.isFinite(dateValue(x))));
+  visible=rows.filter(x=>(!s||[x.uraian,x.kode,x.item,x.nomor,x.media].some(v=>String(v??'').toLocaleLowerCase('id-ID').includes(s)))&&(quality.value!=='invalid'||!Number.isFinite(dateValue(x))||String(x.ket||'').trim().toLowerCase()!=='lengkap'));
   visible=visible.slice().sort((a,b)=>{const av=dateValue(a),bv=dateValue(b),aok=Number.isFinite(av),bok=Number.isFinite(bv);if(aok!==bok)return aok?-1:1;if(!aok)return 0;return sort.value==='asc'?av-bv:bv-av});
-  summary.textContent=visible.length+' dari '+rows.length+' arsip · '+rows.filter(x=>!Number.isFinite(dateValue(x))).length+' tanggal perlu diperiksa';
+  summary.textContent=visible.length+' dari '+rows.length+' arsip · '+rows.filter(x=>!Number.isFinite(dateValue(x))||String(x.ket||'').trim().toLowerCase()!=='lengkap').length+' tanggal/keterangan perlu diperiksa';
   body.innerHTML=visible.map(x=>`<tr><td>${ED.esc(x.nomor??'—')}</td><td>${ED.esc(x.kode??'—')}</td><td>${ED.esc(x.item??'—')}</td><td><strong>${ED.esc(x.uraian??'—')}</strong></td><td>${ED.esc(dateLabel(x.tanggal))}</td><td>${ED.esc(x.jumlah??'—')}</td><td><select class="inline-select ar-ket ${kcls(x.ket)}" data-id="${ED.esc(x.id)}">${[...new Set([x.ket,'Lengkap','Belum lengkap'].filter(Boolean))].map(v=>`<option ${v===x.ket?'selected':''}>${ED.esc(v)}</option>`).join('')}</select></td><td>${ED.esc(String(x.keamanan||'').trim()||'—')}</td><td>${ED.esc(x.akses??'—')}</td><td>${ED.esc(x.aktif??'—')} + ${ED.esc(x.inaktif??'—')}</td><td>${ED.esc(x.media??'—')}</td><td><select class="inline-select ar-nasib ${ncls(x.nasib)}" data-id="${ED.esc(x.id)}">${[...new Set([x.nasib,...nas].filter(Boolean))].map(v=>`<option ${v===x.nasib?'selected':''}>${ED.esc(v)}</option>`).join('')}</select></td></tr>`).join('')||'<tr><td colspan="12" class="muted">Tidak ada arsip sesuai pencarian atau filter.</td></tr>';
  }
  q.oninput=render;sort.onchange=render;quality.onchange=render;

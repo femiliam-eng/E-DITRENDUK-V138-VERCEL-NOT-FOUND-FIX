@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com" rel="preconnect"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
   <link href="css/style.css" rel="stylesheet"/>
+  <link href="css/v142-review.css" rel="stylesheet"/>
  </head>
  <body data-page="beranda">
   <div id="appHeader">
@@ -32,7 +33,7 @@
    <section class="card" style="padding:18px 24px;margin-bottom:20px"><strong>Tim / unit kerja saya</strong><p id="myTeam" style="margin:8px 0 0">Memuat informasi tim...</p></section><section class="hero">
     <div>
      <h2>
-      Selamat datang, <span id="workspaceWelcomeName">Pegawai</span> 👋
+      <span id="workspaceGreeting">Pagi</span>, <span id="workspaceWelcomeName">Pegawai</span>!
      </h2>
      <p>
       Selamat datang di E-DITRENDUK. Lanjutkan pekerjaan, rapat, dokumen, dan tindak lanjut dari satu workspace.
@@ -65,8 +66,9 @@
       0
      </b>
      <span>
-      Tugas belum selesai
+      Tugas belum selesai (Task Deadline)
      </span>
+     <small id="kpiTaskDetail" class="kpi-task-detail" aria-live="polite">Memuat data Task Deadline…</small>
     </div>
     <div class="kpi">
      <b id="kpiDocs">
@@ -126,5 +128,6 @@
   <script src="js/pages/index.js"></script>
    <script src="js/v6.js"></script>
    <script src="js/ux.js"></script>
+<script src="js/v140-sort.js"></script>
 </body>
 </html>

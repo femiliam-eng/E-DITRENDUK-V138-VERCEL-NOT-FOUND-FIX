@@ -30,11 +30,11 @@ document.addEventListener('layout:ready',()=>{
       Object.assign(window.EXCEL_DATA,data);
       await refreshTaskDeadlines();
       pageIndex();
-      status.textContent='Data dashboard diperbarui dari server · '+new Date().toLocaleTimeString('id-ID');
+      status.textContent='Sumber angka: database E-DITRENDUK. Tugas belum selesai dihitung dari modul Task Deadline.';
       lastError='';
     }catch(error){
       const message=String(error?.message||'Koneksi bermasalah');
-      status.textContent='Pembaruan otomatis tertunda: '+message+'. Angka terakhir tetap ditampilkan.';
+      status.textContent='Data belum berhasil diperbarui. Angka terakhir tetap ditampilkan.';
       if(message!==lastError){console.warn('Dashboard refresh:',message);lastError=message;}
     }finally{busy=false;}
   }

@@ -652,3 +652,20 @@ html.motion-pending .motion-nav-5{animation:ditrendukAction .52s cubic-bezier(.1
 
 /* 04 Nov — toolbar ringkasan Agenda dan Task Deadline */
 .entry-data-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0 16px}.entry-data-summary{margin-right:auto;font-size:13px;font-weight:600;color:var(--text,#24344c)}.entry-data-tools .btn{white-space:nowrap}@media(max-width:600px){.entry-data-tools .entry-data-summary{flex-basis:100%}}
+
+/* V140: keseragaman kontrol, status, dan alignment (REV 09 NOV 2026) */
+.toolbar :is(label,input,select,button), .table :is(input,select,button),
+table :is(input,select,button) { font-size: 13px; }
+.toolbar label { font-size: 13px; font-weight: 600; }
+#rakomBody .rk-edit { color: #172033 !important; text-align: left !important; display: block; width: 100%; white-space: normal; line-height: 1.45; }
+#rakomBody td:nth-child(2) { text-align: left !important; }
+#userModal label:has(+ #userPermissions), .permissions-label { margin-top: 16px !important; display: block; }
+#archiveBody select.state-green { color: #166534 !important; background-color: #dcfce7 !important; border-color: #86efac !important; }
+#archiveBody select.state-red { color: #991b1b !important; background-color: #fee2e2 !important; border-color: #fca5a5 !important; }
+.ed-sort-toggle { display: inline-flex; align-items:center; gap:6px; white-space:nowrap; }
+.ed-sort-toggle:focus-visible { outline:2px solid #1e40af; outline-offset:2px; }
+
+.ed-access-group { margin-top: 20px !important; }
+.ed-access-group > label { display:block; margin-bottom: 12px; }
+.ed-sort-original { position:absolute !important; width:1px !important; height:1px !important; opacity:0 !important; pointer-events:none !important; }
+.ed-sort-toggle { font-size:13px !important; }
