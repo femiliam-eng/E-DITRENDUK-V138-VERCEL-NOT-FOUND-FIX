@@ -22,6 +22,24 @@ function initialize() {
       }
     } catch (_) { /* readiness validation will report the missing origin */ }
   }
+  // Preview can use an existing managed PostgreSQL integration whose connection
+  // string is exposed under a standard provider name rather than DATABASE_URL.
+  // Never hardcode credentials, accept request headers, or substitute a public
+  // Supabase anon key for a PostgreSQL connection string.
+  if (process.env.VERCEL === '1' && process.env.VERCEL_ENV === 'preview'
+      && !process.env.DATABASE_URL) {
+    for (const candidate of [
+      process.env.POSTGRES_URL,
+      process.env.POSTGRES_PRISMA_URL,
+      process.env.POSTGRES_URL_NON_POOLING,
+      process.env.SUPABASE_DB_URL
+    ]) {
+      if (typeof candidate === 'string' && /^postgres(?:ql)?:\\/\\//i.test(candidate)) {
+        process.env.DATABASE_URL = candidate;
+        break;
+      }
+    }
+  }
   // Only Preview may omit optional private attachment storage. Database and
   // origin validation remain mandatory. Production still requires all settings.
   const isPreview = process.env.VERCEL === '1' && process.env.VERCEL_ENV === 'preview';
