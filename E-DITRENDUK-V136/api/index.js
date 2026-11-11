@@ -34,10 +34,13 @@ function initialize() {
       process.env.POSTGRES_URL_NON_POOLING,
       process.env.SUPABASE_DB_URL
     ]) {
-      if (typeof candidate === 'string' && /^postgres(?:ql)?:\\/\\//i.test(candidate)) {
-        process.env.DATABASE_URL = candidate;
-        break;
-      }
+      try {
+        const candidateUrl = new URL(candidate);
+        if (['postgres:', 'postgresql:'].includes(candidateUrl.protocol)) {
+          process.env.DATABASE_URL = candidate;
+          break;
+        }
+      } catch (_) { /* Ignore unset or invalid provider URL */ }
     }
   }
   // Only Preview may omit optional private attachment storage. Database and
