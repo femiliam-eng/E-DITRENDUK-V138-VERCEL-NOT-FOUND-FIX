@@ -99,3 +99,50 @@ body[data-page="monitoring"] tr[data-ed-monitor-id] :is(input,select,button){cur
  body[data-page="monitoring"] .ed-monitor-inline-grid,body[data-page="monitoring"] .ed-monitor-inline-docs{grid-template-columns:1fr}
  body[data-page] .side-nav a,body[data-page] .side-nav button{font-size:14px}
 }
+
+
+/* REV14NOV typography refinement — compact, calm density for desktop data-heavy UI.
+   Reference: Material Design 3 bodyMedium 14/20, labelMedium 12/16;
+   USWDS permits smaller text for data tables and specialized UI, while keeping
+   longer reading text comfortably sized. CSS-only: no behavior or data changes. */
+body[data-page]{font-size:.875rem;line-height:1.5}
+body[data-page] .side-nav a,
+body[data-page] .side-nav button{font-size:.8125rem;line-height:1.45}
+body[data-page] .page-head h1{font-size:1.5rem;line-height:1.25}
+body[data-page] .section-title h3{font-size:1.0625rem;line-height:1.35}
+body[data-page] .page-head p,
+body[data-page] .section-title span{font-size:.8125rem;line-height:1.5}
+body[data-page] .table{font-size:.75rem;line-height:1.5}
+body[data-page] .table :is(th,td){font-size:.75rem;line-height:1.5;padding:8px 10px}
+body[data-page] .table :is(th,td) :is(strong,b,small,.badge,.status,.muted){font-size:inherit}
+body[data-page] .table :is(select,input:not([type="checkbox"]),textarea,button,.btn,.link){font-size:.75rem!important;line-height:1.4}
+body[data-page] .table :is(select,input:not([type="checkbox"]),textarea){min-height:32px;padding:6px 9px;border-radius:7px}
+body[data-page] .table :is(.state-green,.state-red,.state-yellow,.state-blue){font-size:.75rem!important;font-weight:600}
+body[data-page] :is(.toolbar,.entry-data-tools,.task-status-filters,.repo-toolbar) :is(label,span.entry-data-summary){font-size:.8125rem!important;line-height:1.4}
+body[data-page] :is(.toolbar,.entry-data-tools,.task-status-filters,.repo-toolbar) :is(select,input,button,.btn){font-size:.8125rem!important;line-height:1.4}
+body[data-page] :is(.toolbar,.entry-data-tools,.repo-toolbar) :is(select,input:not([type="checkbox"]),button,.btn){min-height:35px;padding:7px 10px}
+body[data-page] :is(.toolbar,.entry-data-tools,.repo-toolbar) :is(.muted,.entry-data-summary,#monitorCount){font-size:.75rem!important}
+body[data-page] .compact-date-sort,
+body[data-page] #entrySearch{font-size:.8125rem!important;min-height:35px}
+body[data-page] :is(#archiveBody,#rakomBody,#monitorBody) select,
+body[data-page] #userBody button{font-size:.75rem!important}
+body[data-page] :is(.table,.toolbar,.entry-data-tools) .muted{font-size:.75rem}
+body[data-page] .ed-recent-item strong{font-size:.8125rem}
+body[data-page] .ed-recent-item p{font-size:.75rem}
+body[data-page="monitoring"] .ed-monitor-header-actions .btn{font-size:.8125rem;min-height:35px}
+body[data-page="monitoring"] .ed-monitor-header-actions .ed-monitor-cancel,
+body[data-page="monitoring"] .ed-monitor-save-note{font-size:.75rem}
+body[data-page="monitoring"] .ed-monitor-focus{font-size:.75rem!important}
+body[data-page="monitoring"] .ed-monitor-inline-head h4{font-size:1rem}
+body[data-page="monitoring"] .ed-monitor-inline-head p,
+body[data-page="monitoring"] .ed-monitor-inline-grid label,
+body[data-page="monitoring"] .ed-monitor-inline-docs label,
+body[data-page="monitoring"] .ed-monitor-inline-hint{font-size:.8125rem}
+body[data-page="monitoring"] .ed-monitor-inline-grid :is(input,select){font-size:.8125rem}
+body[data-page="monitoring"] .ed-monitor-inline h5{font-size:.875rem}
+/* Longer reading passages stay comfortably readable; do not shrink prose globally. */
+body[data-page] :is(.modal-body p,.help-card p,.workspace-help p){font-size:1rem;line-height:1.5}
+/* Avoid iOS focus zoom; preserve browser zoom and user font-size settings. */
+@media(max-width:600px){
+ body[data-page] :is(.toolbar,.entry-data-tools,.repo-toolbar,.ed-monitor-inline-grid) :is(input,select,textarea){font-size:1rem!important}
+}
