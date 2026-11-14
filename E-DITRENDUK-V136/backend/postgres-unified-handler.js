@@ -153,11 +153,54 @@ async function handle({req,res,url,user,repo,pool,readJson,json}){
   return json(res,200,{ok:true,data:items,generatedAt:new Date().toISOString()});
  }
  if(url.pathname==='/api/dashboard'&&req.method==='GET'){
-  const [monitoring,logbook,disposisi]=await Promise.all(['monitoring','logbook','disposisi'].map(async table=>allowed(user,ROUTES[table][1])?(await repo.list(table)).map(unpack):[]));
-  const complete=monitoring.filter(x=>['lengkap','final'].includes(String(x.verifikasi||'').toLowerCase())).length;
-  const pending=disposisi.filter(x=>!['done','selesai'].includes(String(x.status||'').toLowerCase())).length;
-  const recent=await pool.query('SELECT id,action,resource,resource_id,created_at FROM audit_logs WHERE account_id=$1 ORDER BY created_at DESC LIMIT 5',[user.id]);
-  return json(res,200,{ok:true,data:{monitoring:monitoring.length,pending,complete,logbook:logbook.length,completion:monitoring.length?Math.round(100*complete/monitoring.length):0,recent:recent.rows}});
+  // REV14: All-workspace totals are only sent to Superadmin.
+  // Regular employees see records explicitly assigned to their account.
+  const superadmin=String(user.role||'').toLowerCase()==='superadmin';
+  const canMonitor=allowed(user,'monitoring');
+  const canTask=allowed(user,'task-deadline');
+  const canLog=allowed(user,'logbook');
+  const [monitoring,tasks,logbook]=await Promise.all([
+    canMonitor?repo.list('monitoring').then(rows=>rows.map(unpack)):Promise.resolve([]),
+    canTask?repo.list('task_deadline').then(rows=>rows.map(unpack)):Promise.resolve([]),
+    canLog?repo.list('logbook').then(rows=>rows.map(unpack)):Promise.resolve([])
+  ]);
+  const identities=[user.id,user.username,user.name]
+    .map(x=>String(x||'').trim().toLocaleLowerCase('id-ID')).filter(Boolean);
+  const assigned=(row,keys)=>{
+    return keys.some(key=>{
+      const value=row && row[key];
+      if(value==null)return false;
+      const names=Array.isArray(value)?value:String(value).split(/[;,|\n]+/);
+      return names.some(name=>identities.includes(String(name||'').trim().toLocaleLowerCase('id-ID')));
+    });
+  };
+  const ownedTasks=superadmin?tasks:tasks.filter(x=>assigned(x,['assignedTo','assignee','pic','penanggungJawab','accountId']));
+  const ownedMonitoring=superadmin?monitoring:monitoring.filter(x=>assigned(x,['assignedTo','assignee','pic','penanggungJawab','accountId']));
+  const ownedLogs=superadmin?logbook:logbook.filter(x=>assigned(x,['pegawai','assignedTo','accountId']));
+  const finished=x=>['done','selesai','completed','selesai dikerjakan'].includes(String(x.status||'').trim().toLowerCase());
+  const verified=x=>['lengkap','final'].includes(String(x.verifikasi||'').trim().toLowerCase());
+  const pendingTasks=ownedTasks.filter(x=>!finished(x));
+  const pendingMonitoring=ownedMonitoring.filter(x=>!verified(x));
+  const activities=await pool.query(
+    superadmin
+      ? 'SELECT id,action,resource,resource_id,created_at FROM audit_logs ORDER BY created_at DESC,id DESC LIMIT 6'
+      : 'SELECT id,action,resource,resource_id,created_at FROM audit_logs WHERE account_id=$1 ORDER BY created_at DESC,id DESC LIMIT 6',
+    superadmin?[]:[user.id]
+  );
+  return json(res,200,{ok:true,data:{
+    scope:superadmin?'all':'personal',
+    monitoring:superadmin?monitoring.length:pendingMonitoring.length,
+    pending:pendingTasks.length,
+    complete:superadmin?monitoring.filter(verified).length:pendingMonitoring.length,
+    logbook:ownedLogs.length,
+    taskTotal:ownedTasks.length,
+    taskDone:ownedTasks.filter(finished).length,
+    taskAssignable:canTask,
+    taskAssignmentMissing:!superadmin && tasks.length>0 && !tasks.some(x=>assigned(x,['assignedTo','assignee','pic','penanggungJawab','accountId'])),
+    recent:activities.rows,
+    ownTasks:pendingTasks.slice(0,4).map(x=>({id:x.id,tugas:x.tugas,deadline:x.deadline,status:x.status})),
+    ownMonitoring:pendingMonitoring.slice(0,4).map(x=>({id:x.id,nama:x.nama,tanggal:x.tanggal,tim:x.tim}))
+  }});
  }
  if(url.pathname==='/api/audit'&&req.method==='GET'){
   if(user.role!=='Superadmin')return json(res,403,{ok:false,message:'Hanya Superadmin.'});
