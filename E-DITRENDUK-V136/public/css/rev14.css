@@ -146,3 +146,104 @@ body[data-page] :is(.modal-body p,.help-card p,.workspace-help p){font-size:1rem
 @media(max-width:600px){
  body[data-page] :is(.toolbar,.entry-data-tools,.repo-toolbar,.ed-monitor-inline-grid) :is(input,select,textarea){font-size:1rem!important}
 }
+
+
+/* REV14NOV(2): Filter & action density. Small controls, tidy wrapping, compact monitoring header.
+   The root font size and browser zoom remain user-controlled. No data/API rules here. */
+:root{--ed-control-font:.78125rem;--ed-control-height:32px}
+body[data-page] :is(.toolbar,.entry-data-tools,.repo-toolbar,.task-status-filters,.repo-filters,.filters,.revisi-tools){
+  display:flex;align-items:center;flex-wrap:wrap;column-gap:8px;row-gap:7px
+}
+body[data-page] :is(.toolbar,.entry-data-tools,.repo-toolbar,.task-status-filters,.repo-filters,.filters,.revisi-tools) label{
+  margin:0!important;font-size:var(--ed-control-font)!important;font-weight:500!important;
+  line-height:1.35;white-space:nowrap
+}
+body[data-page] :is(.toolbar,.entry-data-tools,.repo-toolbar,.task-status-filters,.repo-filters,.filters,.revisi-tools)
+:is(input:not([type="checkbox"]):not([type="radio"]),select,button,.btn){
+  font-size:var(--ed-control-font)!important;line-height:1.35;
+  padding:5px 9px!important;min-height:var(--ed-control-height);border-radius:7px;max-width:100%
+}
+body[data-page] :is(.toolbar,.entry-data-tools,.repo-toolbar) :is(input:not([type="checkbox"]),select,button,.btn){
+  height:var(--ed-control-height)
+}
+body[data-page] .toolbar :is(.field,.inline-select,.inline-input){min-width:0}
+body[data-page] .toolbar .ed-sort-toggle{
+  font-size:var(--ed-control-font)!important;min-height:32px;height:32px;
+  padding:5px 9px!important;white-space:nowrap
+}
+body[data-page] :is(.toolbar,.entry-data-tools,.repo-toolbar) :is(.muted,.entry-data-summary){
+  font-size:.75rem!important;line-height:1.35
+}
+/* RAKOM: one short search and status filter; summary always sits on its own clean line. */
+body[data-page="rakom"] #rakomControls{margin:9px 0 12px!important}
+body[data-page="rakom"] #rakomSearch{width:205px!important;max-width:205px!important}
+body[data-page="rakom"] #rakomFilter{width:138px!important;max-width:138px!important}
+body[data-page="rakom"] #rakomCount{
+  flex-basis:100%;margin:0!important;font-size:.75rem!important;line-height:1.35
+}
+/* Monitoring: keep filters in orderly rows instead of oversized sprawling controls. */
+body[data-page="monitoring"] .toolbar{margin:8px 0 12px!important}
+body[data-page="monitoring"] .toolbar #monitorSearch{width:195px;max-width:195px}
+body[data-page="monitoring"] .toolbar :is(#monitorFinanceFilter,#monitorDirectorFilter,#monitorQualityFilter){
+  width:132px;max-width:150px
+}
+body[data-page="monitoring"] .toolbar #monitorCount{
+  flex-basis:100%;margin:0!important;font-size:.75rem!important;line-height:1.35
+}
+body[data-page="monitoring"] .table thead th{
+  padding:7px 8px!important;font-size:.75rem!important;line-height:1.25!important;
+  font-weight:600;vertical-align:middle;height:auto
+}
+body[data-page="monitoring"] .table thead tr{height:auto}
+body[data-page="monitoring"] .table tbody td{padding:7px 8px!important}
+body[data-page="monitoring"] .check-cell{min-width:50px}
+body[data-page="monitoring"] .monitor-name{min-width:220px}
+body[data-page="monitoring"] .ed-monitor-header-actions{
+  display:flex;flex-wrap:wrap;gap:7px;align-items:center
+}
+body[data-page="monitoring"] .ed-monitor-header-actions .btn{
+  min-height:32px;padding:6px 10px;font-size:var(--ed-control-font)
+}
+/* Fasilitasi: compact filters and file-upload / edit / delete actions shown in screenshots. */
+body[data-page="fasilitasi"] .fasilitasi-toolbar{
+  grid-template-columns:minmax(160px,1.6fr) repeat(3,minmax(130px,1fr));
+  gap:8px;align-items:end;margin:10px 0 12px
+}
+body[data-page="fasilitasi"] .fasilitasi-toolbar>label{
+  font-size:var(--ed-control-font)!important;line-height:1.35
+}
+body[data-page="fasilitasi"] .fasilitasi-toolbar :is(input,select){
+  height:32px!important;min-height:32px!important;padding:5px 9px!important;
+  font-size:var(--ed-control-font)!important;line-height:1.3;border-radius:7px;margin-top:4px
+}
+body[data-page="fasilitasi"] .item{padding:11px 3px}
+body[data-page="fasilitasi"] .item p{margin:6px 0}
+body[data-page="fasilitasi"] .item .actions{gap:7px;margin:8px 0}
+body[data-page="fasilitasi"] .item .actions button{
+  font-size:var(--ed-control-font)!important;min-height:32px;
+  padding:6px 10px!important;line-height:1.3;border-radius:7px
+}
+body[data-page="fasilitasi"] .item .actions input[type="file"]{
+  font-size:var(--ed-control-font)!important;line-height:1.3;
+  width:min(100%,260px);height:34px;min-height:34px;
+  padding:4px 6px!important;border-radius:7px
+}
+body[data-page="fasilitasi"] .item .actions input[type="file"]::file-selector-button{
+  font:inherit;padding:4px 8px;margin-right:7px;
+  border:1px solid #cbd5e1;border-radius:5px;background:#eef3fb;color:#173d82;cursor:pointer
+}
+body[data-page="fasilitasi"] #form button{
+  font-size:.8125rem!important;min-height:32px;padding:6px 10px!important
+}
+@media(max-width:1050px){
+  body[data-page="fasilitasi"] .fasilitasi-toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:680px){
+  body[data-page="fasilitasi"] .fasilitasi-toolbar{grid-template-columns:1fr}
+  body[data-page] .toolbar :is(input,select){max-width:100%}
+}
+/* Keep mobile inputs at 16px to avoid iOS automatic zoom on focus. */
+@media(max-width:600px){
+  body[data-page] :is(.toolbar,.entry-data-tools,.repo-toolbar,.fasilitasi-toolbar)
+  :is(input:not([type="checkbox"]),select,textarea){font-size:1rem!important}
+}
