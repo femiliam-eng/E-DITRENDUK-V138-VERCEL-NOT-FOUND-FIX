@@ -21,7 +21,7 @@ document.addEventListener('layout:ready',()=>{
   status.setAttribute('role','status');
   status.style.cssText='font-size:12px;color:#64748b;margin:6px 0 12px';
   const team=document.getElementById('myTeam');
-  if(team?.parentElement)team.parentElement.appendChild(status);
+  // Status sinkronisasi tidak ditampilkan di bawah Tim/unit; pesan hanya dicatat internal.
   async function refreshDashboard(){
     if(busy||document.hidden)return;
     busy=true;
