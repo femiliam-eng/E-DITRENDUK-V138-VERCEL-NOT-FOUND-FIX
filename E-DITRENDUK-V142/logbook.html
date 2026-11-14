@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Logbook — E-DITRENDUK
+  </title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="css/style.css" rel="stylesheet"/>
+  <link href="css/v142-review.css" rel="stylesheet"/>
+ </head>
+ <body data-page="logbook">
+  <div id="appHeader">
+  </div>
+  <div id="appSidebar">
+  </div>
+  <main class="main">
+   <div class="crumb">
+    E-DITRENDUK · 2026
+   </div>
+   <div class="page-head">
+    <div>
+     <h1>
+      Logbook
+     </h1>
+     <p>
+      Lihat aktivitas pegawai beserta bukti dukungnya.
+     </p>
+    </div>
+   </div>
+   <section class="card">
+    <div class="section-title">
+     <div>
+      <h3>
+       Aktivitas WFH 2026
+      </h3>
+      <span>
+       Data Rencana Kerja dan Output serta Bukti Dukung dari Log Book DITRENDUK 2026.
+      </span>
+     </div>
+     <button class="btn btn-navy" id="addLog">
+      + Tambah aktivitas
+     </button>
+    </div>
+    <div class="toolbar">
+     <input class="field" id="logSearch" placeholder="Cari pegawai atau aktivitas"/>
+     <select class="field" id="personFilter">
+      <option value="">
+       Semua pegawai
+      </option>
+     </select>
+     <select class="field" id="periodFilter">
+      <option value="">
+       Semua periode
+      </option>
+     </select>
+    </div>
+    <div class="table-wrap">
+     <table class="table">
+      <thead>
+       <tr>
+        <th>
+         Periode
+        </th>
+        <th>
+         Pegawai
+        </th>
+        <th>
+         Rencana Kerja &amp; Output
+        </th>
+        <th>
+         Status
+        </th>
+        <th>
+         Bukti Dukung
+        </th>
+        <th>
+         Aksi
+        </th>
+       </tr>
+      </thead>
+      <tbody id="logBody">
+      </tbody>
+     </table>
+    </div>
+   </section>
+   <div class="modal-overlay" id="logDetailModal">
+    <div class="modal">
+     <div class="modal-head">
+      <div>
+       <small>
+        DETAIL LOGBOOK
+       </small>
+       <h3 id="logDetailTitle">
+       </h3>
+      </div>
+      <button class="modal-close" data-close="">
+       ×
+      </button>
+     </div>
+     <div class="modal-body">
+      <div class="form-grid">
+       <div class="form-group">
+        <label>
+         Periode
+        </label>
+        <input class="field" id="logEditPeriod" readonly=""/>
+       </div>
+       <div class="form-group">
+        <label>
+         Pegawai
+        </label>
+        <input class="field" id="logEditPerson" readonly=""/>
+       </div>
+       <div class="form-group full">
+        <label>
+         Rencana Kerja &amp; Output
+        </label>
+        <textarea class="field" id="logEditText" style="min-height:150px"></textarea>
+       </div>
+       <div class="form-group">
+        <label>
+         Status
+        </label>
+        <select class="field" id="logEditStatus">
+         <option>
+          Tercatat
+         </option>
+         <option>
+          Draf
+         </option>
+         <option>
+          Perlu perbaikan
+         </option>
+         <option>
+          Selesai
+         </option>
+        </select>
+       </div>
+       <div class="form-group">
+        <label>
+         Bukti Dukung
+        </label>
+        <input class="field" id="logEditProof" placeholder="https://drive.google.com/..."/>
+       </div>
+       <div class="form-group full">
+        <label>
+         Catatan
+        </label>
+        <textarea class="field" id="logEditNote" placeholder="Keterangan bukti dukung"></textarea>
+       </div>
+      </div>
+     </div>
+     <div class="modal-foot">
+      <button class="btn btn-outline" data-close="">
+       Batal
+      </button>
+      <button class="btn btn-navy" id="saveLogDetail">
+       Simpan perubahan
+      </button>
+     </div>
+    </div>
+   </div>
+   <div class="modal-overlay" id="logModal">
+    <div class="modal">
+     <div class="modal-head">
+      <div>
+       <small>
+        E-DITRENDUK
+       </small>
+       <h3>
+        Tambah aktivitas logbook
+       </h3>
+      </div>
+      <button class="modal-close" data-close="">
+       ×
+      </button>
+     </div>
+     <div class="modal-body">
+      <div class="form-grid">
+       <div class="form-group">
+        <label>
+         Tanggal / periode
+        </label>
+        <input class="field" type="date"/>
+       </div>
+       <div class="form-group">
+        <label>
+         Pegawai
+        </label>
+        <input class="field"/>
+       </div>
+       <div class="form-group full">
+        <label>
+         Rencana kerja dan output
+        </label>
+        <textarea class="field"></textarea>
+       </div>
+       <div class="form-group full">
+        <label>
+         Tautan bukti dukung
+        </label>
+        <input class="field" placeholder="https://drive.google.com/..."/>
+       </div>
+      </div>
+     </div>
+     <div class="modal-foot">
+      <button class="btn btn-outline" data-close="">
+       Batal
+      </button>
+      <button class="btn btn-navy" id="saveLog">
+       Simpan aktivitas
+      </button>
+     </div>
+    </div>
+   </div>
+  </main>
+  <script src="js/data.js">
+  </script>
+  <script src="js/api.js"></script>
+  <script src="js/layout.js">
+  </script>
+  <script src="js/app.js">
+  </script>
+  <script src="js/pages/logbook.js"></script>
+   <script src="js/v6.js"></script>
+   <script src="js/ux.js"></script>
+<script src="js/v140-sort.js"></script>
+</body>
+</html>

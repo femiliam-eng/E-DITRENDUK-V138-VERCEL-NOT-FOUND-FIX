@@ -1,0 +1,12 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const root=path.join(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const entry=read('server.js');
+assert.match(entry,/require\(['"]\.\/api\/index\.js['"]\)/);
+assert.doesNotMatch(entry,/require\(['"]\.\/backend\/database['"]\)|production-runtime-gate/);
+assert.match(read('server-legacy-sqlite.js'),/production-runtime-gate/);
+assert.ok(JSON.parse(read('vercel.json')).functions['api/index.js']);
+assert.equal(JSON.parse(read('vercel.json')).framework,null);
+assert.ok(fs.existsSync(path.join(root,'public','login.html')));
+assert.match(read('api/index.js'),/require\(['"]\.\.\/server-postgres['"]\)/);
+console.log('V137 PostgreSQL-only server entrypoint and Vercel config: PASS');

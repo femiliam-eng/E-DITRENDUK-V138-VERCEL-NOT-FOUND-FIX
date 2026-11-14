@@ -1,0 +1,10 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const s=fs.readFileSync(path.join(__dirname,'../js/layout.js'),'utf8');
+assert.match(s,/if\(!window\.API\)/,'API absent must reject workspace');
+assert.match(s,/location\.replace\('login\.html'\)/,'missing or invalid session must redirect');
+assert.match(s,/!currentUser\.id\|\|!currentUser\.name\|\|!currentUser\.role/,'incomplete identity must be rejected');
+assert.doesNotMatch(s,/Menggunakan data frontend karena API belum tersedia/,'no silent fallback to static data');
+assert.match(s,/Data workspace tidak dapat dimuat/,'backend failure must be visible');
+assert.match(s,/reset-requests-updated/,'reset notifications should refresh on update');
+console.log('PASS frontend auth fail-closed + no stale data fallback');

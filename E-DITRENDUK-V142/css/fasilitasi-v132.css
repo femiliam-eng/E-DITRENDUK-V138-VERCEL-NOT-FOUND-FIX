@@ -1,0 +1,40 @@
+/* V132: same design language as workspace pages */
+body[data-page="fasilitasi"]{background:#f4f7fb;color:#20324d}
+body[data-page="fasilitasi"] main.main{max-width:none}
+body[data-page="fasilitasi"] main.main>section{background:white;border:1px solid #e4eaf2;border-radius:14px;padding:24px;margin:20px 0;box-shadow:0 5px 20px #18365c0a}
+body[data-page="fasilitasi"] section h2{font-size:1.12rem;margin:0 0 15px}
+body[data-page="fasilitasi"] label{display:block;margin:12px 0 6px;font-weight:600;color:#32455e;font-size:.88rem}
+body[data-page="fasilitasi"] :is(input,select,textarea){box-sizing:border-box;width:100%;padding:11px 13px;border:1px solid #cfdae7;border-radius:9px;font:inherit;background:#fff;color:#263d58}
+body[data-page="fasilitasi"] :is(input,select,textarea):focus{outline:2px solid #a5bfee;border-color:#22579e}
+body[data-page="fasilitasi"] button:not(.icon-btn):not(.user-chip):not(.menu-toggle):not(#notifBtn):not(#logoutBtn):not(#profileAccessBtn):not(#helpBtn):not(.workspace-profile-nav),body[data-page="fasilitasi"] .item a{background:#194582;color:#fff;border:0;border-radius:8px;padding:10px 14px;cursor:pointer;text-decoration:none;display:inline-block;font:inherit}
+body[data-page="fasilitasi"] #cancel,body[data-page="fasilitasi"] #confirmCancel{background:#e8eff8;color:#244976}
+body[data-page="fasilitasi"] .actions{display:flex;flex-wrap:wrap;gap:10px;margin:13px 0}
+body[data-page="fasilitasi"] .muted{color:#65758d}
+body[data-page="fasilitasi"] .item{border-top:1px solid #e1e8f3;padding:20px 4px}
+body[data-page="fasilitasi"] .item p{overflow-wrap:anywhere}
+body[data-page="fasilitasi"] .file-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0}
+body[data-page="fasilitasi"] button.danger{background:#aa3543!important}
+body[data-page="fasilitasi"] button:disabled{opacity:.5;cursor:wait}
+body[data-page="fasilitasi"] dialog{border:0;border-radius:16px;max-width:440px;width:calc(100% - 32px);box-shadow:0 15px 70px #0005;padding:25px}
+@media(min-width:1000px){body[data-page="fasilitasi"] #form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px}body[data-page="fasilitasi"] #form>.actions{grid-column:1/-1}}
+
+/* Revisi 7 Nov: same spacing, scale and responsive layout as Agenda/Monitoring */
+body[data-page="fasilitasi"] main.main{max-width:1440px;margin-right:auto}
+body[data-page="fasilitasi"] main.main>section{border-radius:12px;padding:20px;margin:0 0 18px;box-shadow:var(--shadow)}
+body[data-page="fasilitasi"] .page-head{margin-bottom:20px}
+body[data-page="fasilitasi"] section h2{font-size:15px;font-weight:750;color:#173d82;margin:0 0 16px}
+body[data-page="fasilitasi"] #form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px;align-items:start}
+body[data-page="fasilitasi"] #form>label{margin:0;font-size:11px;font-weight:650;line-height:1.5}
+body[data-page="fasilitasi"] #form>label :is(input,select,textarea){margin-top:6px;min-height:38px;font-size:12px;padding:9px 11px;border-radius:8px}
+body[data-page="fasilitasi"] #form>label:has(textarea){grid-column:1/-1}
+body[data-page="fasilitasi"] #form>.actions{grid-column:1/-1;margin:4px 0 2px}
+body[data-page="fasilitasi"] #form button{font-size:11px;padding:10px 14px}
+body[data-page="fasilitasi"] .fasilitasi-toolbar{display:grid;grid-template-columns:2fr repeat(3,minmax(140px,1fr));gap:12px;align-items:end;margin:14px 0 18px}
+body[data-page="fasilitasi"] .fasilitasi-toolbar>label{margin:0;font-size:11px;font-weight:650}
+body[data-page="fasilitasi"] .fasilitasi-toolbar :is(input,select){margin-top:6px;font-size:11px;height:38px}
+body[data-page="fasilitasi"] .item{margin:0;padding:15px 3px;border-bottom:1px solid #e8eef7}
+body[data-page="fasilitasi"] .item strong{font-size:12px}
+body[data-page="fasilitasi"] .item p{font-size:11px;line-height:1.5}
+body[data-page="fasilitasi"] .item button{font-size:10px;padding:7px 11px}
+@media(max-width:1050px){body[data-page="fasilitasi"] .fasilitasi-toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){body[data-page="fasilitasi"] #form,body[data-page="fasilitasi"] .fasilitasi-toolbar{grid-template-columns:1fr}body[data-page="fasilitasi"] main.main>section{padding:15px}}

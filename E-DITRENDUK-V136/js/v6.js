@@ -24,11 +24,11 @@
     try{
       const r=await fetch(`${API.base}/api/dashboard`,{credentials:'include'}), body=await r.json(); if(!r.ok)throw new Error(body.message);
       const x=body.data;if(!x||typeof x!=='object')throw new Error('Statistik dashboard tidak lengkap');
-      const ids={kpiMeet:x.monitoring,kpiTask:x.pending,kpiDocs:x.complete,kpiLog:x.logbook};
+      const ids={}; // KPI REV14 dihitung oleh dashboard personal/role-aware.
       Object.entries(ids).forEach(([id,v])=>{const el=document.getElementById(id);if(el&&Number.isFinite(Number(v)))el.textContent=Number(v)});
       // Progres mingguan dihitung dari Task Deadline oleh pageIndex().
       // Jangan timpa dengan persentase keseluruhan dari endpoint dashboard.
-      const hello=document.querySelector('.hero h2');if(hello&&window.ED_CURRENT_USER){const h=new Date().getHours(),g=h<11?'Pagi':h<15?'Siang':h<18?'Sore':'Malam';hello.textContent=`${g}, ${ED_CURRENT_USER.name.split(' ')[0]} 👋`;}
+      const hello=document.querySelector('.hero h2');// Sapaan dikelola layout.js: tanpa emoji dan menggunakan nama akun.
     }catch(e){console.warn('Dashboard server stats:',e.message)}
   }
   document.addEventListener('layout:ready',()=>{addExportButton();dashboard();document.addEventListener('workspace-data-updated',dashboard);window.addEventListener('storage',e=>{if(e.key==='ed_workspace_updated')dashboard()});document.addEventListener('visibilitychange',()=>{if(!document.hidden)dashboard()})});

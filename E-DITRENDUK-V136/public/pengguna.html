@@ -61,7 +61,7 @@
                     <div class="form-group"><label>Status</label><select class="field" id="uStatus"><option>Aktif</option><option>Nonaktif</option></select></div>
                     <div class="form-group" id="passwordGroup"><label>Kata sandi awal</label><input class="field" id="uPassword" type="password" value="Ditrenduk2026!"></div>
                 </div>
-                <div class="form-group"><label>Hak akses modul</label><div id="permissionGrid" class="permission-grid"></div></div>
+                <div class="form-group ed-access-group"><label>Hak akses modul</label><div id="permissionGrid" class="permission-grid"></div></div>
             </div>
             <div class="modal-foot"><button class="btn btn-outline" data-close>Batal</button><button class="btn btn-navy" id="saveUser">Simpan pengguna</button></div>
         </div>
@@ -86,5 +86,6 @@
  <div class="modal"><div class="modal-head"><div><small>KEAMANAN AKUN</small><h3 id="requestResetTitle">Terbitkan kata sandi sementara</h3></div><button class="modal-close" data-close aria-label="Tutup">×</button></div>
  <div class="modal-body"><p id="requestResetIdentity" style="font-weight:700"></p><p style="color:#778197">Buat kata sandi sementara yang unik. Pegawai wajib menggantinya setelah masuk. Sampaikan melalui saluran pribadi yang disetujui instansi.</p><div class="form-group"><label for="requestResetPassword">Kata sandi sementara</label><input class="field" type="password" id="requestResetPassword" autocomplete="new-password" minlength="10" placeholder="Minimal 10 karakter"></div><p id="requestResetError" role="alert" style="color:#b42332;min-height:18px"></p></div>
  <div class="modal-foot"><button class="btn btn-outline" data-close>Batal</button><button class="btn btn-navy" id="confirmRequestReset">Terbitkan password</button></div></div></div>
+<script src="js/v140-sort.js"></script>
 </body>
 </html>

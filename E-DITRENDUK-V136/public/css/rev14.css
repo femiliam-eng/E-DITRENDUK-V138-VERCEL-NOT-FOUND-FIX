@@ -1,0 +1,101 @@
+/* REV14NOV26 – coherent compact sizing, focus editing and activity feed. */
+body[data-page] .table{font-size:12px;line-height:1.45}
+body[data-page] .table :is(th,td){padding:9px 11px;font-size:12px;line-height:1.45;vertical-align:middle}
+body[data-page] .table :is(input,select,textarea,button,.btn,.link){font-size:12px!important;line-height:1.4}
+body[data-page] .table select,body[data-page] .table input:not([type=checkbox]){max-width:100%;min-height:32px;padding:6px 9px;font-weight:500;border-radius:7px}
+body[data-page] .table th{white-space:normal}
+body[data-page] .toolbar :is(select,input,button,label){font-size:12px!important;line-height:1.5}
+body[data-page] .toolbar .btn{padding:7px 10px}
+body[data-page] .table .btn,body[data-page] .table .link{font-weight:600;white-space:normal}
+body[data-page] .table .inline-select{font-weight:500}
+body[data-page] .table .state-green,body[data-page] .table .state-red,body[data-page] .table .state-yellow{font-size:12px!important}
+#archiveBody select,#rakomBody select,#monitorBody select,#userBody button{font-size:12px!important}
+#myTeam{font-size:13px;font-weight:500}
+.ed-recent-section{margin-top:20px}
+.ed-recent-item{display:flex;gap:14px;align-items:start;border-bottom:1px solid #eef1f6;padding:14px 4px}
+.ed-recent-item:last-child{border-bottom:0}
+.ed-recent-item strong{font-size:13px;color:#1c2744}
+.ed-recent-item p{font-size:12px;color:#64748b;margin:4px 0 0;overflow-wrap:anywhere}
+.ed-recent-item time{margin-left:auto;color:#8a96ab;font-size:11px;white-space:nowrap}
+.ed-recent-dot{width:12px;height:12px;border-radius:50%;background:#dbeafe;box-shadow:inset 0 0 0 3px #60a5fa;flex:none;margin-top:3px}
+.side-nav a,.side-nav button{align-items:center}
+.side-nav .side-icon{width:18px;height:18px;min-width:18px;fill:none;stroke:currentColor;stroke-width:2.15;stroke-linecap:round;stroke-linejoin:round}
+.side-nav .side-icon-profile{stroke-width:2.4}
+#passwordModal .ed-pass-wrap{position:relative}
+#passwordModal .ed-pass-wrap input{width:100%;padding-right:49px}
+#passwordModal .ed-password-toggle{position:absolute;right:7px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:34px;height:33px;border:0;border-radius:8px;background:#eef3fc;color:#1c427f;cursor:pointer}
+#passwordModal .ed-password-toggle svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#passwordModal .ed-password-toggle:focus-visible{outline:2px solid #1d4ed8}
+.ed-monitor-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:0 0 14px;position:sticky;top:68px;z-index:11;padding:10px 12px;border:1px solid #dce5f3;border-radius:10px;background:#f8fbff}
+.ed-monitor-actions .btn{font-size:12px}
+.ed-monitor-pending{font-size:12px;color:#64748b;margin-left:4px}
+.ed-monitor-pending.has-changes{font-weight:600;color:#9a3412}
+.ed-monitor-focus{cursor:pointer;color:#173d82;text-align:left;background:none;border:0;padding:0;font-size:12px;font-weight:700;line-height:1.55}
+.ed-monitor-focus:hover{text-decoration:underline}
+.ed-monitor-focused{background:#eef4ff!important}
+.ed-monitor-focus-dialog{width:min(840px,96vw);max-height:calc(100vh - 68px);overflow:auto}
+.ed-monitor-focus-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ed-monitor-focus-grid .form-group{min-width:0}
+.ed-monitor-focus-grid .form-group label{font-size:12px;font-weight:650;display:block;margin-bottom:4px}
+.ed-monitor-focus-grid .field{width:100%;font-size:13px}
+.ed-monitor-docs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.ed-monitor-docs label{display:flex;align-items:center;gap:6px;font-size:12px}
+.ed-monitor-warning{font-size:12px;margin-top:10px;color:#92400e}
+@media(max-width:720px){.ed-recent-item{flex-wrap:wrap}.ed-recent-item time{width:100%;margin-left:26px}.ed-monitor-focus-grid,.ed-monitor-docs{grid-template-columns:1fr}.ed-monitor-actions{top:62px}}
+
+
+/* REV14NOV(1): typography scales requested on pages 8–9 of the revision. */
+/* Keep the existing palettes, page geometry, cards and login design untouched. */
+body[data-page]{font-size:16px}
+body[data-page] .side-nav a,body[data-page] .side-nav button{font-size:14px;line-height:1.45}
+body[data-page] .side-label{font-size:12px}
+body[data-page] .page-head h1{font-size:28px;line-height:1.2}
+body[data-page] .section-title h3{font-size:20px;line-height:1.3}
+body[data-page] .table{font-size:13px;line-height:1.5}
+body[data-page] .table :is(th,td){font-size:13px;line-height:1.45;padding:10px 12px}
+body[data-page] .table :is(select,input:not([type="checkbox"]),textarea,button,.btn,.link){font-size:13px!important;line-height:1.4}
+body[data-page] .table :is(select,input:not([type="checkbox"]),textarea){min-height:34px;padding:7px 11px;font-weight:500;border-radius:7px}
+body[data-page] .table select:is(.state-green,.state-red,.state-yellow,.state-blue,.team-pjpk,.team-kinerja,.team-parameter){font-weight:600}
+body[data-page] :is(.toolbar,.entry-data-tools,.task-status-filters,.repo-toolbar) :is(label,span.entry-data-summary){font-size:14px!important;font-weight:500;line-height:1.4}
+body[data-page] :is(.toolbar,.entry-data-tools,.task-status-filters,.repo-toolbar) :is(select,input,button,.btn){font-size:14px!important;line-height:1.4}
+body[data-page] :is(.toolbar,.entry-data-tools,.repo-toolbar) :is(select,input:not([type="checkbox"]),button,.btn){min-height:38px;padding:8px 11px;border-radius:7px}
+body[data-page] :is(.toolbar,.entry-data-tools,.task-status-filters,.repo-toolbar) :is(button,.btn){font-weight:600}
+body[data-page] :is(.toolbar,.entry-data-tools,.repo-toolbar) :is(.muted,.entry-data-summary,#monitorCount){font-size:13px!important;font-weight:400}
+body[data-page] .compact-date-sort,body[data-page] #entrySearch{font-size:14px!important;min-height:38px}
+body[data-page] :is(#archiveBody,#rakomBody,#monitorBody) select,body[data-page] #userBody button{font-size:13px!important}
+body[data-page] :is(.table,.toolbar,.entry-data-tools) .muted{font-size:13px}
+/* REV14NOV(1): replace the separate Monitoring action strip + popup with inline row focus. */
+body[data-page="monitoring"] .ed-monitor-header-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+body[data-page="monitoring"] .ed-monitor-header-actions .btn{font-size:14px;line-height:1.3;min-height:38px;padding:8px 13px}
+body[data-page="monitoring"] .ed-monitor-header-actions .ed-monitor-cancel{font-size:13px;color:#475569;border:0;background:transparent;text-decoration:underline;padding:6px;min-height:34px;cursor:pointer}
+body[data-page="monitoring"] .ed-monitor-header-actions button:disabled{opacity:.55;cursor:not-allowed}
+body[data-page="monitoring"] .ed-monitor-save-note{display:block;color:#64748b;font-size:13px;font-weight:400;margin-top:5px}
+body[data-page="monitoring"] .ed-monitor-save-note.has-changes{color:#9a3412;font-weight:600}
+body[data-page="monitoring"] tr.ed-monitor-active>td{background:#eaf1ff!important;border-top:1px solid #b7c9f3;border-bottom:1px solid #b7c9f3}
+body[data-page="monitoring"] tr.ed-monitor-dirty>td.monitor-name{box-shadow:inset 4px 0 #f59e0b}
+body[data-page="monitoring"] .ed-monitor-focus{font-size:13px!important;line-height:1.5;font-weight:650}
+body[data-page="monitoring"] tr.ed-monitor-detail-row>td{background:#eef3ff!important;padding:0!important;border-bottom:2px solid #c3d3fc}
+body[data-page="monitoring"] .ed-monitor-inline{position:sticky;left:0;width:min(980px,calc(100vw - 300px));min-width:480px;max-width:100%;padding:20px 22px}
+body[data-page="monitoring"] .ed-monitor-inline-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+body[data-page="monitoring"] .ed-monitor-inline-head h4{font-size:18px;margin:0 0 5px;color:#173d82}
+body[data-page="monitoring"] .ed-monitor-inline-head p{font-size:13px;margin:0;color:#475569}
+body[data-page="monitoring"] .ed-monitor-inline-close{font-size:13px;min-height:34px;white-space:nowrap}
+body[data-page="monitoring"] .ed-monitor-inline-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:14px 0}
+body[data-page="monitoring"] .ed-monitor-inline-grid label{display:block;font-size:13px;font-weight:600;margin-bottom:5px;color:#334155}
+body[data-page="monitoring"] .ed-monitor-inline-grid :is(input,select){font-size:14px;width:100%;min-height:36px;padding:7px 10px;border-radius:7px}
+body[data-page="monitoring"] .ed-monitor-inline h5{font-size:15px;margin:16px 0 10px}
+body[data-page="monitoring"] .ed-monitor-inline-docs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+body[data-page="monitoring"] .ed-monitor-inline-docs label{display:flex;align-items:flex-start;gap:8px;font-size:13px;line-height:1.45;color:#334155}
+body[data-page="monitoring"] .ed-monitor-inline-docs input{margin-top:2px}
+body[data-page="monitoring"] .ed-monitor-inline-hint{font-size:13px;color:#7c490d;margin:12px 0 0}
+body[data-page="monitoring"] tr[data-ed-monitor-id]{cursor:pointer}
+body[data-page="monitoring"] tr[data-ed-monitor-id] :is(input,select,button){cursor:initial}
+@media(max-width:850px){
+ body[data-page="monitoring"] .ed-monitor-inline{width:min(780px,calc(100vw - 260px));min-width:420px}
+ body[data-page="monitoring"] .ed-monitor-inline-grid,body[data-page="monitoring"] .ed-monitor-inline-docs{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:600px){
+ body[data-page="monitoring"] .ed-monitor-inline{width:calc(100vw - 36px);min-width:0;padding:16px}
+ body[data-page="monitoring"] .ed-monitor-inline-grid,body[data-page="monitoring"] .ed-monitor-inline-docs{grid-template-columns:1fr}
+ body[data-page] .side-nav a,body[data-page] .side-nav button{font-size:14px}
+}

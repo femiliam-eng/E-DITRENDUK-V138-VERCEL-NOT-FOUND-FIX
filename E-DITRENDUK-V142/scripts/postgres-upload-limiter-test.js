@@ -1,0 +1,12 @@
+'use strict';
+const assert=require('node:assert/strict');
+const {createWindowLimiter}=require('../server-postgres');
+let clock=1000;
+const limiter=createWindowLimiter({limit:2,windowMs:100,now:()=>clock});
+assert.equal(limiter.allow('user1'),true);
+assert.equal(limiter.allow('user1'),true);
+assert.equal(limiter.allow('user1'),false);
+assert.equal(limiter.allow('user2'),true);
+clock+=100;
+assert.equal(limiter.allow('user1'),true);
+console.log('PostgreSQL upload limiter tests passed');

@@ -30,7 +30,7 @@ function validHttpsService(value){
   return u.protocol==='https:' && !!u.hostname && !u.username && !u.password && !u.search && !u.hash && !isPlaceholder(u.hostname) && !u.hostname.endsWith('.invalid') && !/^(localhost|127\.0\.0\.1)$/i.test(u.hostname);
  }catch{return false;}
 }
-function validateProductionEnvironment(env){
+function validateProductionEnvironment(env, {requireStorage=true}={}){
  const errors=[];
  if(env.NODE_ENV!=='production')return errors;
  const origin=env.APP_ORIGIN;
@@ -38,7 +38,7 @@ function validateProductionEnvironment(env){
  let database;
  try{database=new URL(env.DATABASE_URL||'');}catch{}
  if(!database||!['postgres:','postgresql:'].includes(database.protocol)||!database.hostname||!database.username||isPlaceholder(database.hostname)||isPlaceholder(decodeURIComponent(database.password||''))||database.hostname.endsWith('.invalid')||/^(localhost|127\.0\.0\.1)$/i.test(database.hostname))errors.push('DATABASE_URL harus PostgreSQL online dengan kredensial asli, bukan nilai contoh.');
- if(env.NOTULEN_STORAGE_PROVIDER!=='supabase'||!validHttpsService(env.SUPABASE_URL)||isPlaceholder(env.SUPABASE_SERVICE_ROLE_KEY)||isPlaceholder(env.SUPABASE_STORAGE_BUCKET)||isPlaceholder(env.AGENDA_STORAGE_BUCKET))errors.push('Konfigurasi Supabase Storage privat wajib memakai nilai asli, bukan placeholder.');
+ if(requireStorage&&(env.NOTULEN_STORAGE_PROVIDER!=='supabase'||!validHttpsService(env.SUPABASE_URL)||isPlaceholder(env.SUPABASE_SERVICE_ROLE_KEY)||isPlaceholder(env.SUPABASE_STORAGE_BUCKET)||isPlaceholder(env.AGENDA_STORAGE_BUCKET)))errors.push('Konfigurasi Supabase Storage privat wajib memakai nilai asli, bukan placeholder.');
  return errors;
 }
 

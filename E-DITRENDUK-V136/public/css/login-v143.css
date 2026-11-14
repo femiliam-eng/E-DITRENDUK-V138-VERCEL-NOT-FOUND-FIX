@@ -1,0 +1,13 @@
+/* Login HD: artwork supplied by project owner. */
+body.login-page.login-motion{background:#dfe7f5}
+body.login-page.login-motion .login-shell{min-height:100vh;display:grid;grid-template-columns:52% 48%;position:relative;isolation:isolate;background:#eaf0fb url('../assets/login-background-hd.png') center center/100% 100% no-repeat}
+body.login-page.login-motion .login-shell::before,body.login-page.login-motion .login-side::before{content:none!important;display:none!important}
+body.login-page.login-motion .login-side{position:relative;z-index:1;background:transparent!important;padding:clamp(30px,5vw,85px);color:white}
+body.login-page.login-motion .login-side h1{font-size:clamp(38px,4vw,64px)}
+body.login-page.login-motion .login-side p{font-size:clamp(13px,1.15vw,16px);max-width:520px}
+body.login-page.login-motion .login-card{position:relative;z-index:2;align-self:center;justify-self:center;width:min(490px,86%);margin:24px auto;padding:clamp(28px,3vw,44px);border-radius:18px;border:1px solid rgba(255,255,255,.92);background:rgba(255,255,255,.95);box-shadow:0 22px 66px rgba(22,46,89,.2);backdrop-filter:blur(9px)}
+body.login-page.login-motion .login-card label{font-size:13px}
+body.login-page.login-motion .login-card .field{font-size:14px}
+body.login-page.login-motion .login-card .btn-navy{min-height:44px}
+body.login-page.login-motion .login-note,body.login-page.login-motion .login-card>div p{font-size:12px}
+@media(max-width:800px){body.login-page.login-motion .login-shell{display:flex;flex-direction:column;background-size:auto 100%;background-position:center}body.login-page.login-motion .login-side{min-height:290px;padding:30px 25px;background:rgba(18,49,99,.65)!important}body.login-page.login-motion .login-card{width:min(490px,calc(100% - 32px));margin:24px auto 40px}}

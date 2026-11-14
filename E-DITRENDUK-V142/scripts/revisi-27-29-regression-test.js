@@ -1,0 +1,13 @@
+'use strict';
+const fs=require('node:fs');const assert=require('node:assert/strict');
+const app=fs.readFileSync('js/app.js','utf8');
+const layout=fs.readFileSync('js/layout.js','utf8');
+const files=['repository.html','rakom.html','monitoring.html','jadwal.html','task-deadline.html','logbook.html','arsip.html','fasilitasi.html'];
+for(const f of files)assert(fs.existsSync(f),`Halaman hilang: ${f}`);
+assert(!app.includes('const pageRepositoryBackend = pageRepository'),'Repository tidak boleh dipasang handler PATCH ganda');
+assert(!app.includes('const pageRakomUi = pageRakom'),'RAKOM tidak boleh dipasang handler PATCH ganda');
+assert(app.includes('String(item.id) === String(select.dataset.id)'),'Pencocokan ID Logbook wajib konsisten');
+assert(app.includes('statusOpts=[\'Final\',\'Lengkap\''),'Status Lengkap tidak boleh hilang dari Repository');
+assert(layout.includes('openProfileAccessDialog'),'Profil & Akses harus tersedia');
+assert(layout.includes('fasilitasi.html'),'Jenis Fasilitasi harus dapat diakses');
+console.log('Regresi revisi 27/29 Oktober: LULUS (8 halaman + 6 kontrak penting)');
