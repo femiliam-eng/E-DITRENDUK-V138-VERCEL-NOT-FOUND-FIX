@@ -2,7 +2,7 @@
 // PostgreSQL-only Agenda/Task API for authenticated PostgreSQL sessions.
 // No SQLite reads/writes, and every operation checks module permissions.
 const crypto=require('node:crypto');
-const FIELDS=Object.freeze({agenda:['tanggal','asalSurat','kegiatan','tempat','waktu','disposisi','nomorSurat','hasilKegiatan'],'task-deadline':['nomorSurat','asalSurat','tugas','kebutuhan','deadline','status','disposisi']});
+const FIELDS=Object.freeze({agenda:['tanggal','asalSurat','kegiatan','tempat','waktu','disposisi','nomorSurat','hasilKegiatan'],'task-deadline':['nomorSurat','asalSurat','tugas','kebutuhan','deadline','status','disposisi','assignedTo']});
 function permitted(user,kind){
  if(!user||user.status!=='Aktif')return false;
  if(user.role==='Superadmin')return true;
@@ -43,6 +43,8 @@ async function handle({req,res,url,user,repo,readJson,json,audit}){
  const body=await readJson(req);
  const existing=id?await repo.get(table,id):null;
  if(id&&!existing)return json(res,404,{ok:false,message:'Tidak ditemukan.'});
+ // Only Superadmin may assign or reassign an individual responsible account.
+ if(kind==='task-deadline'&&user.role!=='Superadmin'&&Object.prototype.hasOwnProperty.call(body,'assignedTo') && String(body.assignedTo??'').trim()!==String(unpack(existing)?.assignedTo??'').trim())return json(res,403,{ok:false,message:'Penanggung jawab hanya dapat ditetapkan oleh Superadmin.'});
  const newId=id||`${kind==='agenda'?'agd':'tsk'}_${crypto.randomUUID()}`;
  let row;
  try{row=normalize(kind,body,unpack(existing)||{},newId)}catch(e){if(e.status===400)return json(res,400,{ok:false,message:e.message});throw e}
