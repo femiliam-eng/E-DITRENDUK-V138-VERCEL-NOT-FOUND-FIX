@@ -247,3 +247,73 @@ body[data-page="fasilitasi"] #form button{
   body[data-page] :is(.toolbar,.entry-data-tools,.repo-toolbar,.fasilitasi-toolbar)
   :is(input:not([type="checkbox"]),select,textarea){font-size:1rem!important}
 }
+
+
+/* REV146: screenshot-specific compact filters. Presentation only. */
+body[data-page="agenda"] .entry-filter-panel,
+body[data-page="task-deadline"] .entry-filter-panel{
+  display:flex;flex-direction:column;gap:9px;margin:0 0 13px
+}
+body[data-page] .entry-filter-panel .entry-filter-row{
+  display:flex;align-items:center;justify-content:flex-start;flex-wrap:wrap;gap:7px
+}
+body[data-page] .entry-filter-panel #entrySearch{
+  flex:0 1 238px;width:238px!important;max-width:100%!important;
+  margin:0!important;height:32px!important;min-height:32px!important
+}
+body[data-page] .entry-filter-panel .task-status-filters{
+  display:flex;align-items:center;flex-wrap:wrap;gap:5px;
+  margin:0!important;padding:0
+}
+body[data-page] .entry-filter-panel .entry-data-tools{
+  display:flex;align-items:center;justify-content:flex-start;flex-wrap:wrap;
+  gap:7px;margin:0!important;width:100%;min-width:0
+}
+body[data-page] .entry-filter-panel .entry-data-summary{
+  flex:1 1 245px;min-width:0;margin:0 8px 0 0!important;
+  font-size:.75rem!important;font-weight:500!important;line-height:1.4!important
+}
+body[data-page] .entry-filter-panel :is(#entrySearch,.ed-sort-toggle,.task-status-filters .btn,.entry-data-tools .btn){
+  box-sizing:border-box;font-size:.75rem!important;line-height:1.3!important;
+  min-height:32px!important;height:32px!important;padding:5px 9px!important;
+  border-radius:7px;white-space:nowrap
+}
+body[data-page] .entry-filter-panel .ed-sort-toggle{margin:0!important}
+body[data-page="fasilitasi"] .fasilitasi-toolbar{
+  display:flex!important;justify-content:flex-start;align-items:flex-end;
+  flex-wrap:wrap;gap:8px 12px!important;margin:8px 0 12px!important
+}
+body[data-page="fasilitasi"] .fasilitasi-toolbar>label{
+  display:flex!important;flex-direction:column;flex:0 1 158px;
+  width:158px;min-width:0;margin:0!important;
+  font-size:.75rem!important;font-weight:500!important;line-height:1.3!important
+}
+body[data-page="fasilitasi"] .fasilitasi-toolbar>label:first-child{
+  flex-basis:210px;width:210px
+}
+body[data-page="fasilitasi"] .fasilitasi-toolbar :is(input,select){
+  display:block;box-sizing:border-box;width:100%!important;
+  min-width:0;max-width:100%!important;
+  height:32px!important;min-height:32px!important;
+  margin:4px 0 0!important;padding:5px 9px!important;
+  font-size:.75rem!important;line-height:1.3!important;border-radius:7px!important
+}
+body[data-page="fasilitasi"] #summary{
+  font-size:.75rem!important;line-height:1.4!important;margin:4px 0 9px!important
+}
+body[data-page="arsip"] .toolbar #archiveSearch{
+  width:235px!important;max-width:100%!important;min-width:0!important
+}
+body[data-page="arsip"] .toolbar #archiveResultCount{
+  font-size:.75rem!important;line-height:1.4
+}
+@media(max-width:680px){
+  body[data-page] .entry-filter-panel #entrySearch{flex:1 1 100%;width:100%!important}
+  body[data-page] .entry-filter-panel .entry-data-summary{flex-basis:100%;margin:0!important}
+  body[data-page="fasilitasi"] .fasilitasi-toolbar>label{flex:1 1 145px;width:auto}
+  body[data-page="fasilitasi"] .fasilitasi-toolbar>label:first-child{flex:1 1 100%;width:auto}
+}
+@media(max-width:600px){
+  body[data-page] .entry-filter-panel #entrySearch,
+  body[data-page="fasilitasi"] .fasilitasi-toolbar :is(input,select){font-size:1rem!important}
+}

@@ -23,6 +23,20 @@ document.addEventListener('layout:ready',async()=>{
  tools.innerHTML='<span class="entry-data-summary" role="status" aria-live="polite">Memuat data…</span><button type="button" class="btn btn-outline btn-sm" data-reset-filter>Reset filter</button><button type="button" class="btn btn-outline btn-sm" data-export-csv>Ekspor CSV</button><button type="button" class="btn btn-outline btn-sm" data-reload>Perbarui data</button>';
  statusFilter?statusFilter.insertAdjacentElement('afterend',tools):sort.insertAdjacentElement('afterend',tools);
  const review=document.createElement('button');review.type='button';review.className='btn btn-outline btn-sm';review.textContent='Periksa tanggal bermasalah';review.setAttribute('aria-pressed','false');tools.appendChild(review);review.onclick=()=>{dateReviewOnly=!dateReviewOnly;review.setAttribute('aria-pressed',String(dateReviewOnly));review.classList.toggle('btn-navy',dateReviewOnly);review.classList.toggle('btn-outline',!dateReviewOnly);render()};
+ // REV146: Put search, date toggle, status chips and actions into two tidy rows.
+ // Reuse existing elements and event handlers: no data behavior is changed.
+ const filterPanel=document.createElement('div');
+ filterPanel.className='entry-filter-panel';
+ filterPanel.setAttribute('aria-label',task?'Filter Task Deadline':'Filter Agenda Kegiatan');
+ const filterRow=document.createElement('div');
+ filterRow.className='entry-filter-row';
+ const tableWrap=body.closest('.table-wrap');
+ tableWrap.parentElement.insertBefore(filterPanel,tableWrap);
+ filterPanel.appendChild(filterRow);
+ search.removeAttribute('style');
+ filterRow.append(search,sort,sortToggle);
+ if(statusFilter)filterRow.appendChild(statusFilter);
+ filterPanel.appendChild(tools);
  const summary=tools.querySelector('.entry-data-summary');
  const selectedRows=()=>{const q=search.value.trim().toLocaleLowerCase('id-ID');return rows.filter(r=>fields.map(field=>String(r[field]??'')).join(' ').toLocaleLowerCase('id-ID').includes(q)&&(!dateReviewOnly||!dateMillis(task?r.deadline:r.tanggal))&&(!task||activeStatus==='semua'||(activeStatus==='done'?/^done$/i.test(String(r.status||'').trim()):!/^done$/i.test(String(r.status||'').trim())))).slice().sort((a,b)=>{const x=dateMillis(task?a.deadline:a.tanggal);const y=dateMillis(task?b.deadline:b.tanggal);if(!x&&!y)return 0;if(!x)return 1;if(!y)return -1;return sort.value==='asc'?x-y:y-x});};
  const csvCell=value=>{const raw=String(value??'');const safe=/^[\s\uFEFF]*[=+@\-]/.test(raw)?"'"+raw:raw;return '"'+safe.replace(/"/g,'""')+'"';};
