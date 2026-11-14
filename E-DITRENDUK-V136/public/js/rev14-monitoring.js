@@ -1,167 +1,231 @@
-/* REV14: Monitoring focus editor with explicit batch save.
- * Existing API PATCH operations are reused; browsing/filtering never writes data.
+/* REV14NOV(1): Inline activity focus, clear unsaved drafts, one save action in the section header.
+ * Does not call the API on view/filter actions. Existing authenticated PATCH remains the only write path.
  */
 (function(){
  'use strict';
- if(document.body.dataset.page!=='monitoring')return;
- const old=window.pageMonitoring;
- if(typeof old!=='function')return;
+ if(document.body.dataset.page!=='monitoring'||typeof window.pageMonitoring!=='function')return;
+ const legacy=window.pageMonitoring;
  window.pageMonitoring=function(){
-  old();
+  legacy();
   const body=document.getElementById('monitorBody');
-  if(!body)return;
+  const heading=body?.closest('.card')?.querySelector('.section-title');
+  if(!body||!heading)return;
   const data=window.EXCEL_DATA?.monitoring||[];
   const drafts=new Map();
-  const record=id=>data.find(x=>String(x.id)===String(id));
-  const esc=x=>ED.esc(String(x??''));
-  const get=(id,key)=>Object.prototype.hasOwnProperty.call(drafts.get(String(id))||{},key)?drafts.get(String(id))[key]:record(id)?.[key];
-  const equals=(a,b)=>JSON.stringify(a??null)===JSON.stringify(b??null);
-  const rowChanges=(id)=>drafts.get(String(id))||{};
-  function stage(id,key,value){
-   id=String(id);
-   const row=record(id);if(!row)return;
-   const draft={...rowChanges(id)};
-   if(equals(value,row[key]))delete draft[key];else draft[key]=value;
-   if(key==='validasiDirektur'){
-    if(equals(value,row.verifikasi))delete draft.verifikasi;else draft.verifikasi=value;
-   }
-   if(Object.keys(draft).length)drafts.set(id,draft);else drafts.delete(id);
-   refreshPending();syncVisible();
-  }
-  const panel=document.createElement('div');panel.className='ed-monitor-actions';panel.setAttribute('aria-label','Simpan perubahan Monitoring');
-  panel.innerHTML='<button class="btn btn-navy" id="monitorSaveAll" type="button">💾 Simpan Perubahan</button><button type="button" class="btn btn-outline" id="monitorCancelDraft">Batalkan Perubahan</button><span class="ed-monitor-pending" id="monitorUnsavedNote" role="status" aria-live="polite">Belum ada perubahan.</span>';
-  const wrap=body.closest('.table-wrap');
-  if(wrap)wrap.insertAdjacentElement('beforebegin',panel);
-  const saveButton=panel.querySelector('#monitorSaveAll'),cancelButton=panel.querySelector('#monitorCancelDraft'),note=panel.querySelector('#monitorUnsavedNote');
-  function refreshPending(){
-   const count=[...drafts.values()].reduce((sum,changes)=>sum+Object.keys(changes).length,0);
-   note.textContent=count?String(drafts.size)+' kegiatan · '+String(count)+' perubahan belum disimpan. Klik Simpan Perubahan.':'Semua perubahan sudah tersimpan.';
+  let focusId=null,saving=false;
+  const esc=value=>ED.esc(String(value??''));
+  const item=id=>data.find(row=>String(row.id)===String(id));
+  const changed=id=>drafts.get(String(id))||{};
+  const value=(id,key)=>Object.prototype.hasOwnProperty.call(changed(id),key)?changed(id)[key]:item(id)?.[key];
+  const equal=(a,b)=>JSON.stringify(a??null)===JSON.stringify(b??null);
+  const headerActions=document.createElement('div');
+  headerActions.className='ed-monitor-header-actions';
+  headerActions.innerHTML='<button type="button" class="btn btn-navy" id="monitorSaveAll">Simpan Perubahan</button><button type="button" class="ed-monitor-cancel" id="monitorCancelDraft">Batalkan draf</button>';
+  const sync=heading.querySelector('#syncBtn');
+  if(sync)headerActions.prepend(sync);
+  heading.appendChild(headerActions);
+  const saveButton=headerActions.querySelector('#monitorSaveAll');
+  const cancelButton=headerActions.querySelector('#monitorCancelDraft');
+  const note=document.createElement('small');
+  note.className='ed-monitor-save-note';
+  note.setAttribute('role','status');
+  note.setAttribute('aria-live','polite');
+  (heading.firstElementChild||heading).appendChild(note);
+  const names=[...body.closest('table').querySelectorAll('thead th')].slice(7,19).map(x=>x.textContent.trim());
+  const totalColumns=body.closest('table').querySelectorAll('thead th').length||22;
+  const select=(key,options,current)=>{
+   const items=[...new Set([String(current??''),...options])];
+   return '<select class="field ed-monitor-inline-field" data-inline-key="'+esc(key)+'">'+items.map(o=>'<option value="'+esc(o)+'"'+(o===String(current??'')?' selected':'')+'>'+esc(o||'—')+'</option>').join('')+'</select>';
+  };
+  const field=(id,key,label,content)=>'<div class="ed-monitor-inline-field-wrap"><label for="monitorInline-'+esc(key)+'">'+esc(label)+'</label>'+content.replace('class="field','id="monitorInline-'+esc(key)+'" class="field')+'</div>';
+  const input=(id,key,label)=>field(id,key,label,'<input class="field ed-monitor-inline-field" data-inline-key="'+esc(key)+'" value="'+esc(value(id,key))+'">');
+  function pending(){
+   const count=[...drafts.values()].reduce((sum,obj)=>sum+Object.keys(obj).length,0);
+   note.textContent=count?drafts.size+' kegiatan dengan '+count+' perubahan belum disimpan.':'Semua perubahan sudah tersimpan.';
    note.classList.toggle('has-changes',count>0);
-   saveButton.disabled=!count;
-   cancelButton.disabled=!count;
+   saveButton.disabled=saving||!count;
+   cancelButton.disabled=saving||!count;
   }
   function syncVisible(){
-   for(const target of body.querySelectorAll('[data-id]')){
-    const id=String(target.dataset.id||'');
-    const changes=rowChanges(id);
-    if(!Object.keys(changes).length)continue;
-    const key=target.classList.contains('mon-team')?'tim':
-      target.classList.contains('mon-category')?'kategori':
-      target.classList.contains('mon-fin')?'keuangan':
-      target.classList.contains('mon-valid')?'validasiDirektur':
-      target.classList.contains('mon-text')?target.dataset.key:
-      target.classList.contains('mon-check')?'docs':null;
-    if(!key||!Object.prototype.hasOwnProperty.call(changes,key))continue;
-    if(key==='docs')target.checked=!!changes.docs[Number(target.dataset.doc)];
-    else if(target.value!==String(changes[key]??''))target.value=String(changes[key]??'');
+   for(const control of body.querySelectorAll('tr[data-ed-monitor-id] [data-id]')){
+    const id=control.dataset.id;
+    const row=changed(id);
+    if(!Object.keys(row).length)continue;
+    const key=control.matches('.mon-team')?'tim':control.matches('.mon-category')?'kategori':
+     control.matches('.mon-fin')?'keuangan':control.matches('.mon-valid')?'validasiDirektur':
+     control.matches('.mon-text')?control.dataset.key:control.matches('.mon-check')?'docs':null;
+    if(!key||!Object.prototype.hasOwnProperty.call(row,key))continue;
+    if(key==='docs')control.checked=!!row.docs[Number(control.dataset.doc)];
+    else if(control!==document.activeElement)control.value=String(row[key]??'');
+    if(key==='tim'){
+     control.classList.remove('team-pjpk','team-parameter','team-kinerja');
+     const color=row.tim==='PJPK'?'team-pjpk':row.tim==='PARAMETER'?'team-parameter':row.tim==='Manajemen Kinerja'?'team-kinerja':'';
+     if(color)control.classList.add(color);
+    }
    }
-   body.querySelectorAll('tr[data-monitor-draft]').forEach(tr=>{tr.classList.toggle('ed-monitor-focused',drafts.has(tr.dataset.monitorDraft))});
+   for(const tr of body.querySelectorAll('tr[data-ed-monitor-id]')){
+    tr.classList.toggle('ed-monitor-active',tr.dataset.edMonitorId===focusId);
+    tr.classList.toggle('ed-monitor-dirty',drafts.has(tr.dataset.edMonitorId));
+    const btn=tr.querySelector('.ed-monitor-focus');
+    if(btn)btn.setAttribute('aria-expanded',String(tr.dataset.edMonitorId===focusId));
+   }
+  }
+  function stage(id,key,next){
+   id=String(id);
+   const original=item(id);
+   if(!original)return;
+   const d={...changed(id)};
+   if(equal(next,original[key]))delete d[key];
+   else d[key]=next;
+   if(key==='validasiDirektur'){
+    if(equal(next,original.verifikasi))delete d.verifikasi;
+    else d.verifikasi=next;
+   }
+   if(Object.keys(d).length)drafts.set(id,d);
+   else drafts.delete(id);
+   pending();syncVisible();
+  }
+  function closeInline(){
+   focusId=null;
+   body.querySelector('.ed-monitor-detail-row')?.remove();
+   syncVisible();
+  }
+  function detail(id){
+   const x=item(id),tr=[...body.querySelectorAll('tr[data-ed-monitor-id]')].find(t=>t.dataset.edMonitorId===String(id));
+   if(!x||!tr)return;
+   body.querySelector('.ed-monitor-detail-row')?.remove();
+   const row=document.createElement('tr');
+   row.className='ed-monitor-detail-row';
+   row.dataset.inlineId=String(id);
+   const td=document.createElement('td');
+   td.colSpan=totalColumns;
+   const fieldValue=key=>value(id,key)??'';
+   const docs=Array.isArray(fieldValue('docs'))?fieldValue('docs'):[];
+   const optionsTeam=['PARAMETER','PJPK','RUMAH DATAKU','Manajemen Kinerja'];
+   const categories=['FULLDAY','FULLBOARD','RAPAT DI KANTOR','RAPAT DI LUAR KANTOR','PERJALANAN DINAS','NARASUMBER'];
+   const grid=[
+    field(id,'tim','Tim Kerja',select('tim',optionsTeam,fieldValue('tim'))),
+    field(id,'kategori','Kategori Kegiatan',select('kategori',categories,fieldValue('kategori'))),
+    input(id,'ro','RO Komponen'),
+    input(id,'sub','Sub Komponen'),
+    field(id,'keuangan','Verifikasi Tim Keuangan',select('keuangan',['','LENGKAP','TIDAK LENGKAP'],fieldValue('keuangan'))),
+    field(id,'validasiDirektur','Validasi Direktur',select('validasiDirektur',['Belum diverifikasi','LENGKAP','TIDAK LENGKAP','Perlu perbaikan'],fieldValue('validasiDirektur'))),
+    input(id,'bukti','Bukti Dukung')
+   ].join('');
+   td.innerHTML='<div class="ed-monitor-inline" aria-label="Detail kegiatan terpilih">'+
+    '<div class="ed-monitor-inline-head"><div><h4>Fokus kegiatan · '+esc(x.nama||'Kegiatan')+'</h4><p>Tanggal '+esc(x.tanggal||'belum diisi')+' · Edit di sini, lalu simpan melalui tombol di atas tabel.</p></div><button type="button" class="btn btn-outline ed-monitor-inline-close" data-ed-close-inline>Tutup detail</button></div>'+
+    '<div class="ed-monitor-inline-grid">'+grid+'</div><h5>Checklist kelengkapan dokumen</h5><div class="ed-monitor-inline-docs">'+
+    Array.from({length:12},(_,i)=>'<label><input type="checkbox" data-inline-doc="'+i+'"'+(docs[i]?' checked':'')+'> '+esc(names[i]||'Dokumen '+(i+1))+'</label>').join('')+
+    '</div><p class="ed-monitor-inline-hint">Perubahan belum masuk database sampai tombol Simpan Perubahan ditekan. Baris yang aktif ditandai biru; edit yang belum tersimpan ditandai di daftar.</p></div>';
+   row.appendChild(td);
+   tr.insertAdjacentElement('afterend',row);
+   syncVisible();
+  }
+  function toggleFocus(id){
+   const normalized=String(id);
+   if(focusId===normalized){closeInline();return;}
+   focusId=normalized;
+   detail(normalized);
   }
   function enhanceRows(){
-   for(const tr of body.querySelectorAll('tr')){
+   for(const tr of [...body.querySelectorAll('tr')]){
     const id=tr.querySelector('select.mon-team')?.dataset.id;
-    const cell=tr.querySelector('.monitor-name');
-    if(!id||!cell)continue;
-    tr.dataset.monitorDraft=String(id);
-    if(!cell.querySelector('.ed-monitor-focus')){
-     const title=cell.textContent.trim();
-     const button=document.createElement('button');button.type='button';button.className='ed-monitor-focus';
-     button.textContent=title;button.title='Klik untuk fokus pada kegiatan ini';
-     button.setAttribute('aria-label','Fokus kegiatan: '+title);
-     button.addEventListener('click',()=>openFocus(id));
-     cell.replaceChildren(button);
+    const title=tr.querySelector('.monitor-name');
+    if(!id||!title)continue;
+    tr.dataset.edMonitorId=String(id);
+    tr.tabIndex=0;
+    if(!title.querySelector('.ed-monitor-focus')){
+     const btn=document.createElement('button');
+     btn.type='button';btn.className='ed-monitor-focus';
+     btn.textContent=title.textContent.trim();
+     btn.setAttribute('aria-label','Buka detail kegiatan: '+btn.textContent);
+     title.replaceChildren(btn);
     }
+   }
+   if(focusId){
+    const shown=body.querySelector('tr[data-ed-monitor-id="'+CSS.escape(focusId)+'"]');
+    if(shown&&!body.querySelector('.ed-monitor-detail-row[data-inline-id="'+CSS.escape(focusId)+'"]'))detail(focusId);
    }
    syncVisible();
   }
-  // Capture changes before legacy autosave handlers, keeping them as drafts.
-  function capture(event){
-   const t=event.target;
-   if(!(t instanceof HTMLElement)||!t.matches('.mon-team,.mon-category,.mon-text,.mon-check,.mon-fin,.mon-valid'))return;
-   event.stopImmediatePropagation();
-   const id=t.dataset.id;
-   if(t.matches('.mon-check')){
-    const next=[...(get(id,'docs')||[])];
-    next[Number(t.dataset.doc)]=!!t.checked;
-    stage(id,'docs',next);
-   }else{
-    const key=t.matches('.mon-team')?'tim':t.matches('.mon-category')?'kategori':t.matches('.mon-fin')?'keuangan':t.matches('.mon-valid')?'validasiDirektur':t.dataset.key;
-    if(key)stage(id,key,t.value);
+  // Capture before legacy per-input autosave; edits stay in memory until Save.
+  body.addEventListener('change',event=>{
+   const target=event.target;
+   if(!(target instanceof HTMLElement))return;
+   if(target.matches('.mon-team,.mon-category,.mon-text,.mon-check,.mon-fin,.mon-valid')){
+    event.stopImmediatePropagation();
+    const id=target.dataset.id;
+    if(target.classList.contains('mon-check')){
+     const docs=[...(value(id,'docs')||[])];
+     docs[Number(target.dataset.doc)]=target.checked;
+     stage(id,'docs',docs);
+    }else{
+     const key=target.matches('.mon-team')?'tim':target.matches('.mon-category')?'kategori':
+      target.matches('.mon-fin')?'keuangan':target.matches('.mon-valid')?'validasiDirektur':target.dataset.key;
+     if(key)stage(id,key,target.value);
+    }
+    return;
    }
-  }
-  body.addEventListener('change',capture,true);
-  const observer=new MutationObserver(enhanceRows);
+   if(target.matches('[data-inline-doc]')&&focusId){
+    const docs=[...(value(focusId,'docs')||[])];
+    docs[Number(target.dataset.inlineDoc)]=target.checked;
+    stage(focusId,'docs',docs);
+   }
+   if(target.matches('select[data-inline-key]')&&focusId)stage(focusId,target.dataset.inlineKey,target.value);
+  },true);
+  body.addEventListener('input',event=>{
+   const target=event.target;
+   if(target instanceof HTMLInputElement&&target.matches('input[data-inline-key]')&&focusId)
+    stage(focusId,target.dataset.inlineKey,target.value);
+  },true);
+  body.addEventListener('click',event=>{
+   if(event.target.closest('[data-ed-close-inline]')){closeInline();return;}
+   const tr=event.target.closest('tr[data-ed-monitor-id]');
+   if(!tr)return;
+   if(event.target.closest('input,select,textarea,a,button:not(.ed-monitor-focus),label'))return;
+   toggleFocus(tr.dataset.edMonitorId);
+  });
+  body.addEventListener('keydown',event=>{
+   const tr=event.target.closest('tr[data-ed-monitor-id]');
+   if(!tr||event.target!==tr||!['Enter',' '].includes(event.key))return;
+   event.preventDefault();toggleFocus(tr.dataset.edMonitorId);
+  });
+  const observer=new MutationObserver(()=>enhanceRows());
   observer.observe(body,{childList:true,subtree:false});
-  const focus=document.createElement('div');focus.className='modal-overlay';focus.id='monitorFocusModal';document.body.appendChild(focus);
-  const docNames=[...document.querySelectorAll('body[data-page="monitoring"] .table th')].slice(7,19).map(x=>x.textContent.trim());
-  const select=(field,values,current)=>'<select class="field" data-focus-field="'+field+'">'+[...new Set([String(current??''),...values].filter((v,i)=>i===0||String(v).length))].map(x=>'<option value="'+esc(x)+'"'+(x===String(current??'')?' selected':'')+'>'+esc(x||'—')+'</option>').join('')+'</select>';
-  let focusedId=null;
-  function openFocus(id){
-   const x=record(id);if(!x)return;
-   focusedId=String(id);
-   const value=k=>get(id,k)??'';
-   const docs=Array.isArray(get(id,'docs'))?get(id,'docs'):[];
-   focus.innerHTML='<div class="modal ed-monitor-focus-dialog" role="dialog" aria-modal="true" aria-labelledby="monitorFocusTitle">'+
-    '<div class="modal-head"><div><h3 id="monitorFocusTitle">Fokus kegiatan</h3><p>'+esc(x.nama||'Kegiatan')+'</p></div><button type="button" class="modal-close" id="monitorCloseFocus" aria-label="Tutup">×</button></div>'+
-    '<div class="modal-body"><p class="muted">Tanggal: '+esc(x.tanggal||'Belum dicatat')+' · Perubahan belum masuk database sampai tombol Simpan Perubahan ditekan.</p><div class="ed-monitor-focus-grid">'+
-    '<div class="form-group"><label>Tim Kerja</label>'+select('tim',['PARAMETER','PJPK','RUMAH DATAKU','Manajemen Kinerja'],value('tim'))+'</div>'+
-    '<div class="form-group"><label>Kategori Kegiatan</label>'+select('kategori',['FULLDAY','FULLBOARD','RAPAT DI KANTOR','RAPAT DI LUAR KANTOR','PERJALANAN DINAS','NARASUMBER'],value('kategori'))+'</div>'+
-    '<div class="form-group"><label>RO Komponen</label><input class="field" data-focus-field="ro" value="'+esc(value('ro'))+'"></div>'+
-    '<div class="form-group"><label>Sub Komponen</label><input class="field" data-focus-field="sub" value="'+esc(value('sub'))+'"></div>'+
-    '<div class="form-group"><label>Verifikasi Tim Keuangan</label>'+select('keuangan',['','LENGKAP','TIDAK LENGKAP'],value('keuangan'))+'</div>'+
-    '<div class="form-group"><label>Validasi Direktur</label>'+select('validasiDirektur',['Belum diverifikasi','LENGKAP','TIDAK LENGKAP','Perlu perbaikan'],value('validasiDirektur'))+'</div>'+
-    '<div class="form-group" style="grid-column:1/-1"><label>Bukti Dukung / Link</label><input class="field" data-focus-field="bukti" value="'+esc(value('bukti'))+'" placeholder="https://..."></div>'+
-    '</div><h4>Checklist kelengkapan dokumen</h4><div class="ed-monitor-docs">'+
-    Array.from({length:12},(_,i)=>'<label><input type="checkbox" data-focus-doc="'+i+'"'+(docs[i]?' checked':'')+'> '+esc(docNames[i]||'Dokumen '+(i+1))+'</label>').join('')+
-    '</div><p class="ed-monitor-warning" id="monitorFocusStatus">Perubahan tersimpan sebagai draf sampai kamu menekan Simpan Perubahan.</p></div>'+
-    '<div class="modal-foot"><button type="button" class="btn btn-outline" id="monitorFocusBack">Kembali ke daftar</button><button type="button" class="btn btn-navy" id="monitorFocusSave">💾 Simpan Perubahan</button></div></div>';
-   focus.classList.add('open');
-   const close=()=>{focusedId=null;focus.classList.remove('open')};
-   focus.querySelector('#monitorCloseFocus').onclick=close;
-   focus.querySelector('#monitorFocusBack').onclick=close;
-   focus.querySelector('#monitorFocusSave').onclick=async()=>{await saveDrafts();if(!drafts.has(String(id)))close()};
-   for(const control of focus.querySelectorAll('[data-focus-field]')){
-    control.addEventListener('input',()=>{if(focusedId)stage(focusedId,control.dataset.focusField,control.value)});
-   }
-   for(const control of focus.querySelectorAll('[data-focus-doc]')){
-    control.addEventListener('change',()=>{if(!focusedId)return;const next=[...(get(focusedId,'docs')||[])];next[Number(control.dataset.focusDoc)]=control.checked;stage(focusedId,'docs',next)});
-   }
-  }
+  let failed=0;
   async function saveDrafts(){
-   if(!drafts.size)return;
-   if(saveButton.disabled)return;
-   saveButton.disabled=true;saveButton.textContent='Menyimpan…';
-   let saved=0;const failures=[];
-   for(const [id,changes] of [...drafts.entries()]){
+   if(saving||!drafts.size)return;
+   saving=true;saveButton.textContent='Menyimpan…';pending();
+   let saved=0;
+   for(const [id,patch] of [...drafts]){
     try{
-     await API.update('monitoring',id,changes);
-     const source=record(id);if(source)Object.assign(source,changes);
+     await API.update('monitoring',id,patch);
+     const original=item(id);if(original)Object.assign(original,patch);
      drafts.delete(id);saved++;
-    }catch(e){failures.push(String(id)+' ('+String(e.message||'gagal')+')')}
+    }catch(error){failed++;console.warn('Monitoring PATCH gagal:',String(error?.message||error))}
    }
-   refreshPending();syncVisible();
-   saveButton.textContent='💾 Simpan Perubahan';
+   saving=false;saveButton.textContent='Simpan Perubahan';
+   pending();syncVisible();
    if(saved){
     document.dispatchEvent(new Event('workspace-data-updated'));
     try{localStorage.setItem('ed_workspace_updated',String(Date.now()))}catch(_){}
    }
-   ED.toast(failures.length?'Berhasil menyimpan '+saved+' kegiatan. Masih ada perubahan yang gagal.':'Perubahan '+saved+' kegiatan tersimpan di PostgreSQL.');
-   if(failures.length)note.textContent='Belum tersimpan: '+failures.join('; ');
+   ED.toast(failed?String(saved)+' kegiatan berhasil disimpan. '+String(failed)+' gagal; draf tetap ada.':String(saved)+' kegiatan tersimpan di PostgreSQL.');
+   if(failed){note.textContent='Gagal menyimpan '+failed+' kegiatan. Draf tetap aman di halaman ini; coba simpan lagi.';failed=0;}
   }
   saveButton.onclick=saveDrafts;
   cancelButton.onclick=()=>{
-   if(!drafts.size)return;
-   if(!window.confirm('Batalkan semua perubahan yang belum disimpan? Data yang sudah tersimpan di server tidak akan diubah.'))return;
-   drafts.clear();refreshPending();
-   for(const target of body.querySelectorAll('[data-id]')){
-    const x=record(target.dataset.id);if(!x)continue;
-    const key=target.classList.contains('mon-team')?'tim':target.classList.contains('mon-category')?'kategori':target.classList.contains('mon-fin')?'keuangan':target.classList.contains('mon-valid')?'validasiDirektur':target.classList.contains('mon-text')?target.dataset.key:target.classList.contains('mon-check')?'docs':null;
-    if(key==='docs')target.checked=!!x.docs[Number(target.dataset.doc)];
-    else if(key)target.value=String(x[key]??'');
+   if(!drafts.size||!window.confirm('Batalkan semua draf yang belum disimpan? Data yang sudah tersimpan di PostgreSQL tidak berubah.'))return;
+   drafts.clear();pending();
+   for(const ctl of body.querySelectorAll('tr[data-ed-monitor-id] [data-id]')){
+    const x=item(ctl.dataset.id);if(!x)continue;
+    const key=ctl.matches('.mon-team')?'tim':ctl.matches('.mon-category')?'kategori':ctl.matches('.mon-fin')?'keuangan':ctl.matches('.mon-valid')?'validasiDirektur':ctl.matches('.mon-check')?'docs':ctl.dataset.key;
+    if(key==='docs')ctl.checked=!!(x.docs||[])[Number(ctl.dataset.doc)];
+    else if(key)ctl.value=String(x[key]??'');
    }
-   syncVisible();
+   if(focusId)detail(focusId);else syncVisible();
   };
-  window.addEventListener('beforeunload',e=>{if(drafts.size){e.preventDefault();e.returnValue='';}});
-  refreshPending();enhanceRows();
+  window.addEventListener('beforeunload',event=>{if(drafts.size){event.preventDefault();event.returnValue='';}});
+  enhanceRows();pending();
  };
 })();
