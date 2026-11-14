@@ -23,9 +23,12 @@ function pageIndex(){
  const tasksSource=Array.isArray(window.ED_TASK_DEADLINES)?window.ED_TASK_DEADLINES:[];
  const uniqueTasks=new Map();
  tasksSource.forEach((x,i)=>{const key=String(x.id??x.task_id??`index-${i}`);uniqueTasks.set(key,x)});
- const unfinished=[...uniqueTasks.values()].filter(x=>!['done','selesai','completed','selesai dikerjakan'].includes(String(x.status||'').trim().toLowerCase()));
+ const canonicalTasks=[...uniqueTasks.values()];
+ const unfinished=canonicalTasks.filter(x=>!['done','selesai','completed','selesai dikerjakan'].includes(String(x.status||'').trim().toLowerCase()));
+ const completedCount=canonicalTasks.length-unfinished.length;
  const taskCountEl=document.getElementById('kpiTask');
- if(taskCountEl)taskCountEl.title='Jumlah tugas berstatus belum selesai pada modul Task Deadline (berdasarkan ID tugas unik); bukan jumlah RAKOM.';
+ if(taskCountEl)taskCountEl.title=Array.isArray(window.ED_TASK_DEADLINES)?`${unfinished.length} tugas belum selesai dari ${canonicalTasks.length} tugas unik di Task Deadline; ${completedCount} sudah selesai. Bukan jumlah arahan RAKOM.`:'Menunggu data modul Task Deadline dari server.';
+ const taskDetail=document.getElementById('kpiTaskDetail');if(taskDetail)taskDetail.textContent=Array.isArray(window.ED_TASK_DEADLINES)?`${unfinished.length} belum selesai · ${completedCount} selesai · ${canonicalTasks.length} total`:'Memuat data Task Deadline…';
  const set=(id,value)=>{const e=document.getElementById(id);if(e)e.textContent=value};
  set('kpiMeet',mon.length);set('kpiTask',Array.isArray(window.ED_TASK_DEADLINES)?unfinished.length:'—');set('kpiDocs',complete);set('kpiLog',logs.length);
  // Tidak ada angka contoh: progres hanya dihitung dari tugas yang jatuh tempo pada minggu berjalan.
@@ -42,10 +45,10 @@ function pageIndex(){
   const named=text.toLowerCase().match(/(\d{1,2})\s+(januari|februari|maret|april|mei|juni|juli|agustus|september|oktober|november|desember)\s+(\d{4})/);
   return named?new Date(+named[3],months[named[2]],+named[1]):null;
  };
- const weekly=tasksSource.filter(x=>{const d=taskDate(x.deadline||x.tanggal);return d&&!Number.isNaN(+d)&&d>=monday&&d<sunday;});
+ const weekly=canonicalTasks.filter(x=>{const d=taskDate(x.deadline||x.tanggal);return d&&!Number.isNaN(+d)&&d>=monday&&d<sunday;});
  const weeklyDone=weekly.filter(x=>['done','selesai'].includes(String(x.status||'').trim().toLowerCase())).length;
  const weeklyEl=document.getElementById('weeklyProgress');
- if(weeklyEl){weeklyEl.textContent=(weekly.length?Math.round(weeklyDone/weekly.length*100):0)+'%';weeklyEl.title=weekly.length?`${weeklyDone} dari ${weekly.length} tugas dengan tenggat minggu ini selesai`:'Belum ada tugas dengan tenggat minggu ini (0 dari 0).';const detail=document.getElementById('weeklyProgressDetail');if(detail)detail.textContent=weekly.length?`${weeklyDone} dari ${weekly.length} tugas selesai`:'Belum ada tugas dengan tenggat minggu ini';}
+ if(weeklyEl){weeklyEl.textContent=(weekly.length?Math.round(weeklyDone/weekly.length*100)+'%':'—');weeklyEl.title=weekly.length?`${weeklyDone} dari ${weekly.length} tugas dengan tenggat minggu ini selesai`:'Belum ada tugas dengan tenggat minggu ini (0 dari 0).';const detail=document.getElementById('weeklyProgressDetail');if(detail)detail.textContent=weekly.length?`${weeklyDone} dari ${weekly.length} tugas selesai`:'Belum ada tugas dengan tenggat minggu ini';}
 
  const continueBtn=document.getElementById('continueBtn');if(continueBtn)continueBtn.onclick=()=>location.href='monitoring.html';
  const time=x=>{const s=String(x||'').trim(),m=s.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);if(m)return Date.UTC(+m[3],+m[2]-1,+m[1]);return Date.parse(s)||0};
