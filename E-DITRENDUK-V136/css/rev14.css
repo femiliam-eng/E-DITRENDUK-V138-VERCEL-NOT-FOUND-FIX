@@ -381,3 +381,12 @@ body[data-page="monitoring"] #monitorBody select.state-yellow,
 body[data-page="monitoring"] .ed-monitor-inline select.state-yellow{
  background:#fff2c6!important;color:#8b6500!important;border-color:#f1df9b!important
 }
+
+/* REV17 UX correction: compact full header and immediate native select color changes. */
+body[data-page="monitoring"] .table thead th:nth-child(20){min-width:185px!important;white-space:nowrap!important;word-break:normal!important}
+body[data-page="monitoring"] #monitorBody select.state-yellow,body[data-page="monitoring"] .ed-monitor-inline select.state-yellow{background:#fff2c6!important;color:#8b6500!important;border-color:#f1df9b!important}
+body[data-page="monitoring"] .ed-monitor-inline select.team-dataku{background:#fff!important;color:#334155!important;border-color:#cbd5e1!important}
+body[data-page="monitoring"] .ed-monitor-inline select.team-pjpk{background:#e0f2fe!important;color:#075985!important;border-color:#7dd3fc!important}
+body[data-page="monitoring"] .ed-monitor-inline select.team-kinerja{background:#f3e8ff!important;color:#6b21a8!important;border-color:#d8b4fe!important}
+body[data-page="monitoring"] .ed-monitor-inline select.team-parameter{background:#e0f5e8!important;color:#166534!important;border-color:#86d7a5!important}
+body[data-page="monitoring"] .monitor-toolbar label[for="monitorTeamFilter"]{white-space:nowrap}
