@@ -2,7 +2,7 @@
 // V71: unified PostgreSQL API for seven existing modules, dashboard, and audit.
 const crypto=require('node:crypto');
 const ROUTES=Object.freeze({monitoring:['monitoring','monitoring'],logbook:['logbook','logbook'],archive:['archive','arsip'],users:['users_data','pengguna'],disposisi:['disposisi','rakom'],'manajemen-plan':['manajemen_plan','rakom'],petugas:['petugas','agenda'],schedules:['schedules','agenda'],fasilitasi:['fasilitasi','agenda']});
-const BOOTSTRAP=Object.freeze({monitoring:'monitoring',logbook:'logbook',archive:'archive',users:'users_data',disposisi:'disposisi','manajemen-plan':'manajemen_plan',petugas:'petugas',schedules:'schedules',fasilitasi:'fasilitasi'});
+const BOOTSTRAP=Object.freeze({monitoring:'monitoring',logbook:'logbook',archive:'archive',users:'users_data',disposisi:'disposisi',petugas:'petugas',schedules:'schedules',fasilitasi:'fasilitasi'});
 function allowed(user,module){
  if(!user||user.status!=='Aktif')return false;
  if(user.role==='Superadmin')return true;
@@ -95,7 +95,11 @@ async function handle({req,res,url,user,repo,pool,readJson,json}){
   // Never allow clients to mutate identity, roles, or access permissions via generic payload APIs.
   if(resource==='users' && req.method!=='GET')return json(res,403,{ok:false,message:'Data pengguna hanya dapat dibaca melalui modul ini.'});
   if(req.method==='GET'&&!id){
-   const rows=(await repo.list(table)).map(unpack).map(row=>publicRow(row,resource));
+   const rows=(await repo.list(table)).map(record=>{
+     const row=unpack(record);
+     // Excel source payloads were imported without a nested id. Restore the stable primary key for editing.
+     return publicRow(resource==='manajemen-plan'?{...row,id:record.id}:row,resource);
+    });
    const wantsPage=['page','limit','q'].some(k=>url.searchParams.has(k));
    if(!wantsPage)return json(res,200,{ok:true,data:rows});
    const q=String(url.searchParams.get('q')||'').trim().slice(0,120).toLowerCase();
