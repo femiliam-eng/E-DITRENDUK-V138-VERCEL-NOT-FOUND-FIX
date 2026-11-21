@@ -1,22 +1,21 @@
 <!doctype html>
 <html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Manajemen Plan — E-DITRENDUK</title><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/v142-review.css"><link rel="stylesheet" href="css/rev14.css?v=156"><link rel="stylesheet" href="css/management-plan.css?v=156"></head>
+<title>Manajemen Plan — E-DITRENDUK</title><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/v142-review.css"><link rel="stylesheet" href="css/rev14.css?v=156"><link rel="stylesheet" href="css/management-plan.css?v=157"></head>
 <body data-page="rakom"><div id="appHeader"></div><div id="appSidebar"></div>
 <main class="main"><div class="crumb">E-DITRENDUK · MANAJEMEN PLAN</div>
-<div class="page-head"><div><h1>Manajemen Plan</h1><p>Pantau arahan Direktur, PIC, progres, dan tindak lanjut kegiatan dalam satu tempat.</p></div></div>
+<div class="page-head"><div><h1>Manajemen Plan</h1><p>Pantau arahan Direktur, PIC, status, dan tindak lanjut kegiatan dalam satu tempat.</p></div></div>
 <section class="card"><div class="section-title"><div><h3>Output Manajemen Plan</h3><span>Kelola arahan dan bukti dukung secara terstruktur.</span></div><button class="btn btn-navy" id="planAdd" type="button">+ Tambah arahan</button></div>
 <div class="plan-filters"><label>Cari arahan<input id="planSearch" class="field" placeholder="Cari arahan, output, PIC…"></label><label>Filter Tim Kerja<select id="planTeam" class="field"><option value="">Semua Tim Kerja</option><option value="PARAMETER">PARAMETER</option><option value="PJPK">PJPK</option><option value="Manajemen Kinerja">Manajemen Kinerja</option><option value="RUMAH DATAKU">RUMAH DATAKU</option><option value="unassigned">Belum ditentukan</option></select></label><button class="btn btn-outline" id="planReset" type="button">Reset filter</button><button class="btn btn-outline" id="planRefresh" type="button">Perbarui</button><span id="planCount" aria-live="polite"></span></div>
-<div class="table-wrap"><table class="table plan-table"><thead><tr><th>Tanggal</th><th>Tim Kerja</th><th>Arahan Direktur</th><th>PIC</th><th>Output</th><th>Status</th><th>Progres</th><th>Bukti Dukung</th><th>Aksi</th></tr></thead><tbody id="planBody"><tr><td colspan="9">Memuat arahan…</td></tr></tbody></table></div>
+<div class="table-wrap"><table class="table plan-table"><colgroup><col class="plan-date-col"><col class="plan-team-col"><col class="plan-direction-col"><col class="plan-pic-col"><col class="plan-output-col"><col class="plan-status-col"><col class="plan-proof-col"><col class="plan-action-col"></colgroup><thead><tr><th>Tanggal</th><th>Tim Kerja</th><th>Arahan Direktur</th><th>PIC</th><th>Output</th><th>Status</th><th>Bukti Dukung</th><th>Aksi</th></tr></thead><tbody id="planBody"><tr><td colspan="8">Memuat arahan…</td></tr></tbody></table></div>
 </section></main>
 <div class="modal-overlay" id="planModal"><div class="modal"><div class="modal-head"><h3 id="planModalTitle">Arahan Direktur</h3><button class="modal-close" type="button" id="planClose" aria-label="Tutup">×</button></div><form id="planForm"><div class="modal-body"><div class="plan-form-grid">
 <label>Tanggal <input id="planDate" class="field" type="text" placeholder="Contoh: 5 Januari 2026" maxlength="100"></label>
 <label>Tim Kerja <select id="planEditTeam" class="field"><option value="">— Belum ditentukan —</option><option>PARAMETER</option><option>PJPK</option><option>Manajemen Kinerja</option><option>RUMAH DATAKU</option></select></label>
 <label class="wide">Arahan Direktur <textarea id="planDirection" class="field" required rows="5"></textarea></label>
-<label>PIC (diisi manual) <input id="planPic" class="field" type="text" maxlength="250"></label>
+<label>PIC <input id="planPic" class="field" type="text" maxlength="250"></label>
 <label>Output <input id="planOutput" class="field" type="text" maxlength="500"></label>
-<label>Status <input id="planStatus" class="field" type="text" maxlength="100" placeholder="Status tindak lanjut"></label>
-<label>Progres <input id="planProgress" class="field" type="text" maxlength="100"></label>
+<label>Status <select id="planStatus" class="field plan-status-select" required><option value="" disabled>— Pilih status —</option><option value="Selesai">Selesai</option><option value="Belum">Belum</option><option value="On Proses">On Proses</option></select></label>
 <label class="wide">Bukti Dukung (tautan Google Drive / keterangan) <input id="planProof" class="field" type="text" maxlength="1500"></label>
 </div><p class="plan-note">Perubahan hanya tersimpan setelah tombol Simpan Perubahan ditekan.</p></div><div class="modal-foot"><button type="button" class="btn btn-outline" id="planCancel">Batal</button><button type="submit" class="btn btn-navy" id="planSave">Simpan Perubahan</button></div></form></div></div>
-<script src="js/data.js"></script><script src="js/api.js"></script><script src="js/layout.js"></script><script src="js/management-plan.js?v=156"></script><script src="js/ux.js"></script>
+<script src="js/data.js"></script><script src="js/api.js"></script><script src="js/layout.js"></script><script src="js/management-plan.js?v=157"></script><script src="js/ux.js"></script>
 </body></html>
