@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Manajemen Plan — E-DITRENDUK</title><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/v142-review.css"><link rel="stylesheet" href="css/rev14.css?v=154"><link rel="stylesheet" href="css/management-plan.css?v=154"></head>
+<title>Manajemen Plan — E-DITRENDUK</title><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/v142-review.css"><link rel="stylesheet" href="css/rev14.css?v=156"><link rel="stylesheet" href="css/management-plan.css?v=156"></head>
 <body data-page="rakom"><div id="appHeader"></div><div id="appSidebar"></div>
-<main class="main"><div class="crumb">E-DITRENDUK · CONCEPT NOTE</div>
-<div class="page-head"><div><h1>Manajemen Plan</h1><p>Arahan Direktur dari sheet CONCEPT NOTE. Data disposisi dan arsip tetap terpisah.</p></div></div>
-<section class="card"><div class="section-title"><div><h3>Output Manajemen Plan</h3><span>Data awal dari Excel CONCEPT NOTE · perubahan hanya disimpan setelah klik Simpan</span></div><button class="btn btn-navy" id="planAdd" type="button">+ Tambah arahan</button></div>
+<main class="main"><div class="crumb">E-DITRENDUK · MANAJEMEN PLAN</div>
+<div class="page-head"><div><h1>Manajemen Plan</h1><p>Pantau arahan Direktur, PIC, progres, dan tindak lanjut kegiatan dalam satu tempat.</p></div></div>
+<section class="card"><div class="section-title"><div><h3>Output Manajemen Plan</h3><span>Kelola arahan dan bukti dukung secara terstruktur.</span></div><button class="btn btn-navy" id="planAdd" type="button">+ Tambah arahan</button></div>
 <div class="plan-filters"><label>Cari arahan<input id="planSearch" class="field" placeholder="Cari arahan, output, PIC…"></label><label>Filter Tim Kerja<select id="planTeam" class="field"><option value="">Semua Tim Kerja</option><option value="PARAMETER">PARAMETER</option><option value="PJPK">PJPK</option><option value="Manajemen Kinerja">Manajemen Kinerja</option><option value="RUMAH DATAKU">RUMAH DATAKU</option><option value="unassigned">Belum ditentukan</option></select></label><button class="btn btn-outline" id="planReset" type="button">Reset filter</button><button class="btn btn-outline" id="planRefresh" type="button">Perbarui</button><span id="planCount" aria-live="polite"></span></div>
 <div class="table-wrap"><table class="table plan-table"><thead><tr><th>Tanggal</th><th>Tim Kerja</th><th>Arahan Direktur</th><th>PIC</th><th>Output</th><th>Status</th><th>Progres</th><th>Bukti Dukung</th><th>Aksi</th></tr></thead><tbody id="planBody"><tr><td colspan="9">Memuat arahan…</td></tr></tbody></table></div>
 </section></main>
@@ -17,6 +17,6 @@
 <label>Status <input id="planStatus" class="field" type="text" maxlength="100" placeholder="Status tindak lanjut"></label>
 <label>Progres <input id="planProgress" class="field" type="text" maxlength="100"></label>
 <label class="wide">Bukti Dukung (tautan Google Drive / keterangan) <input id="planProof" class="field" type="text" maxlength="1500"></label>
-</div><p class="plan-note">Data CONCEPT NOTE tetap tersimpan sebagai referensi. Deadline tidak digunakan pada Manajemen Plan.</p></div><div class="modal-foot"><button type="button" class="btn btn-outline" id="planCancel">Batal</button><button type="submit" class="btn btn-navy" id="planSave">Simpan Perubahan</button></div></form></div></div>
-<script src="js/data.js"></script><script src="js/api.js"></script><script src="js/layout.js"></script><script src="js/management-plan.js?v=154"></script><script src="js/ux.js"></script>
+</div><p class="plan-note">Perubahan hanya tersimpan setelah tombol Simpan Perubahan ditekan.</p></div><div class="modal-foot"><button type="button" class="btn btn-outline" id="planCancel">Batal</button><button type="submit" class="btn btn-navy" id="planSave">Simpan Perubahan</button></div></form></div></div>
+<script src="js/data.js"></script><script src="js/api.js"></script><script src="js/layout.js"></script><script src="js/management-plan.js?v=156"></script><script src="js/ux.js"></script>
 </body></html>
