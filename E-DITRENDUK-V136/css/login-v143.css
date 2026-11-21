@@ -115,3 +115,9 @@ body.login-page.login-motion .login-side .brand b{max-width:none!important;width
 body.login-page.login-motion .login-side .brand .directorate-line{display:block!important;white-space:nowrap!important;word-break:normal!important;overflow-wrap:normal!important;font-size:clamp(10px,1vw,14px)!important;letter-spacing:-.018em!important}
 body.login-page.login-motion .login-side .brand small{white-space:nowrap!important;color:#f5f9ff!important;opacity:1!important}
 @media(max-width:480px){body.login-page.login-motion .login-side .brand .directorate-line{font-size:clamp(9px,2.75vw,12px)!important}}
+
+/* REV21NOV: Explicit two-line directorate title for login only. */
+body.login-page.login-motion .login-side .brand b .directorate-line{display:block!important;white-space:nowrap!important;overflow-wrap:normal!important;font-size:clamp(11px,1.08vw,15px)!important;line-height:1.44!important;letter-spacing:-.025em!important}
+body.login-page.login-motion .login-side .brand>span:last-child{max-width:none!important;width:max-content!important;flex-shrink:1!important}
+body.login-page.login-motion .login-side .brand small{font-size:clamp(10px,.95vw,12px)!important;line-height:1.4!important}
+@media(max-width:800px){body.login-page.login-motion .login-side .brand b .directorate-line{font-size:clamp(9px,2.55vw,14px)!important}}
