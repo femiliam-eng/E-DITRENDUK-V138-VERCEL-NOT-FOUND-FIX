@@ -32,8 +32,9 @@ function updateDraftIndicator(){
  $('planDraftCount').textContent=total?total+' perubahan belum disimpan':'';
 }
 function paint(){
- const q=$('planSearch').value.trim().toLocaleLowerCase('id-ID'),selectedTeam=$('planTeam').value;
- const matches=rows.filter(x=>(!selectedTeam||(selectedTeam==='unassigned'?!team(effective(x,'tim')):team(effective(x,'tim'))===selectedTeam))&&(!q||[x.tanggal,x.tim,x.timAsli,x.arahan,effective(x,'pic'),x.output,effective(x,'status')].some(v=>String(v||'').toLocaleLowerCase('id-ID').includes(q))));
+ const q=$('planSearch').value.trim().toLocaleLowerCase('id-ID'),selectedTeam=$('planTeam').value,selectedYear=$('planYear').value;
+ const sourceYear=v=>{const match=String(v??'').match(/\b(?:20(?:26|27))\b/);return match?match[0]:''};
+ const matches=rows.filter(x=>(!selectedYear||(selectedYear==='unknown'?!sourceYear(x.tanggal):sourceYear(x.tanggal)===selectedYear))&&(!selectedTeam||(selectedTeam==='unassigned'?!team(effective(x,'tim')):team(effective(x,'tim'))===selectedTeam))&&(!q||[x.tanggal,x.tim,x.timAsli,x.arahan,effective(x,'pic'),x.output,effective(x,'status')].some(v=>String(v||'').toLocaleLowerCase('id-ID').includes(q))));
  matches.sort((a,b)=>Number(a.sourceRow??Number.MAX_SAFE_INTEGER)-Number(b.sourceRow??Number.MAX_SAFE_INTEGER));
  $('planCount').textContent=matches.length+' dari '+rows.length+' arahan';
  $('planBody').innerHTML=matches.map(x=>'<tr><td>'+cell(x.tanggal)+'</td><td><span class="plan-team '+(team(x.tim)?'is-set':'')+'">'+cell(x.tim||x.timAsli)+'</span></td><td class="plan-arahan">'+cell(x.arahan)+'</td><td><input class="plan-pic-input" type="text" maxlength="250" aria-label="PIC kegiatan" data-pic-id="'+esc(x.id)+'" value="'+esc(effective(x,'pic'))+'" placeholder="Nama PIC"></td><td class="plan-output">'+cell(x.output)+'</td><td>'+statusControl(x)+'</td><td>'+(/^https:\/\//i.test(String(x.bukti||'').trim())?'<a target="_blank" rel="noopener noreferrer" href="'+esc(x.bukti)+'">Buka bukti</a>':cell(x.bukti))+'</td><td class="plan-action"><button class="btn btn-outline plan-edit" type="button" data-id="'+esc(x.id)+'">Edit</button></td></tr>').join('')||'<tr><td colspan="8">Belum ada arahan sesuai filter.</td></tr>';
@@ -79,8 +80,8 @@ async function saveDrafts(){
  busy=false;paint();if(savedCount)notify();
  ED.toast(failedCount?savedCount+' tersimpan, '+failedCount+' gagal. Draf yang gagal tetap ada.':savedCount+' arahan tersimpan.');
 }
-$('planSearch').addEventListener('input',paint);$('planTeam').addEventListener('change',paint);
-$('planReset').onclick=()=>{$('planSearch').value='';$('planTeam').value='';paint()};
+$('planSearch').addEventListener('input',paint);$('planTeam').addEventListener('change',paint);$('planYear').addEventListener('change',paint);
+$('planReset').onclick=()=>{$('planSearch').value='';$('planTeam').value='';$('planYear').value='';paint()};
 $('planRefresh').onclick=load;$('planAdd').onclick=fresh;
 $('planCancel').onclick=close;$('planClose').onclick=close;
 $('planSaveDrafts').onclick=saveDrafts;
