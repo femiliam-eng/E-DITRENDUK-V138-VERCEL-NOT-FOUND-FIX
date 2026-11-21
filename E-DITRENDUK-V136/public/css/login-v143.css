@@ -11,3 +11,20 @@ body.login-page.login-motion .login-card .field{font-size:14px}
 body.login-page.login-motion .login-card .btn-navy{min-height:44px}
 body.login-page.login-motion .login-note,body.login-page.login-motion .login-card>div p{font-size:12px}
 @media(max-width:800px){body.login-page.login-motion .login-shell{display:flex;flex-direction:column;background-size:auto 100%;background-position:center}body.login-page.login-motion .login-side{min-height:290px;padding:30px 25px;background:rgba(18,49,99,.65)!important}body.login-page.login-motion .login-card{width:min(490px,calc(100% - 32px));margin:24px auto 40px}}
+
+
+/* REV17 #1: full agency name and visibly contrasting portal subtitle. */
+body.login-page.login-motion .login-side .brand{display:flex;align-items:center;gap:12px;max-width:100%;min-width:0}
+body.login-page.login-motion .login-side .brand>span:last-child{min-width:0}
+body.login-page.login-motion .login-side .brand b{
+  display:block;font-size:clamp(12px,1.12vw,15px);line-height:1.36;letter-spacing:.01em;
+  font-weight:700;color:#fff!important;overflow-wrap:normal
+}
+body.login-page.login-motion .login-side .brand small{
+  display:block;margin-top:5px;font-size:12px;line-height:1.4;
+  color:#eff5ff!important;opacity:1!important;font-weight:500
+}
+@media(max-width:520px){
+ body.login-page.login-motion .login-side .brand b{font-size:12px}
+ body.login-page.login-motion .login-side .brand small{font-size:11px}
+}
