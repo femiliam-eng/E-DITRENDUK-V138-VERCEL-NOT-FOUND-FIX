@@ -1,17 +1,110 @@
-(()=>{'use strict';const $=id=>document.getElementById(id);let rows=[];const fields=['judul','tanggal','metode','jenis','narasumber','pemohon','bukti','catatan'];async function api(path,opts={}){const r=await fetch('/api/'+path,{credentials:'same-origin',headers:{'Content-Type':'application/json'},...opts});const b=await r.json().catch(()=>({message:'Respons server tidak valid.'}));if(!r.ok)throw Error(b.message||'HTTP '+r.status);return b;}const askDelete=(message)=>new Promise(resolve=>{const d=$('confirmDialog');if(!d||typeof d.showModal!=='function'){resolve(false);return;}const cancel=$('confirmCancel'),accept=$('confirmAccept');$('confirmText').textContent=message;const finish=answer=>{d.close();resolve(answer)};cancel.onclick=()=>finish(false);accept.onclick=()=>finish(true);d.oncancel=e=>{e.preventDefault();finish(false)};d.showModal()});const broadcast=()=>{document.dispatchEvent(new Event('workspace-data-updated'));try{localStorage.setItem('ed_workspace_updated',String(Date.now()))}catch(_){}};const text=(tag,val)=>{const el=document.createElement(tag);el.textContent=val??'';return el};const monthNames=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+(()=>{'use strict';
+const $=id=>document.getElementById(id);
+const methods=['Offline','Online','Hybrid'];
+const fields=['judul','tanggal','metode','jenis','narasumber','pemohon','bukti','catatan'];
+const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+let rows=[],drafts=new Map(),busy=false;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
+const text=(tag,value)=>{const e=document.createElement(tag);e.textContent=value??'';return e};
+const notify=()=>{document.dispatchEvent(new Event('workspace-data-updated'));try{localStorage.setItem('ed_workspace_updated',String(Date.now()))}catch(_){}};
+async function api(path,opts={}){const r=await fetch('/api/'+path,{credentials:'same-origin',headers:{'Content-Type':'application/json'},...opts});const b=await r.json().catch(()=>({message:'Respons server tidak valid.'}));if(!r.ok)throw Error(b.message||'HTTP '+r.status);return b}
 function dateParts(v){
- const s=String(v??'').trim();if(!s)return null;
- let y,m,d;let match;
- if((match=/^(\d{4})-(\d{1,2})-(\d{1,2})(?:T.*)?$/.exec(s))){y=+match[1];m=+match[2];d=+match[3];}
- else if((match=/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4})$/.exec(s))){d=+match[1];m=+match[2];y=+match[3];}
- else if((match=/^(\d{1,2})\s+([a-zA-Z]+)\s+(\d{4})$/i.exec(s))){d=+match[1];m=monthNames.findIndex(x=>x.toLowerCase()===match[2].toLowerCase())+1;y=+match[3];}
- else if(/^\d{5}(?:\.0)?$/.test(s)){const utc=Date.UTC(1899,11,30)+Math.round(Number(s))*86400000;const value=new Date(utc);return {y:value.getUTCFullYear(),m:value.getUTCMonth()+1,d:value.getUTCDate()};}
+ const s=String(v??'').trim();let y,m,d,q;if(!s)return null;
+ if((q=/^(\d{4})-(\d{1,2})-(\d{1,2})(?:T.*)?$/.exec(s))){y=+q[1];m=+q[2];d=+q[3]}
+ else if((q=/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4})$/.exec(s))){d=+q[1];m=+q[2];y=+q[3]}
+ else if((q=/^(\d{1,2})\s+([a-zA-Z]+)\s+(\d{4})$/i.exec(s))){d=+q[1];m=months.findIndex(x=>x.toLowerCase()===q[2].toLowerCase())+1;y=+q[3]}
+ else if(/^\d{5}(?:\.0)?$/.test(s)){const date=new Date(Date.UTC(1899,11,30)+Math.round(Number(s))*86400000);y=date.getUTCFullYear();m=date.getUTCMonth()+1;d=date.getUTCDate()}
  else return null;
  if(y<1900||y>2100||m<1||m>12||d<1||d>31)return null;
- const check=new Date(Date.UTC(y,m-1,d));
- if(check.getUTCFullYear()!==y||check.getUTCMonth()+1!==m||check.getUTCDate()!==d)return null;
- return {y,m,d};
+ const date=new Date(Date.UTC(y,m-1,d));return date.getUTCFullYear()===y&&date.getUTCMonth()+1===m&&date.getUTCDate()===d?{y,m,d}:null;
 }
 function dateValue(v){const x=dateParts(v);return x?Date.UTC(x.y,x.m-1,x.d):Number.NEGATIVE_INFINITY}
-function dateDisplay(v){const x=dateParts(v);return x?String(x.d).padStart(2,'0')+' '+monthNames[x.m-1]+' '+x.y:(String(v||'').trim()||'Tanggal belum dicatat')}
-function dateInput(v){const x=dateParts(v);return x?x.y+'-'+String(x.m).padStart(2,'0')+'-'+String(x.d).padStart(2,'0'):''}function render(){const q=$('search').value.toLowerCase(),data=rows.filter(x=>[x.judul,x.tanggal,x.metode,x.jenis,x.narasumber,x.pemohon,x.catatan].join(' ').toLowerCase().includes(q)&&(!$('jenisFilter').value||x.jenis===$('jenisFilter').value)&&(!$('metodeFilter').value||x.metode===$('metodeFilter').value)).sort((a,b)=>($('sort').dataset.order==='asc'?1:-1)*(dateValue(a.tanggal)-dateValue(b.tanggal)));$('summary').textContent=`Menampilkan ${data.length} dari ${rows.length} kegiatan`;const root=$('rows');root.replaceChildren();for(const x of data){const card=document.createElement('article');card.className='item fasilitasi-card';const head=document.createElement('div');head.className='fac-head';const title=text('h3',x.judul);const date=text('span',dateDisplay(x.tanggal));date.className='fac-date';head.append(title,date);card.append(head);const meta=document.createElement('div');meta.className='fac-meta';for(const [name,value] of [['Metode',x.metode],['Jenis fasilitasi',x.jenis],['Pelaksana',x.narasumber],['Pemohon',x.pemohon]]){const group=document.createElement('div');group.className='fac-meta-field';const label=text('small',name);const detail=text('span',value||'Belum diisi');group.append(label,detail);meta.append(group)}card.append(meta);if(x.catatan){const note=document.createElement('div');note.className='fac-note';note.append(text('small','Catatan kegiatan'),text('p',x.catatan));card.append(note)}const proof=document.createElement('div');proof.className='fac-proof';proof.append(text('small','Bukti dukung'));if(x.bukti&&/^https?:\/\//i.test(x.bukti)){const a=document.createElement('a');a.href=x.bukti;a.target='_blank';a.rel='noopener noreferrer';a.textContent=/drive\.google\.com|docs\.google\.com/i.test(x.bukti)?'Buka bukti di Google Drive':'Buka bukti dukung';proof.append(a)}else{proof.append(text('span',x.bukti||'Belum ada tautan bukti'))}card.append(proof);for(const file of x.attachments||[]){const fileRow=document.createElement('div');fileRow.className='file-row';const a=document.createElement('a');a.textContent='Buka: '+file.fileName;a.href='/api/fasilitasi/'+encodeURIComponent(x.id)+'/attachments/'+encodeURIComponent(file.id)+'/file';a.target='_blank';a.rel='noopener';fileRow.append(a);const remove=text('button','Hapus bukti');remove.type='button';remove.className='danger';remove.onclick=async()=>{if(!await askDelete('Hapus bukti dukung ini secara permanen?'))return;try{await api('fasilitasi/'+encodeURIComponent(x.id)+'/attachments/'+encodeURIComponent(file.id),{method:'DELETE'});await load();broadcast()}catch(e){$('msg').textContent=e.message}};fileRow.append(remove);card.append(fileRow)}const buttons=document.createElement('div');buttons.className='actions fac-actions';const edit=text('button','Edit');edit.onclick=()=>{fields.forEach(k=>$(k).value=k==='tanggal'?dateInput(x[k]):x[k]||'');$('itemId').value=x.id;$('formTitle').textContent='Edit fasilitasi';$('msg').textContent='Mengedit: '+x.judul;window.scrollTo({top:0,behavior:'smooth'})};const del=text('button','Hapus');del.className='danger';del.onclick=async()=>{if(!await askDelete('Hapus kegiatan fasilitasi ini beserta lampirannya?'))return;try{await api('fasilitasi/'+encodeURIComponent(x.id),{method:'DELETE'});await load();broadcast()}catch(e){$('msg').textContent=e.message}};buttons.append(edit,del);card.append(buttons);root.append(card)}if(!data.length)root.append(text('p',rows.length?'Tidak ada kegiatan yang sesuai filter.':'Belum ada data.'))}async function load(){try{rows=(await api('fasilitasi')).data||[];render()}catch(e){$('msg').textContent=e.message}}$('form').onsubmit=async e=>{e.preventDefault();const saveButton=$('form').querySelector('button[type=submit]');if(saveButton.disabled)return;saveButton.disabled=true;const id=$('itemId').value,body=Object.fromEntries(fields.map(k=>[k,$(k).value]));if(!body.judul.trim()||!body.tanggal||!body.jenis||!body.metode){$('msg').textContent='Judul, tanggal, jenis, dan metode wajib diisi.';saveButton.disabled=false;return}try{await api(id?'fasilitasi/'+encodeURIComponent(id):'fasilitasi',{method:id?'PATCH':'POST',body:JSON.stringify(body)});$('form').reset();$('itemId').value='';$('formTitle').textContent='Tambah fasilitasi';$('msg').textContent='Data berhasil disimpan melalui server.';await load();broadcast()}catch(err){$('msg').textContent=err.message}finally{saveButton.disabled=false}};$('cancel').onclick=()=>{$('form').reset();$('itemId').value='';$('formTitle').textContent='Tambah fasilitasi';$('msg').textContent='Edit dibatalkan.'};$('search').oninput=render;$('sort').onclick=()=>{$('sort').dataset.order=$('sort').dataset.order==='desc'?'asc':'desc';$('sort').textContent=$('sort').dataset.order==='desc'?'Tanggal terbaru ↓':'Tanggal terlama ↑';$('sort').setAttribute('aria-label','Balik urutan tanggal');render()};$('jenisFilter').onchange=render;$('metodeFilter').onchange=render;load()})();
+function dateDisplay(v){const x=dateParts(v);return x?String(x.d).padStart(2,'0')+' '+months[x.m-1]+' '+x.y:String(v||'').trim()||'—'}
+function dateInput(v){const x=dateParts(v);return x?x.y+'-'+String(x.m).padStart(2,'0')+'-'+String(x.d).padStart(2,'0'):''}
+function methodClass(v){return v==='Offline'?'fac-offline':v==='Online'?'fac-online':v==='Hybrid'?'fac-hybrid':'fac-unknown'}
+function rowById(id){return rows.find(x=>String(x.id)===String(id))}
+function methodValue(row){return drafts.has(String(row.id))?drafts.get(String(row.id)):String(row.metode||'')}
+function updateDraftUI(){
+ const n=drafts.size;$('facSaveDraft').disabled=busy||!n;$('facCancelDraft').disabled=busy||!n;
+ $('facDraftCount').textContent=n?n+' perubahan belum disimpan':'';
+}
+function methodSelect(x){
+ const val=methodValue(x);const variants=val&&!methods.includes(val)?[val,...methods]:['',...methods];
+ return '<select class="fac-method '+methodClass(val)+'" data-method-id="'+esc(x.id)+'" aria-label="Metode kegiatan"'+(busy?' disabled':'')+'>'+
+ variants.map(v=>'<option value="'+esc(v)+'"'+(v===val?' selected':'')+'>'+esc(v||'— Pilih —')+'</option>').join('')+'</select>';
+}
+function evidence(x){
+ const proof=String(x.bukti||'').trim(),files=Array.isArray(x.attachments)?x.attachments:[];
+ const links=[];
+ if(/^https:\/\//i.test(proof))links.push('<a href="'+esc(proof)+'" target="_blank" rel="noopener noreferrer">Buka bukti</a>');
+ else if(proof)links.push('<span>'+esc(proof)+'</span>');
+ for(const file of files)links.push('<a href="/api/fasilitasi/'+encodeURIComponent(x.id)+'/attachments/'+encodeURIComponent(file.id)+'/file" target="_blank" rel="noopener noreferrer">'+esc(file.fileName||'Lampiran')+'</a>');
+ return links.join(' ')||'<span class="fac-empty">—</span>';
+}
+function render(){
+ const query=$('search').value.trim().toLocaleLowerCase('id-ID'),kind=$('jenisFilter').value,met=$('metodeFilter').value,asc=$('sort').dataset.order==='asc';
+ const data=rows.filter(x=>{
+  const m=methodValue(x);
+  return(!kind||x.jenis===kind)&&(!met||(met==='unassigned'?!methods.includes(m):m===met))&&(!query||[x.judul,x.tanggal,x.metode,x.jenis,x.narasumber,x.pemohon,x.catatan].some(v=>String(v??'').toLocaleLowerCase('id-ID').includes(query)));
+ }).slice().sort((a,b)=>(asc?1:-1)*(dateValue(a.tanggal)-dateValue(b.tanggal)));
+ $('summary').textContent=data.length+' dari '+rows.length+' kegiatan';
+ $('rows').innerHTML=data.map(x=>'<tr><td>'+esc(dateDisplay(x.tanggal))+'</td><td class="fac-title-cell" title="'+esc(x.judul)+'">'+esc(x.judul||'—')+'</td><td>'+esc(x.jenis||'—')+'</td><td>'+methodSelect(x)+'</td><td class="fac-person-cell">'+esc(x.narasumber||'—')+'</td><td class="fac-person-cell">'+esc(x.pemohon||'—')+'</td><td class="fac-proof-cell">'+evidence(x)+'</td><td class="fac-actions-cell"><button type="button" class="btn btn-outline fac-edit" data-edit-id="'+esc(x.id)+'">Edit</button></td></tr>').join('')||'<tr><td colspan="8" class="fac-empty-row">Tidak ada kegiatan yang sesuai filter.</td></tr>';
+ $('rows').querySelectorAll('[data-method-id]').forEach(select=>select.onchange=()=>{
+  const x=rowById(select.dataset.methodId);if(!x)return;
+  const val=select.value;
+  if(val===String(x.metode??''))drafts.delete(String(x.id));else drafts.set(String(x.id),val);
+  select.className='fac-method '+methodClass(val);updateDraftUI();
+ });
+ $('rows').querySelectorAll('[data-edit-id]').forEach(btn=>btn.onclick=()=>edit(btn.dataset.editId));
+ updateDraftUI();
+}
+async function load(){
+ if(drafts.size&&!confirm('Ada perubahan metode yang belum disimpan. Batalkan draf dan perbarui daftar?'))return;
+ try{const r=await api('fasilitasi');if(!Array.isArray(r.data))throw Error('Format data tidak valid');rows=r.data;drafts.clear();render();$('msg').textContent=''}
+ catch(e){$('msg').textContent='Gagal memuat data: '+e.message}
+}
+function close(){ED.close('facFormModal')}
+function fresh(){
+ $('form').reset();$('itemId').value='';$('formTitle').textContent='Tambah fasilitasi';$('metode').value='Offline';ED.open('facFormModal');
+}
+function edit(id){
+ const x=rowById(id);if(!x)return;
+ for(const field of fields){
+  const select=$(field),val=field==='tanggal'?dateInput(x[field]):field==='metode'?methodValue(x):String(x[field]??'');
+  if(select.tagName==='SELECT'&&val&&![...select.options].some(o=>o.value===val))select.add(new Option(val,val),0);
+  select.value=val;
+ }
+ $('itemId').value=x.id;$('formTitle').textContent='Edit fasilitasi';ED.open('facFormModal');
+}
+async function saveDrafts(){
+ if(busy||!drafts.size)return;
+ busy=true;updateDraftUI();let saved=0,errors=[];
+ for(const [id,metode] of [...drafts.entries()]){
+  try{const r=await api('fasilitasi/'+encodeURIComponent(id),{method:'PATCH',body:JSON.stringify({metode})});
+   const x=rowById(id);if(x)Object.assign(x,r.data||{metode});drafts.delete(id);saved++;
+  }catch(e){errors.push(e.message)}
+ }
+ busy=false;render();if(saved)notify();
+ $('msg').textContent=errors.length?saved+' tersimpan, '+errors.length+' gagal. Draf yang gagal tetap ada.':saved+' perubahan metode berhasil disimpan.';
+}
+$('facSaveDraft').onclick=saveDrafts;
+$('facCancelDraft').onclick=()=>{if(!drafts.size||!confirm('Batalkan perubahan metode yang belum disimpan?'))return;drafts.clear();render()};
+$('search').oninput=render;$('jenisFilter').onchange=render;$('metodeFilter').onchange=render;
+$('facReset').onclick=()=>{$('search').value='';$('jenisFilter').value='';$('metodeFilter').value='';$('sort').dataset.order='desc';$('sort').textContent='Tanggal terbaru ↓';render()};
+$('sort').onclick=()=>{const asc=$('sort').dataset.order!=='asc';$('sort').dataset.order=asc?'asc':'desc';$('sort').textContent=asc?'Tanggal terlama ↑':'Tanggal terbaru ↓';$('sort').setAttribute('aria-label',asc?'Urutkan tanggal dari terlama ke terbaru':'Urutkan tanggal dari terbaru ke terlama');render()};
+$('addFac').onclick=fresh;$('facClose').onclick=close;$('cancel').onclick=close;
+$('form').onsubmit=async e=>{
+ e.preventDefault();if(busy)return;
+ const id=$('itemId').value;
+ const patch=Object.fromEntries(fields.map(k=>[k,$(k).value]));
+ if(!patch.judul.trim()||!patch.tanggal||!patch.metode||!patch.jenis){$('msg').textContent='Nama, tanggal, metode, dan jenis wajib diisi.';return}
+ busy=true;const btn=$('form').querySelector('[type=submit]');btn.disabled=true;
+ try{
+  const result=await api(id?'fasilitasi/'+encodeURIComponent(id):'fasilitasi',{method:id?'PATCH':'POST',body:JSON.stringify(patch)});
+  drafts.delete(String(id));close();await load();notify();$('msg').textContent='Fasilitasi berhasil disimpan.';
+ }catch(err){$('msg').textContent='Gagal menyimpan: '+err.message}
+ finally{busy=false;btn.disabled=false}
+};
+window.addEventListener('beforeunload',event=>{if(drafts.size){event.preventDefault();event.returnValue=''}});
+load();
+})();
