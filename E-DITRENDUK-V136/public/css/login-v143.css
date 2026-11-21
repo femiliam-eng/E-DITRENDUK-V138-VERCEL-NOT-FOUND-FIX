@@ -45,3 +45,11 @@ body.login-page.login-motion .login-side .brand b .directorate-line{
 @media(max-width:370px){
  body.login-page.login-motion .login-side .brand b .directorate-line{font-size:11px}
 }
+
+/* REV17 login: two deliberate lines, never four; responsive to narrow viewports. */
+body.login-page.login-motion .login-side .brand{display:flex!important;align-items:center!important;width:max-content!important;max-width:100%!important;gap:12px!important}
+body.login-page.login-motion .login-side .brand>span:last-child{width:max-content!important;max-width:calc(100% - 45px)!important;min-width:0!important;flex-shrink:1}
+body.login-page.login-motion .login-side .brand b{max-width:none!important;width:max-content!important;white-space:nowrap!important}
+body.login-page.login-motion .login-side .brand .directorate-line{display:block!important;white-space:nowrap!important;word-break:normal!important;overflow-wrap:normal!important;font-size:clamp(10px,1vw,14px)!important;letter-spacing:-.018em!important}
+body.login-page.login-motion .login-side .brand small{white-space:nowrap!important;color:#f5f9ff!important;opacity:1!important}
+@media(max-width:480px){body.login-page.login-motion .login-side .brand .directorate-line{font-size:clamp(9px,2.75vw,12px)!important}}
