@@ -4,7 +4,7 @@
 const REQUIRED_TABLES=Object.freeze([
  'accounts','auth_sessions','password_reset_requests','ed_profile_photos',
  'monitoring','logbook','archive','users_data','disposisi','petugas','schedules',
- 'fasilitasi','agenda_kegiatan','task_deadline','notulen_submissions',
+ 'fasilitasi','agenda_kegiatan','task_deadline','notulen_submissions','notulen_drive_references',
  'audit_logs','storage_files','ed_request_limits'
 ]);
 // V122: Critical columns must exist, not only their parent tables.
@@ -17,7 +17,7 @@ const REQUIRED_COLUMNS=Object.freeze([
  'ed_request_limits.scope_key','ed_request_limits.bucket','ed_request_limits.count','ed_request_limits.expires_at',
  'monitoring.payload','logbook.payload','archive.payload','users_data.payload','disposisi.payload','petugas.payload','schedules.payload','fasilitasi.payload',
  'agenda_kegiatan.payload','task_deadline.payload',
- 'notulen_submissions.stored_path','notulen_submissions.uploaded_by','notulen_submissions.mime_type',
+ 'notulen_submissions.stored_path','notulen_submissions.uploaded_by','notulen_submissions.mime_type','notulen_submissions.meeting_type','notulen_drive_references.drive_url',
  'audit_logs.account_id','storage_files.stored_path'
 ]);
 function isPlaceholder(value){
