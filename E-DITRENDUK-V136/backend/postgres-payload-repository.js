@@ -1,7 +1,7 @@
 'use strict';
 // V32: asynchronous PostgreSQL repository for the seven JSON-payload modules.
 // No SQL identifiers come from user input. Supply a pg Pool or compatible client.
-const TABLES = Object.freeze({monitoring:'monitoring',logbook:'logbook',archive:'archive',users_data:'users_data',disposisi:'disposisi',petugas:'petugas',schedules:'schedules',agenda_kegiatan:'agenda_kegiatan',task_deadline:'task_deadline',fasilitasi:'fasilitasi'});
+const TABLES = Object.freeze({monitoring:'monitoring',logbook:'logbook',archive:'archive',users_data:'users_data',disposisi:'disposisi',manajemen_plan:'manajemen_plan',petugas:'petugas',schedules:'schedules',agenda_kegiatan:'agenda_kegiatan',task_deadline:'task_deadline',fasilitasi:'fasilitasi'});
 function tableFor(resource) {
   if (!Object.hasOwn(TABLES, resource)) throw new Error('Resource tidak didukung');
   return TABLES[resource];
