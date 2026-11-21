@@ -55,7 +55,7 @@
   const select=(key,options,current)=>{
    const isTeam=key==='tim';
    const selected=isTeam?canonicalTeam(current):String(current??'');
-   const items=isTeam?teams:[...new Set([String(current??''),...options])];
+   const items=isTeam?teams:[...new Set(['',String(current??''),...options])];
    const placeholder=isTeam&&!selected?'<option value="" selected disabled>— Pilih tim —</option>':'';
    const tone=['keuangan','validasiDirektur'].includes(key)?' '+statusClass(current):'';
    return '<select class="field ed-monitor-inline-field'+tone+'" data-inline-key="'+esc(key)+'">'+placeholder+items.map(o=>'<option value="'+esc(o)+'"'+(o===selected?' selected':'')+'>'+esc(o||'—')+'</option>').join('')+'</select>';
@@ -89,8 +89,10 @@
      control.checked=!!(current||[])[Number(control.dataset.doc)];
     }else if(control!==document.activeElement){
      const desired=key==='tim'?canonicalTeam(current):String(current??'');
-     if(control.tagName!=='SELECT'||Array.from(control.options||[]).some(option=>option.value===desired))
-      control.value=desired;
+     if(control.tagName==='SELECT'&&!Array.from(control.options||[]).some(option=>option.value===desired)){
+      control.add(new Option(desired||'—',desired),0);
+     }
+     control.value=desired;
     }
     if(key==='keuangan'||key==='validasiDirektur')paintStatus(control,current);
     if(key==='tim')paintTeam(control,current);
@@ -187,6 +189,8 @@
    if(!(target instanceof HTMLElement))return;
    if(target.matches('.mon-team,.mon-category,.mon-text,.mon-check,.mon-fin,.mon-valid')){
     event.stopImmediatePropagation();
+    if(target.matches('.mon-fin,.mon-valid'))paintStatus(target,target.value);
+    if(target.matches('.mon-team'))paintTeam(target,target.value);
     const id=target.dataset.id;
     if(target.classList.contains('mon-check')){
      const docs=[...(value(id,'docs')||[])];
@@ -257,9 +261,11 @@
    // Manual .value assignment could blank a select if its options changed.
    drafts.clear();
    pending();
+   // Restore both table and open detail from saved values, including empty statuses.
    const sort=document.getElementById('monitorDateSort');
    if(sort)sort.dispatchEvent(new Event('change',{bubbles:true}));
-   syncVisible(); // observer restores inline focus from the saved record.
+   if(focusId)detail(focusId);
+   syncVisible();
   };
   window.addEventListener('beforeunload',event=>{if(drafts.size){event.preventDefault();event.returnValue='';}});
   enhanceRows();pending();
