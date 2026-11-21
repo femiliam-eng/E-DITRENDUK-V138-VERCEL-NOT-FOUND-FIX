@@ -57,7 +57,12 @@
     if(!key||!Object.prototype.hasOwnProperty.call(row,key))continue;
     if(key==='docs')control.checked=!!row.docs[Number(control.dataset.doc)];
     else if(control!==document.activeElement)control.value=String(row[key]??'');
-    if(key==='tim'){
+    if(key==='keuangan'||key==='validasiDirektur'){
+    const status=String(row[key]||'').trim().toLowerCase();
+    control.classList.remove('state-green','state-red','state-orange','state-yellow');
+    control.classList.add(['lengkap','sudah'].includes(status)?'state-green':status==='tidak lengkap'?'state-red':status==='perlu perbaikan'?'state-orange':'state-yellow');
+   }
+   if(key==='tim'){
      control.classList.remove('team-pjpk','team-parameter','team-kinerja');
      const color=row.tim==='PJPK'?'team-pjpk':row.tim==='PARAMETER'?'team-parameter':row.tim==='Manajemen Kinerja'?'team-kinerja':'';
      if(color)control.classList.add(color);
@@ -108,8 +113,8 @@
     field(id,'kategori','Kategori Kegiatan',select('kategori',categories,fieldValue('kategori'))),
     input(id,'ro','RO Komponen'),
     input(id,'sub','Sub Komponen'),
-    field(id,'keuangan','Verifikasi Tim Keuangan',select('keuangan',['','LENGKAP','TIDAK LENGKAP'],fieldValue('keuangan'))),
-    field(id,'validasiDirektur','Validasi Direktur',select('validasiDirektur',['Belum diverifikasi','LENGKAP','TIDAK LENGKAP','Perlu perbaikan'],fieldValue('validasiDirektur'))),
+    field(id,'keuangan','Kelengkapan',select('keuangan',['','LENGKAP','TIDAK LENGKAP'],fieldValue('keuangan'))),
+    field(id,'validasiDirektur','Validasi Direktur',select('validasiDirektur',['Belum','Sudah'],fieldValue('validasiDirektur'))),
     input(id,'bukti','Bukti Dukung')
    ].join('');
    td.innerHTML='<div class="ed-monitor-inline" aria-label="Detail kegiatan terpilih">'+
@@ -222,6 +227,11 @@
     const key=ctl.matches('.mon-team')?'tim':ctl.matches('.mon-category')?'kategori':ctl.matches('.mon-fin')?'keuangan':ctl.matches('.mon-valid')?'validasiDirektur':ctl.matches('.mon-check')?'docs':ctl.dataset.key;
     if(key==='docs')ctl.checked=!!(x.docs||[])[Number(ctl.dataset.doc)];
     else if(key)ctl.value=String(x[key]??'');
+    if(key==='keuangan'||key==='validasiDirektur'){
+     const status=String(x[key]||'').trim().toLowerCase();
+     ctl.classList.remove('state-green','state-red','state-orange','state-yellow');
+     ctl.classList.add(['lengkap','sudah'].includes(status)?'state-green':status==='tidak lengkap'?'state-red':status==='perlu perbaikan'?'state-orange':'state-yellow');
+    }
    }
    if(focusId)detail(focusId);else syncVisible();
   };
