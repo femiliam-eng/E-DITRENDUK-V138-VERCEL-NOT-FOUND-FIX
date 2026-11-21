@@ -1,0 +1,41 @@
+/* Shared filter scale: use same 35px controls as other workspace modules. */
+body[data-page="rakom"] .plan-filters,
+body[data-page="agenda"] .entry-filter-row,
+body[data-page="task-deadline"] .entry-filter-row,
+body[data-page="logbook"] .toolbar,
+body[data-page="arsip"] .toolbar{display:flex;align-items:flex-end;flex-wrap:wrap;gap:9px!important}
+body[data-page="rakom"] .plan-filters label{min-width:0!important;width:170px;max-width:195px;flex:0 1 170px;font-size:10px!important;font-weight:650;display:flex;flex-direction:column;gap:5px}
+body[data-page="rakom"] .plan-filters label:first-child{width:235px;max-width:255px;flex:0 1 235px}
+body[data-page="rakom"] .plan-filters label.ed-year-field{width:130px;max-width:130px;flex:0 0 130px}
+body[data-page="rakom"] .plan-filters :is(input,select),
+body[data-page="agenda"] .entry-filter-row :is(input,select),
+body[data-page="task-deadline"] .entry-filter-row :is(input,select),
+body[data-page="logbook"] .toolbar :is(input,select),
+body[data-page="arsip"] .toolbar :is(input,select){box-sizing:border-box;min-height:35px!important;height:35px!important;font-size:10px!important;border-radius:7px!important;padding:7px 9px!important}
+body[data-page="rakom"] .plan-filters label.ed-year-field select{min-width:0!important;width:100%!important;font-size:10px!important}
+body[data-page="rakom"] .plan-filters button,
+body[data-page="agenda"] :is(.entry-filter-row,.entry-data-tools) button,
+body[data-page="task-deadline"] :is(.entry-filter-row,.entry-data-tools) button,
+body[data-page="logbook"] .toolbar button,
+body[data-page="arsip"] .toolbar button{min-height:35px!important;height:35px!important;padding:7px 10px!important;font-size:10px!important;line-height:1.2!important;border-radius:7px!important;white-space:nowrap!important;width:auto!important;max-width:150px}
+body[data-page="agenda"] .entry-year-field,
+body[data-page="task-deadline"] .entry-year-field,
+body[data-page="logbook"] .ed-year-field,
+body[data-page="arsip"] .ed-year-field{width:132px!important;min-width:132px!important;max-width:132px!important;flex:0 0 132px!important;display:inline-flex!important;flex-direction:column;gap:5px;font-size:10px!important;font-weight:650;color:#32455e}
+body[data-page="agenda"] .entry-year-field select,
+body[data-page="task-deadline"] .entry-year-field select,
+body[data-page="logbook"] .ed-year-field select,
+body[data-page="arsip"] .ed-year-field select{width:132px!important;min-width:0!important;max-width:132px!important;margin:0!important}
+body[data-page="arsip"] .toolbar>input#archiveSearch{max-width:260px!important;width:260px!important;flex:0 1 260px}
+body[data-page="agenda"] .entry-filter-row #entrySearch,
+body[data-page="task-deadline"] .entry-filter-row #entrySearch{width:240px!important;max-width:260px!important;min-width:190px}
+body[data-page="logbook"] .toolbar #logSearch{max-width:260px!important;min-width:190px!important}
+body[data-page="agenda"] .entry-row-number,
+body[data-page="task-deadline"] .entry-row-number{width:42px;min-width:42px;max-width:42px;text-align:center!important;white-space:nowrap!important;font-size:10px!important;color:#64748b}
+body[data-page="agenda"] th.entry-row-number,
+body[data-page="task-deadline"] th.entry-row-number{color:#fff!important}
+body[data-page="logbook"] .log-row-number,body[data-page="logbook"] .log-number-column{width:42px!important;min-width:42px!important;text-align:center!important;white-space:nowrap!important}
+body[data-page="logbook"] .log-row-number{color:#64748b}
+body[data-page="arsip"] .ed-complete-field{width:150px!important;min-width:150px!important;max-width:150px!important;flex:0 0 150px!important}
+body[data-page="arsip"] .ed-complete-field select{width:150px!important;max-width:150px!important}
+@media(max-width:760px){body[data-page="rakom"] .plan-filters label:first-child,body[data-page="agenda"] .entry-filter-row #entrySearch,body[data-page="task-deadline"] .entry-filter-row #entrySearch{flex:1 1 100%!important;width:100%!important;max-width:none!important}}
