@@ -84,7 +84,7 @@ function pageMonitoring(){
  };
  const teamSelectOptions=current=>{
   const selected=canonicalTeam(current);
-  const placeholder=selected?'':'<option value="" selected disabled>— Pilih tim —</option>';
+  const placeholder=selected?'':'<option value="" selected>— Pilih tim —</option>';
   return placeholder+teams.map(team=>'<option value="'+ED.esc(team)+'"'+(team===selected?' selected':'')+'>'+ED.esc(team)+'</option>').join('');
  };
  const categories=[...new Set(['FULLDAY','FULLBOARD','RAPAT DI KANTOR','RAPAT DI LUAR KANTOR','PERJALANAN DINAS','NARASUMBER',...rows.map(x=>x.kategori).filter(Boolean)])];
@@ -95,8 +95,7 @@ function pageMonitoring(){
  function cls(v){v=(v||'').toLowerCase();return (v==='lengkap'||v==='sudah')?'state-green':v==='tidak lengkap'?'state-red':v==='perlu perbaikan'?'state-orange':'state-yellow'}
  let monitorSort='new',financeFilter='all',teamFilter='all',yearFilter='all',monitorSearch='';
  const teamFilterOptions=teams.map(v=>'<option value="'+ED.esc(v)+'">'+ED.esc(v)+'</option>').join('');
- document.querySelectorAll('#monitorBody').forEach(()=>{});
-  document.querySelectorAll('.monitor-toolbar').forEach(el=>el.remove());
+ document.querySelectorAll('.monitor-toolbar').forEach(el=>el.remove());
   const sortBar=document.createElement('div');
  sortBar.className='toolbar monitor-toolbar';
  sortBar.style.marginBottom='12px';
