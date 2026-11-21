@@ -19,6 +19,7 @@
   const value=(id,key)=>Object.prototype.hasOwnProperty.call(changed(id),key)?changed(id)[key]:item(id)?.[key];
   const equal=(a,b)=>JSON.stringify(a??null)===JSON.stringify(b??null);
   const teams=['PARAMETER','PJPK','Manajemen Kinerja','RUMAH DATAKU'];
+  const directorView=v=>['SUDAH','DISETUJUI'].includes(String(v??'').trim().toUpperCase())?'Sudah':'Belum';
   const canonicalTeam=value=>{
    const normalized=String(value||'').trim().replace(/\s+/g,' ').toLocaleUpperCase('id-ID');
    return teams.find(team=>team.toLocaleUpperCase('id-ID')===normalized)||'';
@@ -54,10 +55,10 @@
   const totalColumns=body.closest('table').querySelectorAll('thead th').length||22;
   const select=(key,options,current)=>{
    const isTeam=key==='tim';
-   const selected=isTeam?canonicalTeam(current):String(current??'');
-   const items=isTeam?teams:[...new Set(['',String(current??''),...options])];
+   const selected=isTeam?canonicalTeam(current):key==='validasiDirektur'?directorView(current):String(current??'');
+   const items=isTeam?teams:key==='validasiDirektur'?['Belum','Sudah']:[...new Set(['',String(current??''),...options])];
    const placeholder=isTeam&&!selected?'<option value="" selected>— Pilih tim —</option>':'';
-   const tone=['keuangan','validasiDirektur'].includes(key)?' '+statusClass(current):'';
+   const tone=['keuangan','validasiDirektur'].includes(key)?' '+statusClass(key==='validasiDirektur'?directorView(current):current):'';
    return '<select class="field ed-monitor-inline-field'+tone+'" data-inline-key="'+esc(key)+'">'+placeholder+items.map(o=>'<option value="'+esc(o)+'"'+(o===selected?' selected':'')+'>'+esc(o||'—')+'</option>').join('')+'</select>';
   };
   const field=(id,key,label,content)=>'<div class="ed-monitor-inline-field-wrap"><label for="monitorInline-'+esc(key)+'">'+esc(label)+'</label>'+content.replace('class="field','id="monitorInline-'+esc(key)+'" class="field')+'</div>';
@@ -88,13 +89,13 @@
     if(key==='docs'){
      control.checked=!!(current||[])[Number(control.dataset.doc)];
     }else{
-     const desired=key==='tim'?canonicalTeam(current):String(current??'');
+     const desired=key==='tim'?canonicalTeam(current):key==='validasiDirektur'?directorView(current):String(current??'');
      if(control.tagName==='SELECT'&&!Array.from(control.options||[]).some(option=>option.value===desired)){
       control.add(new Option(desired||'—',desired),0);
      }
      control.value=desired;
     }
-    if(key==='keuangan'||key==='validasiDirektur')paintStatus(control,current);
+    if(key==='keuangan'||key==='validasiDirektur')paintStatus(control,key==='validasiDirektur'?directorView(current):current);
     if(key==='tim')paintTeam(control,current);
    }
    for(const tr of body.querySelectorAll('tr[data-ed-monitor-id]')){
@@ -109,13 +110,9 @@
    const original=item(id);
    if(!original)return;
    const d={...changed(id)};
-   const same=key==='tim'?canonicalTeam(next)===canonicalTeam(original[key]):equal(next,original[key]);
+   const same=key==='tim'?canonicalTeam(next)===canonicalTeam(original[key]):key==='validasiDirektur'?directorView(next)===directorView(original[key]):equal(next,original[key]);
    if(same)delete d[key];else d[key]=next;
-   if(key==='validasiDirektur'){
-    // Reverting a validation must also discard its linked legacy status draft.
-    if(same){delete d.validasiDirektur;delete d.verifikasi;}
-    else{d.validasiDirektur=next;d.verifikasi=next;}
-   }
+   // Director approval is independent; never overwrite the legacy verification field.
    if(Object.keys(d).length)drafts.set(id,d);
    else drafts.delete(id);
    pending();syncVisible();
