@@ -1,0 +1,18 @@
+/* Concept-note data preserves whitespace, readable even for long instructions. */
+body[data-page="rakom"] .plan-filters{display:flex;flex-wrap:wrap;align-items:end;gap:12px;margin:18px 0}
+body[data-page="rakom"] .plan-filters label{display:flex;flex-direction:column;gap:5px;min-width:180px;font-size:12px;font-weight:600}
+body[data-page="rakom"] .plan-filters input{min-width:220px}
+body[data-page="rakom"] .plan-filters .field{min-height:37px;font-size:13px}
+body[data-page="rakom"] .plan-filters #planCount{font-size:12px;color:#64748b}
+body[data-page="rakom"] .plan-table{min-width:1200px}
+body[data-page="rakom"] .plan-table th{font-size:12px!important;white-space:nowrap}
+body[data-page="rakom"] .plan-table td{font-size:12px!important;line-height:1.5;vertical-align:top;max-width:280px;overflow-wrap:anywhere}
+body[data-page="rakom"] .plan-table .plan-arahan{min-width:280px;max-width:460px;white-space:pre-wrap}
+body[data-page="rakom"] .plan-team{display:inline-block;max-width:160px;white-space:normal;font-size:12px;color:#475569}
+body[data-page="rakom"] .plan-team.is-set{font-weight:700;color:#173d82}
+body[data-page="rakom"] .plan-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+body[data-page="rakom"] .plan-form-grid label{display:block;font-weight:600;font-size:12px;color:#334155}
+body[data-page="rakom"] .plan-form-grid .field{margin-top:6px;font-size:13px;min-height:36px}
+body[data-page="rakom"] .plan-form-grid .wide{grid-column:1/-1}
+body[data-page="rakom"] .plan-note{font-size:12px;color:#64748b;line-height:1.6}
+@media(max-width:650px){body[data-page="rakom"] .plan-form-grid{grid-template-columns:1fr}body[data-page="rakom"] .plan-form-grid .wide{grid-column:auto}}
