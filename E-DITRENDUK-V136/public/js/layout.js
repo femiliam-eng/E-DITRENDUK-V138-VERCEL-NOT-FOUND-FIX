@@ -100,9 +100,9 @@ function showWorkspaceHelp(){
  if(!modal){modal=document.createElement('div');modal.id='workspaceHelpModal';modal.className='modal-overlay help-overlay';document.body.appendChild(modal);
  const sections=[
  ['Beranda','Ringkasan kegiatan, tugas, kelengkapan dokumen, dan logbook. Angka berasal dari data workspace yang dimuat dari server.'],
- ['Repository','Cari rapat, buka detail, periksa status, lalu buka dokumen sumber jika tautan dokumennya tersedia.'],
+ 
  ['Pengumpulan Notulensi','Isi judul dan tanggal rapat, pilih PDF/DOC/DOCX maksimal 6 MB, kemudian klik Kumpulkan notulensi. Cari unggahan melalui kotak pencarian hasil.'],
- ['RAKOM','Pantau arahan direktur, PIC, tenggat, status, progres, dan bukti dukung. Status Done berarti 100%.'],
+ ['Manajemen Plan','Pantau arahan direktur dari Concept Note, pilih tim kerja, isi PIC, status, progres, dan bukti dukung.'],
  ['Monitoring','Periksa kegiatan dan checklist dokumen; ubah verifikasi tim keuangan dan direktur sesuai hasil pemeriksaan.'],
  ['Agenda Kegiatan','Cari atau tambah agenda, isi tanggal, tempat, waktu, dan hasil kegiatan; gunakan Lampiran untuk dokumen pendukung.'],
  ['Task Deadline','Lihat tugas dan tenggat; filter Semua, Done, atau Not yet, urutkan tanggal, dan perbarui rincian tugas.'],
