@@ -59,3 +59,12 @@ body.login-page.login-motion .login-side .brand b .directorate-line{display:bloc
 body.login-page.login-motion .login-side .brand>span:last-child{max-width:none!important;width:max-content!important;flex-shrink:1!important}
 body.login-page.login-motion .login-side .brand small{font-size:clamp(10px,.95vw,12px)!important;line-height:1.4!important}
 @media(max-width:800px){body.login-page.login-motion .login-side .brand b .directorate-line{font-size:clamp(9px,2.55vw,14px)!important}}
+
+/* REV21NOV #login composition: middle block vertically balanced between brand and lower edge. */
+body.login-page.login-motion .login-side{display:flex!important;flex-direction:column!important;justify-content:flex-start!important;gap:0!important}
+body.login-page.login-motion .login-side>.brand{flex:0 0 auto!important}
+body.login-page.login-motion .login-side>div{flex:1 1 auto!important;display:flex!important;flex-direction:column!important;justify-content:center!important;min-height:0!important;padding-block:clamp(24px,5vh,58px)!important}
+body.login-page.login-motion .login-side>div .login-kicker{margin:0 0 18px!important}
+body.login-page.login-motion .login-side>div h1{margin:0 0 24px!important;line-height:1.08!important}
+body.login-page.login-motion .login-side>div p:not(.login-kicker){margin:0!important;max-width:580px!important;line-height:1.65!important}
+@media(max-width:800px){body.login-page.login-motion .login-side>div{padding-block:44px 24px!important}body.login-page.login-motion .login-side>div h1{font-size:clamp(32px,8vw,48px)!important;margin-bottom:15px!important}}
