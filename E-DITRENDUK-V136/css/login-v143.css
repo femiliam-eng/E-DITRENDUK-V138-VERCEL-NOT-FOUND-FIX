@@ -90,3 +90,20 @@ body.login-page.login-motion .login-side .brand small{
  body.login-page.login-motion .login-side .brand b{font-size:12px}
  body.login-page.login-motion .login-side .brand small{font-size:11px}
 }
+
+
+/* REV17 fix: exactly two intentional lines, no narrow inherited 190px brand box. */
+body.login-page.login-motion .login-side .brand{
+ width:max-content!important;max-width:100%;gap:11px;align-items:center
+}
+body.login-page.login-motion .login-side .brand .brand-badge{flex:0 0 32px}
+body.login-page.login-motion .login-side .brand>span:last-child{
+ width:max-content;min-width:0;max-width:100%
+}
+body.login-page.login-motion .login-side .brand b .directorate-line{
+ display:block;white-space:nowrap;font-size:clamp(11.5px,.96vw,14px);
+ line-height:1.42;letter-spacing:0;font-weight:700
+}
+@media(max-width:370px){
+ body.login-page.login-motion .login-side .brand b .directorate-line{font-size:11px}
+}

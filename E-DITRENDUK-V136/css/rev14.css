@@ -354,3 +354,30 @@ body[data-page="monitoring"] .monitor-toolbar #monitorSearch{max-width:180px}
 body[data-page="monitoring"] .monitor-toolbar #monitorCount{
   flex:1 1 100%;margin:0;font-size:12px!important
 }
+
+
+/* REV17 patch: full finance header stays on one line; status and 4 team colors. */
+body[data-page="monitoring"] .table thead th:nth-child(20){
+ min-width:178px!important;max-width:none!important;width:auto!important;
+ white-space:nowrap!important;font-size:11.5px!important;letter-spacing:-.1px
+}
+body[data-page="monitoring"] #monitorBody .mon-team.team-dataku,
+body[data-page="monitoring"] .ed-monitor-inline .ed-monitor-inline-field.team-dataku{
+ background:#fff!important;color:#334155!important;border-color:#cbd5e1!important
+}
+body[data-page="monitoring"] #monitorBody .mon-team.team-pjpk,
+body[data-page="monitoring"] .ed-monitor-inline .ed-monitor-inline-field.team-pjpk{
+ background:#e0f2fe!important;color:#075985!important;border-color:#7dd3fc!important
+}
+body[data-page="monitoring"] #monitorBody .mon-team.team-kinerja,
+body[data-page="monitoring"] .ed-monitor-inline .ed-monitor-inline-field.team-kinerja{
+ background:#f3e8ff!important;color:#6b21a8!important;border-color:#d8b4fe!important
+}
+body[data-page="monitoring"] #monitorBody .mon-team.team-parameter,
+body[data-page="monitoring"] .ed-monitor-inline .ed-monitor-inline-field.team-parameter{
+ background:#e0f5e8!important;color:#166534!important;border-color:#86d7a5!important
+}
+body[data-page="monitoring"] #monitorBody select.state-yellow,
+body[data-page="monitoring"] .ed-monitor-inline select.state-yellow{
+ background:#fff2c6!important;color:#8b6500!important;border-color:#f1df9b!important
+}
