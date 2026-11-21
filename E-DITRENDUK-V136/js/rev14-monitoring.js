@@ -56,7 +56,7 @@
    const isTeam=key==='tim';
    const selected=isTeam?canonicalTeam(current):String(current??'');
    const items=isTeam?teams:[...new Set(['',String(current??''),...options])];
-   const placeholder=isTeam&&!selected?'<option value="" selected disabled>— Pilih tim —</option>':'';
+   const placeholder=isTeam&&!selected?'<option value="" selected>— Pilih tim —</option>':'';
    const tone=['keuangan','validasiDirektur'].includes(key)?' '+statusClass(current):'';
    return '<select class="field ed-monitor-inline-field'+tone+'" data-inline-key="'+esc(key)+'">'+placeholder+items.map(o=>'<option value="'+esc(o)+'"'+(o===selected?' selected':'')+'>'+esc(o||'—')+'</option>').join('')+'</select>';
   };
@@ -87,7 +87,7 @@
     const current=Object.prototype.hasOwnProperty.call(draft,key)?draft[key]:saved[key];
     if(key==='docs'){
      control.checked=!!(current||[])[Number(control.dataset.doc)];
-    }else if(control!==document.activeElement){
+    }else{
      const desired=key==='tim'?canonicalTeam(current):String(current??'');
      if(control.tagName==='SELECT'&&!Array.from(control.options||[]).some(option=>option.value===desired)){
       control.add(new Option(desired||'—',desired),0);
