@@ -18,6 +18,14 @@
   const changed=id=>drafts.get(String(id))||{};
   const value=(id,key)=>Object.prototype.hasOwnProperty.call(changed(id),key)?changed(id)[key]:item(id)?.[key];
   const equal=(a,b)=>JSON.stringify(a??null)===JSON.stringify(b??null);
+  const statusClass=v=>{
+   const status=String(v||'').trim().toLowerCase();
+   return ['lengkap','sudah'].includes(status)?'state-green':status==='tidak lengkap'?'state-red':status==='perlu perbaikan'?'state-orange':'state-yellow';
+  };
+  const paintStatus=(element,value)=>{
+   element.classList.remove('state-green','state-red','state-orange','state-yellow');
+   element.classList.add(statusClass(value));
+  };
   const headerActions=document.createElement('div');
   headerActions.className='ed-monitor-header-actions';
   headerActions.innerHTML='<button type="button" class="btn btn-navy" id="monitorSaveAll">Simpan Perubahan</button><button type="button" class="ed-monitor-cancel" id="monitorCancelDraft">Batalkan draf</button>';
@@ -35,7 +43,8 @@
   const totalColumns=body.closest('table').querySelectorAll('thead th').length||22;
   const select=(key,options,current)=>{
    const items=[...new Set([String(current??''),...options])];
-   return '<select class="field ed-monitor-inline-field" data-inline-key="'+esc(key)+'">'+items.map(o=>'<option value="'+esc(o)+'"'+(o===String(current??'')?' selected':'')+'>'+esc(o||'—')+'</option>').join('')+'</select>';
+   const tone=['keuangan','validasiDirektur'].includes(key)?' '+statusClass(current):'';
+   return '<select class="field ed-monitor-inline-field'+tone+'" data-inline-key="'+esc(key)+'">'+items.map(o=>'<option value="'+esc(o)+'"'+(o===String(current??'')?' selected':'')+'>'+esc(o||'—')+'</option>').join('')+'</select>';
   };
   const field=(id,key,label,content)=>'<div class="ed-monitor-inline-field-wrap"><label for="monitorInline-'+esc(key)+'">'+esc(label)+'</label>'+content.replace('class="field','id="monitorInline-'+esc(key)+'" class="field')+'</div>';
   const input=(id,key,label)=>field(id,key,label,'<input class="field ed-monitor-inline-field" data-inline-key="'+esc(key)+'" value="'+esc(value(id,key))+'">');
@@ -58,9 +67,7 @@
     if(key==='docs')control.checked=!!row.docs[Number(control.dataset.doc)];
     else if(control!==document.activeElement)control.value=String(row[key]??'');
     if(key==='keuangan'||key==='validasiDirektur'){
-    const status=String(row[key]||'').trim().toLowerCase();
-    control.classList.remove('state-green','state-red','state-orange','state-yellow');
-    control.classList.add(['lengkap','sudah'].includes(status)?'state-green':status==='tidak lengkap'?'state-red':status==='perlu perbaikan'?'state-orange':'state-yellow');
+    paintStatus(control,row[key]);
    }
    if(key==='tim'){
      control.classList.remove('team-pjpk','team-parameter','team-kinerja');
@@ -176,7 +183,10 @@
     docs[Number(target.dataset.inlineDoc)]=target.checked;
     stage(focusId,'docs',docs);
    }
-   if(target.matches('select[data-inline-key]')&&focusId)stage(focusId,target.dataset.inlineKey,target.value);
+   if(target.matches('select[data-inline-key]')&&focusId){
+    if(['keuangan','validasiDirektur'].includes(target.dataset.inlineKey))paintStatus(target,target.value);
+    stage(focusId,target.dataset.inlineKey,target.value);
+   }
   },true);
   body.addEventListener('input',event=>{
    const target=event.target;
@@ -228,9 +238,7 @@
     if(key==='docs')ctl.checked=!!(x.docs||[])[Number(ctl.dataset.doc)];
     else if(key)ctl.value=String(x[key]??'');
     if(key==='keuangan'||key==='validasiDirektur'){
-     const status=String(x[key]||'').trim().toLowerCase();
-     ctl.classList.remove('state-green','state-red','state-orange','state-yellow');
-     ctl.classList.add(['lengkap','sudah'].includes(status)?'state-green':status==='tidak lengkap'?'state-red':status==='perlu perbaikan'?'state-orange':'state-yellow');
+     paintStatus(ctl,x[key]);
     }
    }
    if(focusId)detail(focusId);else syncVisible();
