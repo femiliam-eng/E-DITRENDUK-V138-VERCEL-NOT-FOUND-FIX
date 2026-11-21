@@ -28,3 +28,6 @@ body[data-page="arsip"] .ar-nasib.state-red{background:#fde6e8!important;color:#
 body[data-page="arsip"] .ar-nasib.state-yellow{background:#fff2c6!important;color:#8b6500!important}
 body[data-page="arsip"] .ar-nasib.state-blue{background:#dbeafe!important;color:#1e40af!important}
 @media(max-width:760px){body[data-page="notulen"] .ed-notulen-form{grid-template-columns:1fr}body[data-page="notulen"] .ed-notulen-toolbar label:first-child{flex:1 1 100%}}
+
+body[data-page="logbook"] .ed-year-field,body[data-page="arsip"] .ed-year-field{display:inline-flex;flex-direction:column;gap:5px;flex:0 0 132px;width:132px;font-size:10px;font-weight:650;color:#32455e;line-height:1.2}
+body[data-page="logbook"] .ed-year-field .field,body[data-page="arsip"] .ed-year-field .field{height:35px;min-height:35px;max-width:132px;margin:0;padding:7px 9px}
