@@ -172,7 +172,7 @@ function createApp({pool,storage,attachmentStorage}={}){
   if(/^\/api\/fasilitasi\/[a-zA-Z0-9_-]{1,100}\/attachments(?:\/|$)/.test(url.pathname))return fasilitasiAttachment?fasilitasiAttachment({req,res,url,user,readJson,json}):json(res,503,{ok:false,message:'Storage bukti fasilitasi belum tersedia.'});
   if(/^\/api\/agenda\/[a-zA-Z0-9_-]{1,100}\/attachments(?:\/|$)/.test(url.pathname))return attachment?attachment({req,res,url,user,readJson,json}):json(res,503,{ok:false,message:'Storage lampiran belum tersedia.'});
   if(/^\/api\/(agenda|task-deadline)(?:\/|$)/.test(url.pathname))return agenda.handle({req,res,url,user,repo:payload,readJson,json,audit:async(accountId,action,resource,resourceId)=>pool.query('INSERT INTO audit_logs(id,account_id,action,resource,resource_id,detail) VALUES($1,$2,$3,$4,$5,$6::jsonb)',[`audit_${crypto.randomUUID()}`,accountId,action,resource,resourceId,'{}'])});
-  if(/^\/api\/(monitoring|logbook|archive|users|disposisi|petugas|schedules|fasilitasi)(?:\/|$)/.test(url.pathname)||['/api/bootstrap','/api/dashboard','/api/audit','/api/reminders'].includes(url.pathname))return unified.handle({req,res,url,user,repo:payload,pool,readJson,json});
+  if(/^\/api\/(monitoring|logbook|archive|users|disposisi|manajemen-plan|petugas|schedules|fasilitasi)(?:\/|$)/.test(url.pathname)||['/api/bootstrap','/api/dashboard','/api/audit','/api/reminders'].includes(url.pathname))return unified.handle({req,res,url,user,repo:payload,pool,readJson,json});
   if(/^\/api\/notulen-submissions(?:\/|$)/.test(url.pathname))return uploadHandler?uploadHandler({req,res,url,user}):json(res,503,{ok:false,message:'Storage notulen belum tersedia.'});
   return json(res,404,{ok:false,message:'Endpoint tidak tersedia pada runtime PostgreSQL.'});
  }
