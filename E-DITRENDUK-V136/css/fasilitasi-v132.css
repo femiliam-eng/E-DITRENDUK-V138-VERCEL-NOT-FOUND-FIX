@@ -38,3 +38,29 @@ body[data-page="fasilitasi"] .item p{font-size:11px;line-height:1.5}
 body[data-page="fasilitasi"] .item button{font-size:10px;padding:7px 11px}
 @media(max-width:1050px){body[data-page="fasilitasi"] .fasilitasi-toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:680px){body[data-page="fasilitasi"] #form,body[data-page="fasilitasi"] .fasilitasi-toolbar{grid-template-columns:1fr}body[data-page="fasilitasi"] main.main>section{padding:15px}}
+
+/* REV21NOV — Facilitation structured directory, single-click sort and Drive-first evidence. */
+body[data-page="fasilitasi"] .fasilitasi-toolbar{display:flex!important;flex-wrap:wrap;align-items:end;gap:12px!important}
+body[data-page="fasilitasi"] .fasilitasi-toolbar>label{flex:1 1 185px;min-width:0}
+body[data-page="fasilitasi"] .fasilitasi-toolbar>label:first-child{flex:1 1 265px}
+body[data-page="fasilitasi"] #sort.fasilitasi-sort-toggle{width:auto!important;min-width:170px;min-height:38px;padding:8px 13px;background:#fff!important;color:#173d82!important;border:1px solid #d6e1f0!important;border-radius:9px;font-size:12px!important;font-weight:700!important;white-space:nowrap;box-sizing:border-box}
+body[data-page="fasilitasi"] .fasilitasi-directory{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;background:#f5f8fc;border:1px solid #e1e9f5;padding:11px 14px;border-radius:10px;margin:12px 0 18px;font-size:12px}
+body[data-page="fasilitasi"] .fasilitasi-directory span{font-weight:700}
+body[data-page="fasilitasi"] .fasilitasi-directory a{color:#174582;background:none!important;padding:0!important;text-decoration:underline!important;font-size:12px!important}
+body[data-page="fasilitasi"] .fasilitasi-directory small{color:#61738a;font-size:11px}
+body[data-page="fasilitasi"] .fasilitasi-card{margin:0 0 12px!important;padding:18px!important;border:1px solid #e0e7f1!important;border-radius:12px;background:#fff;box-shadow:0 3px 14px #19365c08}
+body[data-page="fasilitasi"] .fac-head{display:flex;justify-content:space-between;align-items:start;gap:16px}
+body[data-page="fasilitasi"] .fac-head h3{margin:0;font-size:14px;line-height:1.5;color:#183a76;max-width:850px;white-space:pre-wrap}
+body[data-page="fasilitasi"] .fac-date{display:inline-block;flex-shrink:0;background:#eef4ff;border-radius:8px;padding:5px 9px;color:#244976;font-size:11px;font-weight:600}
+body[data-page="fasilitasi"] .fac-meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:15px 0;border-bottom:1px solid #e8eef5;padding-bottom:13px}
+body[data-page="fasilitasi"] .fac-meta-field{display:flex;flex-direction:column;gap:4px;min-width:0;overflow-wrap:anywhere}
+body[data-page="fasilitasi"] :is(.fac-meta-field,.fac-note,.fac-proof)>small{font-weight:700;color:#65758d;font-size:10px}
+body[data-page="fasilitasi"] .fac-meta-field>span{font-size:12px;line-height:1.5;white-space:pre-line;color:#1c3555}
+body[data-page="fasilitasi"] .fac-note{margin:6px 0 13px}.fac-note p{font-size:12px!important;margin:5px 0;white-space:pre-line}
+body[data-page="fasilitasi"] .fac-proof{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:13px 0}
+body[data-page="fasilitasi"] .fac-proof a{background:#eff6ff!important;color:#16447f!important;border:1px solid #bcd4f3!important;border-radius:8px;padding:7px 12px!important;font-size:11px!important;font-weight:700!important;text-decoration:none!important}
+body[data-page="fasilitasi"] .fac-proof span{font-size:11px;color:#75849a}
+body[data-page="fasilitasi"] .fac-actions{margin:10px 0 0!important}
+body[data-page="fasilitasi"] .fac-upload{margin:10px 0}
+@media(max-width:970px){body[data-page="fasilitasi"] .fac-meta{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){body[data-page="fasilitasi"] .fac-head{flex-direction:column;gap:8px}body[data-page="fasilitasi"] .fac-meta{grid-template-columns:1fr}}
