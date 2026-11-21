@@ -77,16 +77,24 @@ function pageMonitoring(){
  const valid=['Belum','Sudah'];
  const finance=['','LENGKAP','TIDAK LENGKAP'];
  const docCount=12;
- const teams=['PARAMETER','PJPK','Manajemen Kinerja'];
+ const teams=['PARAMETER','PJPK','Manajemen Kinerja','RUMAH DATAKU'];
+ const canonicalTeam=value=>{
+  const normalized=String(value||'').trim().replace(/\s+/g,' ').toLocaleUpperCase('id-ID');
+  return teams.find(team=>team.toLocaleUpperCase('id-ID')===normalized)||'';
+ };
+ const teamSelectOptions=current=>{
+  const selected=canonicalTeam(current);
+  const placeholder=selected?'':'<option value="" selected disabled>— Pilih tim —</option>';
+  return placeholder+teams.map(team=>'<option value="'+ED.esc(team)+'"'+(team===selected?' selected':'')+'>'+ED.esc(team)+'</option>').join('');
+ };
  const categories=[...new Set(['FULLDAY','FULLBOARD','RAPAT DI KANTOR','RAPAT DI LUAR KANTOR','PERJALANAN DINAS','NARASUMBER',...rows.map(x=>x.kategori).filter(Boolean)])];
- const teamColor=v=>v==='PARAMETER'?'team-parameter':v==='PJPK'?'team-pjpk':v==='Manajemen Kinerja'?'team-kinerja':'';
+ const teamColor=value=>{const v=canonicalTeam(value);return v==='PARAMETER'?'team-parameter':v==='PJPK'?'team-pjpk':v==='Manajemen Kinerja'?'team-kinerja':v==='RUMAH DATAKU'?'team-dataku':''};
  const options=(items,current)=>[...new Set([current,...items].filter(Boolean))].map(v=>`<option value="${ED.esc(v)}" ${v===current?'selected':''}>${ED.esc(v)}</option>`).join('');
  async function saveField(x,key,value,element){const previous=x[key];x[key]=value;try{await API.update('monitoring',x.id,{[key]:value});ED.toast('Perubahan tersimpan di PostgreSQL.')}catch(err){x[key]=previous;if(element){element.value=previous||'';if(key==='tim')element.className='inline-select mon-team '+teamColor(previous)}ED.toast('Gagal menyimpan: '+err.message)}}
  rows.forEach(x=>{if(!Array.isArray(x.docs))x.docs=[];while(x.docs.length<docCount)x.docs.push(false);if(x.ro===undefined)x.ro='';if(x.sub===undefined)x.sub='';if(x.keuangan===undefined)x.keuangan='';if(x.validasiDirektur===undefined)x.validasiDirektur=x.verifikasi||'Belum';if(x.bukti===undefined)x.bukti=''});
  function cls(v){v=(v||'').toLowerCase();return (v==='lengkap'||v==='sudah')?'state-green':v==='tidak lengkap'?'state-red':v==='perlu perbaikan'?'state-orange':'state-yellow'}
  let monitorSort='new',financeFilter='all',teamFilter='all',yearFilter='all',monitorSearch='';
- const teamOptions=[...new Set([...teams,'RUMAH DATAKU',...rows.map(x=>x.tim).filter(Boolean)])];
- const teamFilterOptions=teamOptions.map(v=>'<option value="'+ED.esc(v)+'">'+ED.esc(v)+'</option>').join('');
+ const teamFilterOptions=teams.map(v=>'<option value="'+ED.esc(v)+'">'+ED.esc(v)+'</option>').join('');
  const sortBar=document.createElement('div');
  sortBar.className='toolbar monitor-toolbar';
  sortBar.style.marginBottom='12px';
@@ -123,7 +131,7 @@ function pageMonitoring(){
   return rows.slice().filter(x=>{
    const status=String(x.keuangan||'').trim().toUpperCase();
    const financeMatches=financeFilter==='all'||(financeFilter==='empty'?(!status||status.includes('BELUM')):status===financeFilter);
-   const teamMatches=teamFilter==='all'||String(x.tim||'')===teamFilter;
+   const teamMatches=teamFilter==='all'||canonicalTeam(x.tim)===teamFilter;
    const yearMatches=yearFilter==='all'||yearOf(x)===yearFilter;
    const searchable=[x.nama,x.tim,x.kategori,x.tanggal,x.ro,x.sub].some(v=>String(v||'').toLocaleLowerCase('id-ID').includes(monitorSearch));
    return financeMatches&&teamMatches&&yearMatches&&searchable;
@@ -136,7 +144,7 @@ function pageMonitoring(){
  }
  function monitorCsvCell(v){let t=String(v??'');if(/^[\s\u0000-\u001f]*[=+@-]/.test(t))t="'"+t;return '"'+t.replace(/"/g,'""')+'"'}
  sortBar.querySelector('#monitorExport').onclick=()=>{const header=['Tanggal','Nama kegiatan','Tim','Kategori','RO','Sub','Kelengkapan','Validasi direktur','Bukti','Tanggal perlu diperiksa'];const data=filteredMonitoring().map(x=>[x.tanggal,x.nama,x.tim,x.kategori,x.ro,x.sub,x.keuangan,x.validasiDirektur,x.bukti,monitorValidDate(x)?'Tidak':'Ya']);const csv='\uFEFF'+[header,...data].map(row=>row.map(monitorCsvCell).join(',')).join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='monitoring-filtered.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)};
- function render(){const filtered=filteredMonitoring();sortBar.querySelector('#monitorCount').textContent=filtered.length+' dari '+rows.length+' kegiatan · '+rows.filter(x=>!monitorValidDate(x)).length+' tanggal perlu diperiksa';body.innerHTML=filtered.map((x,ri)=>`<tr id="${x.id}"><td>${ri+1}</td><td>${ED.esc(x.tanggal||'—')}</td><td class="monitor-name"><strong>${ED.esc(x.nama)}</strong></td><td><select class="inline-select mon-team ${teamColor(x.tim)}" data-id="${ED.esc(x.id)}">${options(teams,x.tim)}</select></td><td><select class="inline-select mon-category" data-id="${ED.esc(x.id)}">${options(categories,x.kategori)}</select></td><td><input class="inline-input mon-text" data-id="${ED.esc(x.id)}" data-key="ro" value="${ED.esc(x.ro)}"></td><td><input class="inline-input mon-text" data-id="${ED.esc(x.id)}" data-key="sub" value="${ED.esc(x.sub)}"></td>${x.docs.map((v,i)=>`<td class="check-cell"><input class="check mon-check" data-id="${ED.esc(x.id)}" data-doc="${i}" type="checkbox" ${v?'checked':''}></td>`).join('')}<td><select class="inline-select mon-fin ${cls(x.keuangan)}" data-id="${ED.esc(x.id)}">${finance.map(v=>`<option value="${v}" ${v===x.keuangan?'selected':''}>${v||'—'}</option>`).join('')}</select></td><td><select class="inline-select mon-valid ${cls(x.validasiDirektur)}" data-id="${ED.esc(x.id)}">${[...new Set([x.validasiDirektur,...valid].filter(Boolean))].map(v=>`<option ${v===x.validasiDirektur?'selected':''}>${ED.esc(v)}</option>`).join('')}</select></td><td><input class="inline-input mon-text monitor-link" data-id="${ED.esc(x.id)}" data-key="bukti" value="${ED.esc(x.bukti)}" placeholder="https://..."></td></tr>`).join('')||'<tr><td colspan="24" class="muted">Belum ada kegiatan yang sesuai filter validasi.</td></tr>';
+ function render(){const filtered=filteredMonitoring();sortBar.querySelector('#monitorCount').textContent=filtered.length+' dari '+rows.length+' kegiatan · '+rows.filter(x=>!monitorValidDate(x)).length+' tanggal perlu diperiksa';body.innerHTML=filtered.map((x,ri)=>`<tr id="${x.id}"><td>${ri+1}</td><td>${ED.esc(x.tanggal||'—')}</td><td class="monitor-name"><strong>${ED.esc(x.nama)}</strong></td><td><select class="inline-select mon-team ${teamColor(x.tim)}" data-id="${ED.esc(x.id)}">${teamSelectOptions(x.tim)}</select></td><td><select class="inline-select mon-category" data-id="${ED.esc(x.id)}">${options(categories,x.kategori)}</select></td><td><input class="inline-input mon-text" data-id="${ED.esc(x.id)}" data-key="ro" value="${ED.esc(x.ro)}"></td><td><input class="inline-input mon-text" data-id="${ED.esc(x.id)}" data-key="sub" value="${ED.esc(x.sub)}"></td>${x.docs.map((v,i)=>`<td class="check-cell"><input class="check mon-check" data-id="${ED.esc(x.id)}" data-doc="${i}" type="checkbox" ${v?'checked':''}></td>`).join('')}<td><select class="inline-select mon-fin ${cls(x.keuangan)}" data-id="${ED.esc(x.id)}">${finance.map(v=>`<option value="${v}" ${v===x.keuangan?'selected':''}>${v||'—'}</option>`).join('')}</select></td><td><select class="inline-select mon-valid ${cls(x.validasiDirektur)}" data-id="${ED.esc(x.id)}">${[...new Set([x.validasiDirektur,...valid].filter(Boolean))].map(v=>`<option ${v===x.validasiDirektur?'selected':''}>${ED.esc(v)}</option>`).join('')}</select></td><td><input class="inline-input mon-text monitor-link" data-id="${ED.esc(x.id)}" data-key="bukti" value="${ED.esc(x.bukti)}" placeholder="https://..."></td></tr>`).join('')||'<tr><td colspan="24" class="muted">Belum ada kegiatan yang sesuai filter validasi.</td></tr>';
  body.querySelectorAll('.mon-team').forEach(c=>c.onchange=async()=>{const x=rows.find(r=>r.id===c.dataset.id);if(!x)return;await saveField(x,'tim',c.value,c);c.className='inline-select mon-team '+teamColor(x.tim)});
  body.querySelectorAll('.mon-category').forEach(c=>c.onchange=async()=>{const x=rows.find(r=>r.id===c.dataset.id);if(x)await saveField(x,'kategori',c.value,c)});
  body.querySelectorAll('.mon-check').forEach(c=>c.onchange=async()=>{let x=rows.find(r=>r.id===c.dataset.id);if(!x)return;const previous=[...x.docs];const next=[...previous];next[+c.dataset.doc]=c.checked;await saveField(x,'docs',next,c);c.checked=!!x.docs[+c.dataset.doc]});

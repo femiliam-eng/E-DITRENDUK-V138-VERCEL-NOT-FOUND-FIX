@@ -18,6 +18,17 @@
   const changed=id=>drafts.get(String(id))||{};
   const value=(id,key)=>Object.prototype.hasOwnProperty.call(changed(id),key)?changed(id)[key]:item(id)?.[key];
   const equal=(a,b)=>JSON.stringify(a??null)===JSON.stringify(b??null);
+  const teams=['PARAMETER','PJPK','Manajemen Kinerja','RUMAH DATAKU'];
+  const canonicalTeam=value=>{
+   const normalized=String(value||'').trim().replace(/\s+/g,' ').toLocaleUpperCase('id-ID');
+   return teams.find(team=>team.toLocaleUpperCase('id-ID')===normalized)||'';
+  };
+  const paintTeam=(element,value)=>{
+   element.classList.remove('team-parameter','team-pjpk','team-kinerja','team-dataku');
+   const team=canonicalTeam(value);
+   const color=team==='PARAMETER'?'team-parameter':team==='PJPK'?'team-pjpk':team==='Manajemen Kinerja'?'team-kinerja':team==='RUMAH DATAKU'?'team-dataku':'';
+   if(color)element.classList.add(color);
+  };
   const statusClass=v=>{
    const status=String(v||'').trim().toLowerCase();
    return ['lengkap','sudah'].includes(status)?'state-green':status==='tidak lengkap'?'state-red':status==='perlu perbaikan'?'state-orange':'state-yellow';
@@ -42,9 +53,12 @@
   const names=[...body.closest('table').querySelectorAll('thead th')].slice(7,19).map(x=>x.textContent.trim());
   const totalColumns=body.closest('table').querySelectorAll('thead th').length||22;
   const select=(key,options,current)=>{
-   const items=[...new Set([String(current??''),...options])];
+   const isTeam=key==='tim';
+   const selected=isTeam?canonicalTeam(current):String(current??'');
+   const items=isTeam?teams:[...new Set([String(current??''),...options])];
+   const placeholder=isTeam&&!selected?'<option value="" selected disabled>— Pilih tim —</option>':'';
    const tone=['keuangan','validasiDirektur'].includes(key)?' '+statusClass(current):'';
-   return '<select class="field ed-monitor-inline-field'+tone+'" data-inline-key="'+esc(key)+'">'+items.map(o=>'<option value="'+esc(o)+'"'+(o===String(current??'')?' selected':'')+'>'+esc(o||'—')+'</option>').join('')+'</select>';
+   return '<select class="field ed-monitor-inline-field'+tone+'" data-inline-key="'+esc(key)+'">'+placeholder+items.map(o=>'<option value="'+esc(o)+'"'+(o===selected?' selected':'')+'>'+esc(o||'—')+'</option>').join('')+'</select>';
   };
   const field=(id,key,label,content)=>'<div class="ed-monitor-inline-field-wrap"><label for="monitorInline-'+esc(key)+'">'+esc(label)+'</label>'+content.replace('class="field','id="monitorInline-'+esc(key)+'" class="field')+'</div>';
   const input=(id,key,label)=>field(id,key,label,'<input class="field ed-monitor-inline-field" data-inline-key="'+esc(key)+'" value="'+esc(value(id,key))+'">');
@@ -55,31 +69,37 @@
    saveButton.disabled=saving||!count;
    cancelButton.disabled=saving||!count;
   }
+  // Render either the unsaved draft or the last saved value on every update.
+  // Selecting an empty status and cancelling drafts must restore the right color.
   function syncVisible(){
    for(const control of body.querySelectorAll('tr[data-ed-monitor-id] [data-id]')){
-    const id=control.dataset.id;
-    const row=changed(id);
-    if(!Object.keys(row).length)continue;
-    const key=control.matches('.mon-team')?'tim':control.matches('.mon-category')?'kategori':
-     control.matches('.mon-fin')?'keuangan':control.matches('.mon-valid')?'validasiDirektur':
-     control.matches('.mon-text')?control.dataset.key:control.matches('.mon-check')?'docs':null;
-    if(!key||!Object.prototype.hasOwnProperty.call(row,key))continue;
-    if(key==='docs')control.checked=!!row.docs[Number(control.dataset.doc)];
-    else if(control!==document.activeElement)control.value=String(row[key]??'');
-    if(key==='keuangan'||key==='validasiDirektur'){
-    paintStatus(control,row[key]);
-   }
-   if(key==='tim'){
-     control.classList.remove('team-pjpk','team-parameter','team-kinerja');
-     const color=row.tim==='PJPK'?'team-pjpk':row.tim==='PARAMETER'?'team-parameter':row.tim==='Manajemen Kinerja'?'team-kinerja':'';
-     if(color)control.classList.add(color);
+    const id=String(control.dataset.id||'');
+    const saved=item(id);
+    if(!saved)continue;
+    const draft=changed(id);
+    const key=control.matches('.mon-team')?'tim':
+     control.matches('.mon-category')?'kategori':
+     control.matches('.mon-fin')?'keuangan':
+     control.matches('.mon-valid')?'validasiDirektur':
+     control.matches('.mon-text')?control.dataset.key:
+     control.matches('.mon-check')?'docs':null;
+    if(!key)continue;
+    const current=Object.prototype.hasOwnProperty.call(draft,key)?draft[key]:saved[key];
+    if(key==='docs'){
+     control.checked=!!(current||[])[Number(control.dataset.doc)];
+    }else if(control!==document.activeElement){
+     const desired=key==='tim'?canonicalTeam(current):String(current??'');
+     if(control.tagName!=='SELECT'||Array.from(control.options||[]).some(option=>option.value===desired))
+      control.value=desired;
     }
+    if(key==='keuangan'||key==='validasiDirektur')paintStatus(control,current);
+    if(key==='tim')paintTeam(control,current);
    }
    for(const tr of body.querySelectorAll('tr[data-ed-monitor-id]')){
     tr.classList.toggle('ed-monitor-active',tr.dataset.edMonitorId===focusId);
     tr.classList.toggle('ed-monitor-dirty',drafts.has(tr.dataset.edMonitorId));
-    const btn=tr.querySelector('.ed-monitor-focus');
-    if(btn)btn.setAttribute('aria-expanded',String(tr.dataset.edMonitorId===focusId));
+    const button=tr.querySelector('.ed-monitor-focus');
+    if(button)button.setAttribute('aria-expanded',String(tr.dataset.edMonitorId===focusId));
    }
   }
   function stage(id,key,next){
@@ -87,11 +107,12 @@
    const original=item(id);
    if(!original)return;
    const d={...changed(id)};
-   if(equal(next,original[key]))delete d[key];
-   else d[key]=next;
+   const same=key==='tim'?canonicalTeam(next)===canonicalTeam(original[key]):equal(next,original[key]);
+   if(same)delete d[key];else d[key]=next;
    if(key==='validasiDirektur'){
-    if(equal(next,original.verifikasi))delete d.verifikasi;
-    else d.verifikasi=next;
+    // Reverting a validation must also discard its linked legacy status draft.
+    if(same){delete d.validasiDirektur;delete d.verifikasi;}
+    else{d.validasiDirektur=next;d.verifikasi=next;}
    }
    if(Object.keys(d).length)drafts.set(id,d);
    else drafts.delete(id);
@@ -113,7 +134,7 @@
    td.colSpan=totalColumns;
    const fieldValue=key=>value(id,key)??'';
    const docs=Array.isArray(fieldValue('docs'))?fieldValue('docs'):[];
-   const optionsTeam=['PARAMETER','PJPK','RUMAH DATAKU','Manajemen Kinerja'];
+   const optionsTeam=teams;
    const categories=['FULLDAY','FULLBOARD','RAPAT DI KANTOR','RAPAT DI LUAR KANTOR','PERJALANAN DINAS','NARASUMBER'];
    const grid=[
     field(id,'tim','Tim Kerja',select('tim',optionsTeam,fieldValue('tim'))),
@@ -185,6 +206,7 @@
    }
    if(target.matches('select[data-inline-key]')&&focusId){
     if(['keuangan','validasiDirektur'].includes(target.dataset.inlineKey))paintStatus(target,target.value);
+    if(target.dataset.inlineKey==='tim')paintTeam(target,target.value);
     stage(focusId,target.dataset.inlineKey,target.value);
    }
   },true);
@@ -231,17 +253,13 @@
   saveButton.onclick=saveDrafts;
   cancelButton.onclick=()=>{
    if(!drafts.size||!window.confirm('Batalkan semua draf yang belum disimpan? Data yang sudah tersimpan di PostgreSQL tidak berubah.'))return;
-   drafts.clear();pending();
-   for(const ctl of body.querySelectorAll('tr[data-ed-monitor-id] [data-id]')){
-    const x=item(ctl.dataset.id);if(!x)continue;
-    const key=ctl.matches('.mon-team')?'tim':ctl.matches('.mon-category')?'kategori':ctl.matches('.mon-fin')?'keuangan':ctl.matches('.mon-valid')?'validasiDirektur':ctl.matches('.mon-check')?'docs':ctl.dataset.key;
-    if(key==='docs')ctl.checked=!!(x.docs||[])[Number(ctl.dataset.doc)];
-    else if(key)ctl.value=String(x[key]??'');
-    if(key==='keuangan'||key==='validasiDirektur'){
-     paintStatus(ctl,x[key]);
-    }
-   }
-   if(focusId)detail(focusId);else syncVisible();
+   // The legacy render builds complete select options from saved data.
+   // Manual .value assignment could blank a select if its options changed.
+   drafts.clear();
+   pending();
+   const sort=document.getElementById('monitorDateSort');
+   if(sort)sort.dispatchEvent(new Event('change',{bubbles:true}));
+   syncVisible(); // observer restores inline focus from the saved record.
   };
   window.addEventListener('beforeunload',event=>{if(drafts.size){event.preventDefault();event.returnValue='';}});
   enhanceRows();pending();
