@@ -1,7 +1,7 @@
 'use strict';
 // V71: unified PostgreSQL API for seven existing modules, dashboard, and audit.
 const crypto=require('node:crypto');
-const ROUTES=Object.freeze({monitoring:['monitoring','monitoring'],logbook:['logbook','logbook'],archive:['archive','arsip'],users:['users_data','pengguna'],disposisi:['disposisi','rakom'],'manajemen-plan':['manajemen_plan','rakom'],petugas:['petugas','agenda'],schedules:['schedules','agenda'],fasilitasi:['fasilitasi','agenda']});
+const ROUTES=Object.freeze({monitoring:['monitoring','monitoring'],logbook:['logbook','logbook'],archive:['archive','arsip'],users:['users_data','pengguna'],disposisi:['disposisi','rakom'],'manajemen-plan':['manajemen_plan','rakom'],petugas:['petugas','agenda'],schedules:['schedules','agenda'],fasilitasi:['fasilitasi','fasilitasi']});
 const BOOTSTRAP=Object.freeze({monitoring:'monitoring',logbook:'logbook',archive:'archive',users:'users_data',disposisi:'disposisi',petugas:'petugas',schedules:'schedules',fasilitasi:'fasilitasi'});
 function allowed(user,module){
  if(!user||user.status!=='Aktif')return false;
@@ -11,7 +11,7 @@ function allowed(user,module){
  if(module!=='agenda'&&String(user.role).includes('Admin'))return true;
  let permissions=user.permissions||[];
  try{if(typeof permissions==='string')permissions=JSON.parse(permissions)}catch{return false}
- return Array.isArray(permissions)&&permissions.includes(module);
+ return Array.isArray(permissions)&&(permissions.includes(module)||(module==='fasilitasi'&&permissions.includes('agenda')));
 }
 function unpack(record){return record?(typeof record.payload==='string'?JSON.parse(record.payload):record.payload):null}
 // V130: strict calendar-day parser; never rely on Date.parse for ambiguous legacy data.
@@ -50,7 +50,7 @@ async function handle({req,res,url,user,repo,pool,readJson,json}){
  };
  const attachmentMatch=url.pathname.match(/^\/api\/fasilitasi\/([a-zA-Z0-9_-]{1,100})\/attachments(?:\/([a-zA-Z0-9_-]{1,100})(?:\/file)?)?$/);
  if(attachmentMatch){
-  if(!allowed(user,'agenda'))return json(res,403,{ok:false,message:'Tidak memiliki izin fasilitasi.'});
+  if(!allowed(user,'fasilitasi'))return json(res,403,{ok:false,message:'Tidak memiliki izin fasilitasi.'});
   const [,id,fileId]=attachmentMatch;
   const current=unpack(await repo.get('fasilitasi',id));
   if(!current)return json(res,404,{ok:false,message:'Kegiatan tidak ditemukan.'});
