@@ -39,3 +39,52 @@ body[data-page="logbook"] .log-row-number{color:#64748b}
 body[data-page="arsip"] .ed-complete-field{width:150px!important;min-width:150px!important;max-width:150px!important;flex:0 0 150px!important}
 body[data-page="arsip"] .ed-complete-field select{width:150px!important;max-width:150px!important}
 @media(max-width:760px){body[data-page="rakom"] .plan-filters label:first-child,body[data-page="agenda"] .entry-filter-row #entrySearch,body[data-page="task-deadline"] .entry-filter-row #entrySearch{flex:1 1 100%!important;width:100%!important;max-width:none!important}}
+
+/* REV22: hard-limit year filter wrapper after previous toolbar overrides.
+   These wrappers are DIVs (not form labels), so no legacy input-label stretch. */
+body[data-page="logbook"] .toolbar>.ed-year-control,
+body[data-page="arsip"] .toolbar>.ed-year-control{
+  box-sizing:border-box!important;
+  display:flex!important;flex-direction:column!important;
+  flex:0 0 132px!important;align-self:flex-end!important;
+  width:132px!important;min-width:132px!important;max-width:132px!important;
+  height:56px!important;min-height:0!important;max-height:56px!important;
+  padding:0!important;margin:0!important;gap:5px!important;
+  justify-content:flex-end!important;overflow:visible!important;
+  background:transparent!important;border:0!important;
+}
+body[data-page="arsip"] .toolbar>.ed-complete-field{
+  flex-basis:160px!important;width:160px!important;min-width:160px!important;max-width:160px!important;
+}
+body[data-page="logbook"] .toolbar>.ed-year-control>span,
+body[data-page="arsip"] .toolbar>.ed-year-control>span{
+  flex:0 0 auto!important;display:block!important;font-size:12px!important;
+  font-weight:600!important;line-height:16px!important;color:#24375e!important;
+  margin:0!important;padding:0!important;white-space:nowrap!important;
+}
+body[data-page="logbook"] .toolbar>.ed-year-control>select,
+body[data-page="arsip"] .toolbar>.ed-year-control>select{
+  display:block!important;flex:0 0 35px!important;box-sizing:border-box!important;
+  width:100%!important;max-width:100%!important;min-width:0!important;
+  height:35px!important;min-height:35px!important;max-height:35px!important;
+  padding:6px 9px!important;margin:0!important;font-size:12px!important;
+  line-height:1.3!important;background:#fff!important;border:1px solid #dbe4f0!important;
+  border-radius:7px!important;
+}
+body[data-page="logbook"] .toolbar>.ed-year-control{order:0!important}
+body[data-page="arsip"] .toolbar>.ed-year-control{order:0!important}
+body[data-page="logbook"] .toolbar,
+body[data-page="arsip"] .toolbar{align-items:flex-end!important;row-gap:9px!important}
+body[data-page="rakom"] .plan-filters .field,
+body[data-page="arsip"] .toolbar>.ed-year-control>select,
+body[data-page="logbook"] .toolbar>.ed-year-control>select{font-size:12px!important}
+body[data-page="rakom"] .plan-proof-cell{overflow-wrap:normal!important}
+body[data-page="rakom"] .plan-table .plan-proof-col{width:17%!important}
+body[data-page="rakom"] .plan-table .plan-direction-col{width:19%!important}
+body[data-page="rakom"] .plan-table .plan-output-col{width:7%!important}
+body[data-page="rakom"] .plan-table .plan-status-col{width:11%!important}
+body[data-page="rakom"] .plan-table .plan-action-col{width:7%!important}
+body[data-page="rakom"] .plan-proof-edit{display:flex;flex-direction:column;gap:5px;min-width:0;width:100%}
+body[data-page="rakom"] .plan-proof-input{width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important;height:36px!important;min-height:36px!important;padding:7px 9px!important;border:1px solid #cfd9e8!important;border-radius:8px!important;background:#fff!important;color:#20324d!important;font-size:12px!important;font-weight:400!important}
+body[data-page="rakom"] .plan-proof-input:focus{outline:2px solid #b8c8e5!important;outline-offset:1px}
+body[data-page="rakom"] .plan-proof-link{color:#173d82!important;font-size:11px!important;text-decoration:underline!important;white-space:nowrap}
