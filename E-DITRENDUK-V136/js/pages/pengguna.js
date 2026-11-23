@@ -127,6 +127,18 @@ document.addEventListener('layout:ready', async () => {
                 ED.toast('Salinan berisi password rahasia. Simpan dan bagikan melalui saluran pribadi.');
             }catch{ED.toast('Gagal menyalin otomatis. Pilih dan salin secara manual.');}
         });
+        document.getElementById('bulkResultDownload')?.addEventListener('click',()=>{
+            if(!oneTimeResults.length)return;
+            const csvCell=value=>'"'+String(value??'').replace(/"/g,'""')+'"';
+            const lines=[['Nama','Username','Kata sandi sementara'].map(csvCell).join(','),
+              ...oneTimeResults.map(x=>[x.name,x.username,x.password].map(csvCell).join(','))];
+            const blob=new Blob(['\uFEFF'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'});
+            const url=URL.createObjectURL(blob),link=document.createElement('a');
+            link.href=url;link.download='E-DITRENDUK-kredensial-awal-RAHASIA.csv';
+            document.body.appendChild(link);link.click();link.remove();
+            setTimeout(()=>URL.revokeObjectURL(url),1000);
+            ED.toast('CSV rahasia tersimpan. Bagikan password kepada tiap pegawai secara pribadi.');
+        });
         document.getElementById('bulkResultClose')?.addEventListener('click',()=>{
             oneTimeResults=[];bulkResultRows.replaceChildren();ED.close('bulkResultModal');
         });
