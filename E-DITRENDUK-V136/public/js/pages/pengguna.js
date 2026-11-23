@@ -94,7 +94,7 @@ document.addEventListener('layout:ready', async () => {
             try{
                 const response=await API.bulkResetPreview();
                 expectedCount=Number(response.count)||0;
-                bulkPreview.textContent=expectedCount+' pegawai aktif yang masih memakai kata sandi sementara dapat direset. Superadmin dan akun dengan kata sandi permanen tidak termasuk.';
+                bulkPreview.textContent=expectedCount+' pegawai aktif akan menerima kata sandi sementara unik dan wajib menggantinya saat masuk. Superadmin dan akun nonaktif tidak termasuk.';
             }catch(error){
                 bulkError.textContent=error.message;
                 bulkPreview.textContent='Tidak dapat mengambil daftar akun.';
@@ -104,7 +104,7 @@ document.addEventListener('layout:ready', async () => {
             if(!expectedCount||bulkConfirm.value!=='RESET PEGAWAI')return;
             bulkExecute.disabled=true;bulkError.textContent='';
             try{
-                const data=await API.bulkResetEmployeePasswords({scope:'pending-first-login',confirmation:'RESET PEGAWAI',expectedCount});
+                const data=await API.bulkResetEmployeePasswords({scope:'active-employees-onboarding',confirmation:'RESET PEGAWAI',expectedCount});
                 if(!data.ok||!Array.isArray(data.credentials))throw Error('Hasil reset tidak valid.');
                 oneTimeResults=data.credentials.slice();
                 bulkResultRows.replaceChildren();
