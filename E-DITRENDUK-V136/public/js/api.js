@@ -55,6 +55,8 @@ const API = (() => {
         submitNotulen: data => request('/api/notulen-submissions',{method:'POST',body:JSON.stringify(data)}),
         getNotulen: id => request(`/api/notulen/${encodeURIComponent(id)}`),
         accounts: () => request('/api/accounts'),
+        bulkResetPreview: () => request('/api/accounts/bulk-reset-preview'),
+        bulkResetEmployeePasswords: data => request('/api/accounts/bulk-reset-passwords',{method:'POST',body:JSON.stringify(data)}),
         createAccount: data => request('/api/accounts', { method:'POST', body:JSON.stringify(data) }),
         updateAccount: (id,data) => request(`/api/accounts/${encodeURIComponent(id)}`, { method:'PATCH', body:JSON.stringify(data) }),
         resetPassword: (id,password) => request(`/api/accounts/${encodeURIComponent(id)}/reset-password`, { method:'POST', body:JSON.stringify({password}) }),
