@@ -10,11 +10,15 @@ async function handle({req,res,url,user,pool,readJson,json,uid,hashPassword,vali
  const send=(status,body)=>json(res,status,body);
  if(!user||user.status!=='Aktif')return send(401,{ok:false,message:'Sesi tidak valid.'});
  if(user.role!=='Superadmin')return send(403,{ok:false,message:'Hanya Superadmin.'});
- // Explicitly confirmed bulk onboarding for active employees; Superadmins and inactive accounts remain untouched.
- // No current password is recovered, no Superadmin/inactive account is changed, and all writes are atomic.
+ // Reset active users other than the initiating Superadmin. Keep the acting administrator
+ // able to recover; all other active users, including another Superadmin, must rotate credentials.
  if(url.pathname==='/api/accounts/bulk-reset-preview'&&req.method==='GET'){
-  const result=await pool.query("SELECT count(*)::int AS n FROM accounts WHERE role='Pegawai' AND status='Aktif'");
-  return send(200,{ok:true,count:Number(result.rows[0].n),scope:'active-employees-onboarding'});
+  const [targets,inactive]=await Promise.all([
+   pool.query("SELECT username,name,role FROM accounts WHERE status='Aktif' AND id<>$1 ORDER BY username",[user.id]),
+   pool.query("SELECT count(*)::int AS n FROM accounts WHERE status='Nonaktif'")
+  ]);
+  return send(200,{ok:true,count:targets.rows.length,scope:'all-active-other-users',
+   accounts:targets.rows,protectedAccount:{username:user.username},inactiveCount:Number(inactive.rows[0]?.n)||0});
  }
  if(url.pathname==='/api/accounts/bulk-reset-passwords'){
   if(req.method!=='POST')return send(405,{ok:false,message:'Metode tidak didukung.'});
@@ -23,12 +27,12 @@ async function handle({req,res,url,user,pool,readJson,json,uid,hashPassword,vali
    return send(403,{ok:false,message:'Permintaan harus berasal dari halaman aplikasi.'});}
   catch{return send(403,{ok:false,message:'Origin permintaan tidak valid.'});}
   const b=await readJson(req);
-  if(b?.scope!=='active-employees-onboarding'||b?.confirmation!=='RESET PEGAWAI'||!Number.isSafeInteger(b?.expectedCount)||b.expectedCount<1)
+  if(b?.scope!=='all-active-other-users'||b?.confirmation!=='RESET SEMUA PENGGUNA'||!Number.isSafeInteger(b?.expectedCount)||b.expectedCount<1)
    return send(400,{ok:false,message:'Konfirmasi reset massal tidak valid.'});
   const client=await pool.connect();
   try{
    await client.query('BEGIN');
-   const {rows:targets}=await client.query("SELECT id,username,name FROM accounts WHERE role='Pegawai' AND status='Aktif' ORDER BY username FOR UPDATE");
+   const {rows:targets}=await client.query("SELECT id,username,name,role FROM accounts WHERE status='Aktif' AND id<>$1 ORDER BY username FOR UPDATE",[user.id]);
    if(targets.length!==b.expectedCount||targets.length>100){
     await client.query('ROLLBACK');
     return send(409,{ok:false,message:'Jumlah akun berubah. Muat ulang daftar dan konfirmasi kembali.'});
@@ -41,7 +45,7 @@ async function handle({req,res,url,user,pool,readJson,json,uid,hashPassword,vali
     result.push({username:account.username,name:account.name,password});
    }
    await client.query('INSERT INTO audit_logs(id,account_id,action,resource,resource_id,detail) VALUES($1,$2,$3,$4,$5,$6::jsonb)',
-    [uid('audit'),user.id,'BULK_RESET_PASSWORD','account','active-employees-onboarding',JSON.stringify({count:targets.length,scope:'active-employees-onboarding'})]);
+    [uid('audit'),user.id,'BULK_RESET_PASSWORD','account','all-active-other-users',JSON.stringify({count:targets.length,scope:'all-active-other-users',initiator:user.id})]);
    await client.query('COMMIT');
    // Only return plaintext credentials once to this authenticated Superadmin; never log/store plaintext passwords.
    return send(200,{ok:true,count:result.length,credentials:result,oneTime:true});

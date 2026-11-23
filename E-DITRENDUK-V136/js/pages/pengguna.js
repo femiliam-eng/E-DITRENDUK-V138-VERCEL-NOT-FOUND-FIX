@@ -70,6 +70,13 @@ document.addEventListener('layout:ready', async () => {
                 toggle.classList.toggle('is-visible',showing);
             });
         }
+        document.addEventListener('users:changed',load);
+        document.getElementById('refreshResetRequests')?.addEventListener('click',loadResetRequests);
+        loadResetRequests();
+});
+
+;(()=>{'use strict';
+ function initBulkReset(){
         const bulkOpen=document.getElementById('bulkResetOpen');
         const bulkModal=document.getElementById('bulkResetModal');
         const bulkConfirm=document.getElementById('bulkResetConfirm');
@@ -84,27 +91,34 @@ document.addEventListener('layout:ready', async () => {
         document.getElementById('bulkResetCancel')?.addEventListener('click',closeBulk);
         document.getElementById('bulkResetClose')?.addEventListener('click',closeBulk);
         bulkConfirm?.addEventListener('input',()=>{
-            bulkExecute.disabled=!(expectedCount>0&&bulkConfirm.value==='RESET PEGAWAI');
+            bulkExecute.disabled=!(expectedCount>0&&bulkConfirm.value==='RESET SEMUA PENGGUNA');
         });
         bulkOpen?.addEventListener('click',async()=>{
             bulkError.textContent='';
-            bulkPreview.textContent='Memeriksa jumlah pegawai…';
+            bulkPreview.textContent='Memeriksa seluruh akun aktif…';
             bulkConfirm.value='';bulkExecute.disabled=true;expectedCount=0;
             ED.open('bulkResetModal');
             try{
                 const response=await API.bulkResetPreview();
                 expectedCount=Number(response.count)||0;
-                bulkPreview.textContent=expectedCount+' pegawai aktif akan menerima kata sandi sementara unik dan wajib menggantinya saat masuk. Superadmin dan akun nonaktif tidak termasuk.';
+                bulkPreview.textContent=expectedCount+' akun aktif termasuk Superadmin lain akan mendapat kata sandi sementara unik. Semua fitur tetap terkunci sampai kata sandi pribadi dibuat.';
+                const ul=document.getElementById('bulkTargetList');ul.replaceChildren();
+                for(const item of response.accounts||[]){
+                    const li=document.createElement('li');
+                    li.textContent=(item.name||item.username)+' (@'+item.username+') — '+item.role;
+                    ul.appendChild(li);
+                }
+                document.getElementById('bulkExcluded').textContent='Akun saat ini (@'+(response.protectedAccount?.username||'?')+') tetap aman. '+(response.inactiveCount||0)+' akun Nonaktif tidak diubah.';
             }catch(error){
                 bulkError.textContent=error.message;
                 bulkPreview.textContent='Tidak dapat mengambil daftar akun.';
             }
         });
         bulkExecute?.addEventListener('click',async()=>{
-            if(!expectedCount||bulkConfirm.value!=='RESET PEGAWAI')return;
+            if(!expectedCount||bulkConfirm.value!=='RESET SEMUA PENGGUNA')return;
             bulkExecute.disabled=true;bulkError.textContent='';
             try{
-                const data=await API.bulkResetEmployeePasswords({scope:'active-employees-onboarding',confirmation:'RESET PEGAWAI',expectedCount});
+                const data=await API.bulkResetEmployeePasswords({scope:'all-active-other-users',confirmation:'RESET SEMUA PENGGUNA',expectedCount});
                 if(!data.ok||!Array.isArray(data.credentials))throw Error('Hasil reset tidak valid.');
                 oneTimeResults=data.credentials.slice();
                 bulkResultRows.replaceChildren();
@@ -115,9 +129,9 @@ document.addEventListener('layout:ready', async () => {
                     }
                     bulkResultRows.appendChild(tr);
                 }
-                document.getElementById('bulkResultSummary').textContent=oneTimeResults.length+' pegawai mendapat kata sandi sementara berbeda dan harus menggantinya saat login.';
-                closeBulk();ED.open('bulkResultModal');await load();
-            }catch(error){bulkError.textContent=error.message;bulkExecute.disabled=!(expectedCount&&bulkConfirm.value==='RESET PEGAWAI');}
+                document.getElementById('bulkResultSummary').textContent=oneTimeResults.length+' pengguna mendapat kata sandi sementara berbeda dan harus menggantinya saat login.';
+                closeBulk();ED.open('bulkResultModal');document.dispatchEvent(new Event('users:changed'));
+            }catch(error){bulkError.textContent=error.message;bulkExecute.disabled=!(expectedCount&&bulkConfirm.value==='RESET SEMUA PENGGUNA');}
         });
         document.getElementById('bulkResultCopy')?.addEventListener('click',async()=>{
             if(!oneTimeResults.length)return;
@@ -143,6 +157,7 @@ document.addEventListener('layout:ready', async () => {
             oneTimeResults=[];bulkResultRows.replaceChildren();ED.close('bulkResultModal');
         });
 
-        document.getElementById('refreshResetRequests')?.addEventListener('click',loadResetRequests);
-        loadResetRequests();
-});
+
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initBulkReset,{once:true});else initBulkReset();
+})();
