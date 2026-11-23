@@ -40,12 +40,11 @@ form.addEventListener('submit',async event=>{
  let changed=false;
  try{
   await API.changePassword(old,newValue);changed=true;
-  // The server revokes previous sessions on password rotation. Authenticate the new password
-  // to establish a fresh session before opening any workspace feature.
-  const login=await API.login(currentUser.username,newValue);
-  if(!login?.user?.id)throw Error('Sesi baru belum aktif.');
+  // Rotating a password revokes other sessions, but preserves this active session.
+  // Re-login here is unnecessary and may hit the login rate limiter.
   const check=await API.me();
-  if(!check?.user?.id||check.user.mustChangePassword)throw Error('Status aktivasi akun belum terverifikasi.');
+  if(check?.user?.id!==currentUser.id||check.user.mustChangePassword)
+   throw Error('Status aktivasi belum terverifikasi.');
   $('currentPassword').value='';$('newPassword').value='';$('confirmPassword').value='';
   setMessage('Kata sandi berhasil diganti. Membuka workspace…');
   location.replace('index.html');
