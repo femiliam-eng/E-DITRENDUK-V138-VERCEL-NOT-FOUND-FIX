@@ -57,6 +57,80 @@ document.addEventListener('layout:ready', async () => {
             try{await API.resolvePasswordReset(pendingResetRequestId,password);ED.close('requestResetModal');ED.toast('Password sementara diterbitkan. Sampaikan secara aman kepada pegawai.');await loadResetRequests();await load();document.dispatchEvent(new Event('reset-requests-updated'))}
             catch(e){error.textContent=e.message}finally{btn.disabled=false}
         };
+
+        // Show/hide passwords without exposing values in DOM attributes or logs.
+        for(const [buttonId,inputId] of [['resetEye','resetValue'],['createPasswordEye','uPassword'],['requestResetEye','requestResetPassword']]){
+            const toggle=document.getElementById(buttonId),input=document.getElementById(inputId);
+            if(!toggle||!input)continue;
+            toggle.addEventListener('click',()=>{
+                const showing=input.type==='password';
+                input.type=showing?'text':'password';
+                toggle.setAttribute('aria-pressed',String(showing));
+                toggle.setAttribute('aria-label',showing?'Sembunyikan kata sandi':'Tampilkan kata sandi');
+                toggle.classList.toggle('is-visible',showing);
+            });
+        }
+        const bulkOpen=document.getElementById('bulkResetOpen');
+        const bulkModal=document.getElementById('bulkResetModal');
+        const bulkConfirm=document.getElementById('bulkResetConfirm');
+        const bulkExecute=document.getElementById('bulkResetExecute');
+        const bulkPreview=document.getElementById('bulkResetPreview');
+        const bulkError=document.getElementById('bulkResetError');
+        const bulkResultRows=document.getElementById('bulkResultRows');
+        let expectedCount=0,oneTimeResults=[];
+        function closeBulk(){
+            ED.close('bulkResetModal');bulkConfirm.value='';bulkExecute.disabled=true;expectedCount=0;
+        }
+        document.getElementById('bulkResetCancel')?.addEventListener('click',closeBulk);
+        document.getElementById('bulkResetClose')?.addEventListener('click',closeBulk);
+        bulkConfirm?.addEventListener('input',()=>{
+            bulkExecute.disabled=!(expectedCount>0&&bulkConfirm.value==='RESET PEGAWAI');
+        });
+        bulkOpen?.addEventListener('click',async()=>{
+            bulkError.textContent='';
+            bulkPreview.textContent='Memeriksa jumlah pegawai…';
+            bulkConfirm.value='';bulkExecute.disabled=true;expectedCount=0;
+            ED.open('bulkResetModal');
+            try{
+                const response=await API.bulkResetPreview();
+                expectedCount=Number(response.count)||0;
+                bulkPreview.textContent=expectedCount+' pegawai aktif yang masih memakai kata sandi sementara dapat direset. Superadmin dan akun dengan kata sandi permanen tidak termasuk.';
+            }catch(error){
+                bulkError.textContent=error.message;
+                bulkPreview.textContent='Tidak dapat mengambil daftar akun.';
+            }
+        });
+        bulkExecute?.addEventListener('click',async()=>{
+            if(!expectedCount||bulkConfirm.value!=='RESET PEGAWAI')return;
+            bulkExecute.disabled=true;bulkError.textContent='';
+            try{
+                const data=await API.bulkResetEmployeePasswords({scope:'pending-first-login',confirmation:'RESET PEGAWAI',expectedCount});
+                if(!data.ok||!Array.isArray(data.credentials))throw Error('Hasil reset tidak valid.');
+                oneTimeResults=data.credentials.slice();
+                bulkResultRows.replaceChildren();
+                for(const item of oneTimeResults){
+                    const tr=document.createElement('tr');
+                    for(const value of [item.name,item.username,item.password]){
+                        const td=document.createElement('td');td.textContent=String(value??'');tr.appendChild(td);
+                    }
+                    bulkResultRows.appendChild(tr);
+                }
+                document.getElementById('bulkResultSummary').textContent=oneTimeResults.length+' pegawai mendapat kata sandi sementara berbeda dan harus menggantinya saat login.';
+                closeBulk();ED.open('bulkResultModal');await load();
+            }catch(error){bulkError.textContent=error.message;bulkExecute.disabled=!(expectedCount&&bulkConfirm.value==='RESET PEGAWAI');}
+        });
+        document.getElementById('bulkResultCopy')?.addEventListener('click',async()=>{
+            if(!oneTimeResults.length)return;
+            const content=oneTimeResults.map(x=>[x.username,x.password].join('\t')).join('\n');
+            try{
+                await navigator.clipboard.writeText(content);
+                ED.toast('Salinan berisi password rahasia. Simpan dan bagikan melalui saluran pribadi.');
+            }catch{ED.toast('Gagal menyalin otomatis. Pilih dan salin secara manual.');}
+        });
+        document.getElementById('bulkResultClose')?.addEventListener('click',()=>{
+            oneTimeResults=[];bulkResultRows.replaceChildren();ED.close('bulkResultModal');
+        });
+
         document.getElementById('refreshResetRequests')?.addEventListener('click',loadResetRequests);
         loadResetRequests();
 });
