@@ -1,0 +1,24 @@
+name: Preview API smoke check
+on:
+  push:
+    branches: [uji-142]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preview-api:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Check Preview API without credentials
+        shell: bash
+        run: |
+          set -uo pipefail
+          base="https://editrendukv136-git-uji-142-avengers-aba9.vercel.app"
+          for path in /api/health /api/ready /api/auth/me; do
+            echo "::group::GET ${path}"
+            curl -sSL --connect-timeout 8 --max-time 15 -o /tmp/ed-result -w "HTTP_STATUS=%{http_code} CONTENT_TYPE=%{content_type}\n" "${base}${path}" || echo "Network request failed"
+            head -c 400 /tmp/ed-result 2>/dev/null || true
+            echo
+            echo "::endgroup::"
+          done

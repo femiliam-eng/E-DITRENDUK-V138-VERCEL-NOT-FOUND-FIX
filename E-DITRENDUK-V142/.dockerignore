@@ -1,0 +1,14 @@
+backend/data/*.sqlite*
+backups/
+node_modules/
+.git/
+.env
+.DS_Store
+# V95: avoid bundling private deployment credentials and runtime artifacts
+.env*
+!.env.staging.example
+!.env.production.example
+backend/data/
+uploads/
+postgres-export/
+*.log

@@ -1,0 +1,16 @@
+'use strict';
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const src=fs.readFileSync(path.join(__dirname,'../server.js'),'utf8');
+assert.match(src,/const uploadAttempts = new Map/);
+assert.match(src,/uploadWindow\.count>=20/);
+const validation=fs.readFileSync(path.join(__dirname,'../backend/postgres-notulen-handler.js'),'utf8');
+assert.match(src,/pgNotulenHandler\.validate\(b\)/);
+assert.match(validation,/dt\.toISOString\(\)\.slice\(0,10\)!==date/);
+assert.match(validation,/fileName\.length>150/);
+assert.match(validation,/doc=bytes\.subarray\(0,8\)/);
+assert.match(validation,/docx=bytes\.subarray\(0,4\)/);
+assert.match(src,/originAllowed\(\{method:req\.method/);
+assert.match(require('node:fs').readFileSync(path.join(__dirname,'../backend/request-security.js'),'utf8'),/devOrigins\.includes\(origin\)/);
+console.log('V43 security guards PASS');

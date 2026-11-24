@@ -1,0 +1,6 @@
+'use strict';
+const assert=require('node:assert/strict');const {assess}=require('./v94-deployment-audit');
+const base={NODE_ENV:'production',APP_ORIGIN:'https://app.example.org',PUBLIC_URL:'https://app.example.org',SESSION_SECRET:'x'.repeat(64),DATABASE_URL:'postgresql://user:pass@db.example.org:5432/editrenduk',NOTULEN_STORAGE_PROVIDER:'supabase',SUPABASE_URL:'https://abc.supabase.co',SUPABASE_SERVICE_ROLE_KEY:'test-not-real',SUPABASE_STORAGE_BUCKET:'private'};
+const r=assess({env:base});assert.equal(r.ready,false);assert(r.results.some(x=>x.id==='sqlite-runtime-eliminated'&&x.status==='BLOCK'));assert(r.results.some(x=>x.id==='postgres-production-enabled'&&x.status==='BLOCK'));
+for(const [key,value,id] of [['APP_ORIGIN','http://insecure.test','https-origin'],['PUBLIC_URL','https://different.example.org','origin-matches-url'],['SESSION_SECRET','short','session-secret'],['DATABASE_URL','sqlite://local','managed-postgres'],['NOTULEN_STORAGE_PROVIDER','local','private-object-storage']]){const result=assess({env:{...base,[key]:value}});assert(result.results.some(x=>x.id===id&&x.status==='BLOCK'),id)}
+assert(!JSON.stringify(r).includes('test-not-real'));console.log('PASS v94 audit: baseline blocks unsafe deployment, invalid configs rejected, no secrets in results');

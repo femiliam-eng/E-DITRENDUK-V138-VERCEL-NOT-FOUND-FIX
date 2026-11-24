@@ -1,0 +1,11 @@
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const read=p=>fs.readFileSync(require('node:path').join(__dirname,'..',p),'utf8');
+const agenda=read('js/pages/agenda-task.js'),layout=read('js/layout.js'),fac=read('fasilitasi.html');
+assert.match(agenda,/fields\.map\(field=>String\(r\[field\]/,'Search only visible task fields');
+assert.doesNotMatch(agenda,/min="2026-01-01"/,'Historical dates must be editable');
+assert.match(agenda,/workspace-data-updated/,'Notification refresh on successful writes');
+assert.match(agenda,/\['Semua','Done','Not yet'\]/,'Exact task filters');
+assert.match(layout,/document\.addEventListener\('workspace-data-updated',refreshNotifications\)/);
+assert.match(layout,/saveButton\.disabled=true;try\{await API\.changePassword/);
+assert.match(fac,/Fasilitasi Data/);assert.match(fac,/Narasumber/);
+console.log('7 checks: PASS');

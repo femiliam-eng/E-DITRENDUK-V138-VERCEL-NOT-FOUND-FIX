@@ -1,0 +1,77 @@
+{
+  "source": "bundled js/data.js versus SQLite snapshot (read-only)",
+  "modules": {
+    "monitoring": {
+      "seed_rows": 43,
+      "sqlite_rows": 43,
+      "identical_payload_rows": 43,
+      "seed_only_rows": 0,
+      "sqlite_only_rows": 0,
+      "missing_seed_ids_in_sqlite": [],
+      "sqlite_ids_not_in_seed": []
+    },
+    "disposisi": {
+      "seed_rows": 225,
+      "sqlite_rows": 225,
+      "identical_payload_rows": 225,
+      "seed_only_rows": 0,
+      "sqlite_only_rows": 0,
+      "missing_seed_ids_in_sqlite": [],
+      "sqlite_ids_not_in_seed": []
+    },
+    "logbook": {
+      "seed_rows": 246,
+      "sqlite_rows": 246,
+      "identical_payload_rows": 246,
+      "seed_only_rows": 0,
+      "sqlite_only_rows": 0,
+      "missing_seed_ids_in_sqlite": [],
+      "sqlite_ids_not_in_seed": []
+    },
+    "archive": {
+      "seed_rows": 271,
+      "sqlite_rows": 271,
+      "identical_payload_rows": 271,
+      "seed_only_rows": 0,
+      "sqlite_only_rows": 0,
+      "missing_seed_ids_in_sqlite": [],
+      "sqlite_ids_not_in_seed": []
+    },
+    "users": {
+      "seed_rows": 21,
+      "sqlite_rows": 21,
+      "identical_payload_rows": 21,
+      "seed_only_rows": 0,
+      "sqlite_only_rows": 0,
+      "missing_seed_ids_in_sqlite": [],
+      "sqlite_ids_not_in_seed": []
+    },
+    "petugas": {
+      "seed_rows": 15,
+      "sqlite_rows": 15,
+      "identical_payload_rows": 15,
+      "seed_only_rows": 0,
+      "sqlite_only_rows": 0,
+      "missing_seed_ids_in_sqlite": [],
+      "sqlite_ids_not_in_seed": [
+        "p_1",
+        "p_10",
+        "p_11",
+        "p_12",
+        "p_13",
+        "p_14",
+        "p_15",
+        "p_2",
+        "p_3",
+        "p_4"
+      ]
+    }
+  },
+  "separate_sqlite_modules": {
+    "agenda_kegiatan": 393,
+    "task_deadline": 53,
+    "schedules": 5
+  },
+  "all_seed_ids_present": true,
+  "note": "Equal counts or payloads do not verify that Excel originals were fully imported; live PostgreSQL is not checked."
+}

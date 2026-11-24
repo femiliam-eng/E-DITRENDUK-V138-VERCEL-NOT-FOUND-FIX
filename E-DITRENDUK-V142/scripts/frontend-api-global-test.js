@@ -1,0 +1,11 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
+const source = fs.readFileSync(require('node:path').join(__dirname, '../js/api.js'), 'utf8');
+const window = { dispatchEvent(){} };
+const sandbox = {window, location:{protocol:'http:',port:'3000',pathname:'/index.html'}, setTimeout(){} };
+vm.runInNewContext(source, sandbox);
+assert.equal(typeof window.API?.me, 'function', 'API.me must be globally accessible to layout');
+assert.equal(typeof window.API?.passwordResetRequests, 'function');
+assert.equal(typeof window.API?.bootstrap, 'function');
+console.log('PASS frontend API globally accessible for account identity and notifications');

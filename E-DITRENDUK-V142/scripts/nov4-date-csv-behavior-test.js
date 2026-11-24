@@ -1,0 +1,22 @@
+'use strict';
+// Uji fungsi asli dari modul browser, bukan hanya pencocokan teks statis.
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
+const source = fs.readFileSync(require('node:path').join(__dirname,'../js/pages/agenda-task.js'),'utf8');
+const begin = source.indexOf(' function dateMillis(value){');
+const end = source.indexOf('\n async function load()', begin);
+assert.ok(begin >= 0 && end > begin, 'fungsi tanggal dapat diekstraksi');
+const dateMillis = vm.runInNewContext(`(()=>{${source.slice(begin,end)};return dateMillis})()`);
+const csvMatch = source.match(/const csvCell=value=>\{[^\n]+\};/);
+assert.ok(csvMatch, 'fungsi ekspor csv tersedia');
+const csvCell = vm.runInNewContext(`(()=>{${csvMatch[0]};return csvCell})()`);
+const valid = ['2026-11-04','2026-2-4','04/11/2026','04.11.2026','04-11-2026'];
+const invalid = ['','Februari','21 & 23 April 2026','2026-11-04 dan 05','04/11/2026 lalu','2026-02-30','31/02/2026','2026-13-01'];
+valid.forEach(v=>assert.ok(dateMillis(v)>0,'harus terima '+v));
+invalid.forEach(v=>assert.equal(dateMillis(v),0,'harus tolak '+v));
+['=2+3','  =2+3','\t+SUM(1,2)','\n@BAD','-123','\uFEFF=1'].forEach(v=>assert.ok(csvCell(v).startsWith('"\''),'formula CSV terlindungi '+JSON.stringify(v)));
+['biasa','Selesai', '19/08/2026'].forEach(v=>assert.equal(csvCell(v),'"'+v+'"'));
+assert.equal(csvCell('"nilai"'),'"""nilai"""','kutip csv digandakan');
+assert.ok(source.includes('Tanggal dari data sumber:'),'tanggal sumber bermasalah ditampilkan ketika edit');
+console.log(`PASS ${valid.length+invalid.length+6+3+1+1} uji perilaku tanggal/CSV dan keterlacakan data sumber`);

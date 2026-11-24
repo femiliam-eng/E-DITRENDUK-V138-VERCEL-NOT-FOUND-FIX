@@ -4,7 +4,7 @@
 const REQUIRED_TABLES=Object.freeze([
  'accounts','auth_sessions','password_reset_requests','ed_profile_photos',
  'monitoring','logbook','archive','users_data','disposisi','petugas','schedules',
- 'fasilitasi','agenda_kegiatan','task_deadline','notulen_submissions',
+ 'fasilitasi','agenda_kegiatan','task_deadline','notulen_submissions','notulen_drive_references',
  'audit_logs','storage_files','ed_request_limits'
 ]);
 // V122: Critical columns must exist, not only their parent tables.
@@ -17,7 +17,7 @@ const REQUIRED_COLUMNS=Object.freeze([
  'ed_request_limits.scope_key','ed_request_limits.bucket','ed_request_limits.count','ed_request_limits.expires_at',
  'monitoring.payload','logbook.payload','archive.payload','users_data.payload','disposisi.payload','petugas.payload','schedules.payload','fasilitasi.payload',
  'agenda_kegiatan.payload','task_deadline.payload',
- 'notulen_submissions.stored_path','notulen_submissions.uploaded_by','notulen_submissions.mime_type',
+ 'notulen_submissions.stored_path','notulen_submissions.uploaded_by','notulen_submissions.mime_type','notulen_submissions.meeting_type','notulen_drive_references.drive_url',
  'audit_logs.account_id','storage_files.stored_path'
 ]);
 function isPlaceholder(value){
@@ -30,7 +30,7 @@ function validHttpsService(value){
   return u.protocol==='https:' && !!u.hostname && !u.username && !u.password && !u.search && !u.hash && !isPlaceholder(u.hostname) && !u.hostname.endsWith('.invalid') && !/^(localhost|127\.0\.0\.1)$/i.test(u.hostname);
  }catch{return false;}
 }
-function validateProductionEnvironment(env){
+function validateProductionEnvironment(env, {requireStorage=true}={}){
  const errors=[];
  if(env.NODE_ENV!=='production')return errors;
  const origin=env.APP_ORIGIN;
@@ -38,7 +38,7 @@ function validateProductionEnvironment(env){
  let database;
  try{database=new URL(env.DATABASE_URL||'');}catch{}
  if(!database||!['postgres:','postgresql:'].includes(database.protocol)||!database.hostname||!database.username||isPlaceholder(database.hostname)||isPlaceholder(decodeURIComponent(database.password||''))||database.hostname.endsWith('.invalid')||/^(localhost|127\.0\.0\.1)$/i.test(database.hostname))errors.push('DATABASE_URL harus PostgreSQL online dengan kredensial asli, bukan nilai contoh.');
- if(env.NOTULEN_STORAGE_PROVIDER!=='supabase'||!validHttpsService(env.SUPABASE_URL)||isPlaceholder(env.SUPABASE_SERVICE_ROLE_KEY)||isPlaceholder(env.SUPABASE_STORAGE_BUCKET)||isPlaceholder(env.AGENDA_STORAGE_BUCKET))errors.push('Konfigurasi Supabase Storage privat wajib memakai nilai asli, bukan placeholder.');
+ if(requireStorage&&(env.NOTULEN_STORAGE_PROVIDER!=='supabase'||!validHttpsService(env.SUPABASE_URL)||isPlaceholder(env.SUPABASE_SERVICE_ROLE_KEY)||isPlaceholder(env.SUPABASE_STORAGE_BUCKET)||isPlaceholder(env.AGENDA_STORAGE_BUCKET)))errors.push('Konfigurasi Supabase Storage privat wajib memakai nilai asli, bukan placeholder.');
  return errors;
 }
 

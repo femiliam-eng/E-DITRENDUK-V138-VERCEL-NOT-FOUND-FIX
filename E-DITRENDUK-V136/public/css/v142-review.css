@@ -1,0 +1,10 @@
+/* V142: konsistensi tampilan revisi 9 November */
+.kpi-task-detail{display:block;font-size:11px;line-height:1.45;color:#64748b;margin-top:4px;font-weight:500}
+#dashboardSyncStatus{font-size:12px!important;color:#64748b!important}
+.entry-focus-trigger{text-align:left;white-space:normal;line-height:1.5}
+.rk-edit{text-align:left!important;color:#172033!important;white-space:normal;line-height:1.5}
+.rk-edit:hover{text-decoration:underline}
+.ed-sort-toggle{font-size:13px;white-space:nowrap}
+.toolbar .field,.toolbar .btn,.toolbar label{font-size:13px}
+.modal .form-group label{display:block;margin-bottom:6px}
+@media(max-width:720px){.kpi-task-detail{font-size:11px}.ed-sort-toggle{white-space:normal}}

@@ -1,0 +1,23 @@
+// Structural regression: 7 Nov follow-up requests; no DB calls.
+'use strict';
+const assert=require('node:assert/strict');const fs=require('node:fs'),path=require('node:path');
+const r=f=>fs.readFileSync(path.resolve(__dirname,'..',f),'utf8');
+const layout=r('js/layout.js'),css=r('css/revisi-07nov-v136.css'),app=r('js/app.js'),fac=r('css/fasilitasi-v132.css');
+assert.match(layout,/css\/revisi-07nov-v136\.css/);
+assert.match(css,/#userBtn \.avatar/);assert.match(css,/#edProfileAvatar\.ed-profile-avatar/);
+assert.match(css,/clip-path:circle\(50% at 50% 50%\)!important/);
+assert.match(css,/aspect-ratio:1\/1!important/);
+assert.match(layout,/canvas\.width=192;canvas\.height=192/);
+assert.match(layout,/const top=Math\.max\(0,Math\.min\(image\.naturalHeight-side/);
+assert.match(layout,/canvas\.toDataURL\('image\/png'\)/);
+assert.match(layout,/saveProfilePhoto\('image\/png',base64\)/);
+assert.match(css,/body\[data-page="fasilitasi"\] #form/);
+assert.match(css,/height:34px!important/);
+assert.match(app,/const monthNames=\['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'\]/);
+assert.match(app,/monthNames\.forEach\(x=>period\.add\(new Option\(x,x\)\)\)/);
+assert.match(app,/return match\?monthNames\.find/);
+assert.match(app,/if \(field === 'ket'\) select\.classList\.add/);
+assert.match(app,/else select\.classList\.add\(v === 'musnah' \? 'state-red'/);
+assert.match(app,/recolor\(old\)/);
+for(const c of ['.ar-ket.state-red','.ar-ket.state-green','.ar-nasib.state-red','.ar-nasib.state-yellow','.ar-nasib.state-blue'])assert.ok(css.includes(c));
+console.log('V136 PASS: avatar lingkaran, crop PNG, compact fasilitasi, 12 filter bulan, warna arsip langsung dan rollback.');

@@ -1,0 +1,18 @@
+node_modules/
+.env
+backend/data/*.sqlite
+backend/data/*.sqlite-shm
+backend/data/*.sqlite-wal
+.DS_Store
+
+# Operational uploads
+uploads/notulen/*
+!uploads/notulen/.gitkeep
+backups/
+*.log
+postgres-export/
+.env.production
+# V96: prevent accidental staging and provider credentials commits
+.env*
+!.env.staging.example
+!.env.production.example

@@ -1,0 +1,26 @@
+ 'use strict';
+const assert=require('node:assert/strict');
+const {createHandler,validate}=require('../backend/postgres-notulen-handler');
+const pdf=Buffer.from('%PDF-1.4\nhello');
+const payload={topic:'Rapat',meetingDate:'2026-10-20',fileName:'rapat.pdf',mimeType:'application/pdf',fileBase64:pdf.toString('base64')};
+assert.equal(validate(payload).ext,'pdf');
+assert.throws(()=>validate({...payload,meetingDate:'2026-02-30'}));
+assert.throws(()=>validate({...payload,fileName:'../rapat.pdf'}));
+assert.throws(()=>validate({...payload,fileBase64:Buffer.from('fake').toString('base64')}));
+(async()=>{
+ const queries=[],files=new Map();
+ const pool={query:async(sql,args)=>{queries.push({sql,args});if(sql.startsWith('SELECT id,mime_type'))return {rows:[{id:'hasilnotulen_test',mime_type:'application/pdf'}]};if(sql.startsWith('SELECT n.id'))return {rows:[]};return {rows:[]}}};
+ const storage={put:async(k,b)=>files.set(k,b),get:async k=>files.get(k),remove:async k=>files.delete(k)};
+ let result;
+ const json=(res,status,body)=>{result={status,body};return result};
+ const handler=createHandler({pool,storage,readJson:async()=>payload,json,uid:()=> 'hasilnotulen_test'});
+ const user={id:'a1',status:'Aktif'};
+ await handler({req:{method:'POST'},res:{},url:{pathname:'/api/notulen-submissions'},user:null});assert.equal(result.status,401);
+ await handler({req:{method:'POST'},res:{},url:{pathname:'/api/notulen-submissions'},user});assert.equal(result.status,201);
+ assert(files.has('hasilnotulen_test.pdf'));
+ assert(queries.some(x=>x.sql.includes('INSERT INTO notulen_submissions')&&x.args.includes('a1')));
+ const res={writeHead(status,headers){this.status=status;this.headers=headers},end(data){this.data=data}};
+ await handler({req:{method:'GET'},res,url:{pathname:'/api/notulen-submissions/hasilnotulen_test/file'},user});
+ assert.equal(res.status,200);assert.deepEqual(res.data,pdf);assert.equal(res.headers['Cache-Control'],'no-store');
+ console.log('PASS PG notulensi metadata + private file access + validation');
+})().catch(e=>{console.error(e);process.exitCode=1});

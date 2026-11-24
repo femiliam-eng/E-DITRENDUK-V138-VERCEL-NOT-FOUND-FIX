@@ -1,0 +1,22 @@
+'use strict';
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const {spawnSync}=require('node:child_process');
+const path=require('node:path');
+const docker=fs.readFileSync(path.join(__dirname,'../Dockerfile'),'utf8');
+const compose=fs.readFileSync(path.join(__dirname,'../compose.yaml'),'utf8');
+const server=fs.readFileSync(path.join(__dirname,'../server-postgres.js'),'utf8');
+const vercel=fs.readFileSync(path.join(__dirname,'../api/index.js'),'utf8');
+assert.match(docker,/CMD \["node","server-postgres\.js"\]/);
+assert.match(compose,/NOTULEN_STORAGE_PROVIDER: supabase/);
+assert.match(compose,/DATABASE_URL: \$\{DATABASE_URL:\?/);
+assert.match(compose,/SUPABASE_SERVICE_ROLE_KEY: \$\{SUPABASE_SERVICE_ROLE_KEY:\?/);
+assert.doesNotMatch(compose,/DB_DRIVER: sqlite/);
+assert.match(vercel,/DATABASE_URL wajib/);
+assert.match(vercel,/SUPABASE_SERVICE_ROLE_KEY/);
+assert.match(server,/APP_ORIGIN HTTPS resmi wajib/);
+// Refuse a public production start if secrets and storage are not configured.
+const child=spawnSync(process.execPath,['server-postgres.js'],{cwd:path.join(__dirname,'..'),env:{...process.env,NODE_ENV:'production',DATABASE_URL:'postgresql://example.invalid/test',NOTULEN_STORAGE_PROVIDER:'',SUPABASE_URL:'',SUPABASE_SERVICE_ROLE_KEY:'',APP_ORIGIN:'http://localhost:3000'},encoding:'utf8',timeout:6000});
+assert.notEqual(child.status,0);
+assert.match(child.stderr,/Storage privat Supabase wajib/);
+console.log('PASS production safety: PostgreSQL-only, private storage, HTTPS origin guard, missing-storage rejection');

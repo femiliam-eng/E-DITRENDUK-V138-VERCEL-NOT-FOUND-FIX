@@ -1,0 +1,17 @@
+'use strict';
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const {DatabaseSync}=require('node:sqlite');
+const root=path.resolve(__dirname,'..');
+const source=fs.readFileSync(path.join(root,'server.js'),'utf8');
+assert.match(source,/initSchema\(\);\s*\/\/ Password reset[\s\S]*?db\.exec\(fs\.readFileSync\(path\.join\(__dirname, 'migrations', '005-password-reset-requests\.sql'\)/);
+const db=new DatabaseSync(':memory:');
+db.exec('CREATE TABLE accounts(id TEXT PRIMARY KEY);');
+db.exec(fs.readFileSync(path.join(root,'migrations','005-password-reset-requests.sql'),'utf8'));
+db.exec(fs.readFileSync(path.join(root,'migrations','005-password-reset-requests.sql'),'utf8'));
+db.prepare('INSERT INTO accounts(id) VALUES(?)').run('u1');
+db.prepare('INSERT INTO password_reset_requests(id,account_id,identity) VALUES(?,?,?)').run('r1','u1','user1');
+assert.equal(db.prepare('SELECT status FROM password_reset_requests WHERE id=?').get('r1').status,'Menunggu');
+db.close();
+console.log('PASS reset table created idempotently at startup');

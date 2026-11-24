@@ -1,0 +1,70 @@
+/* Login HD: artwork supplied by project owner. */
+body.login-page.login-motion{background:#dfe7f5}
+body.login-page.login-motion .login-shell{min-height:100vh;display:grid;grid-template-columns:52% 48%;position:relative;isolation:isolate;background:#eaf0fb url('../assets/login-background-hd.png') center center/100% 100% no-repeat}
+body.login-page.login-motion .login-shell::before,body.login-page.login-motion .login-side::before{content:none!important;display:none!important}
+body.login-page.login-motion .login-side{position:relative;z-index:1;background:transparent!important;padding:clamp(30px,5vw,85px);color:white}
+body.login-page.login-motion .login-side h1{font-size:clamp(38px,4vw,64px)}
+body.login-page.login-motion .login-side p{font-size:clamp(13px,1.15vw,16px);max-width:520px}
+body.login-page.login-motion .login-card{position:relative;z-index:2;align-self:center;justify-self:center;width:min(490px,86%);margin:24px auto;padding:clamp(28px,3vw,44px);border-radius:18px;border:1px solid rgba(255,255,255,.92);background:rgba(255,255,255,.95);box-shadow:0 22px 66px rgba(22,46,89,.2);backdrop-filter:blur(9px)}
+body.login-page.login-motion .login-card label{font-size:13px}
+body.login-page.login-motion .login-card .field{font-size:14px}
+body.login-page.login-motion .login-card .btn-navy{min-height:44px}
+body.login-page.login-motion .login-note,body.login-page.login-motion .login-card>div p{font-size:12px}
+@media(max-width:800px){body.login-page.login-motion .login-shell{display:flex;flex-direction:column;background-size:auto 100%;background-position:center}body.login-page.login-motion .login-side{min-height:290px;padding:30px 25px;background:rgba(18,49,99,.65)!important}body.login-page.login-motion .login-card{width:min(490px,calc(100% - 32px));margin:24px auto 40px}}
+
+
+/* REV17 #1: full agency name and visibly contrasting portal subtitle. */
+body.login-page.login-motion .login-side .brand{display:flex;align-items:center;gap:12px;max-width:100%;min-width:0}
+body.login-page.login-motion .login-side .brand>span:last-child{min-width:0}
+body.login-page.login-motion .login-side .brand b{
+  display:block;font-size:clamp(12px,1.12vw,15px);line-height:1.36;letter-spacing:.01em;
+  font-weight:700;color:#fff!important;overflow-wrap:normal
+}
+body.login-page.login-motion .login-side .brand small{
+  display:block;margin-top:5px;font-size:12px;line-height:1.4;
+  color:#eff5ff!important;opacity:1!important;font-weight:500
+}
+@media(max-width:520px){
+ body.login-page.login-motion .login-side .brand b{font-size:12px}
+ body.login-page.login-motion .login-side .brand small{font-size:11px}
+}
+
+
+/* REV17 fix: exactly two intentional lines, no narrow inherited 190px brand box. */
+body.login-page.login-motion .login-side .brand{
+ width:max-content!important;max-width:100%;gap:11px;align-items:center
+}
+body.login-page.login-motion .login-side .brand .brand-badge{flex:0 0 32px}
+body.login-page.login-motion .login-side .brand>span:last-child{
+ width:max-content;min-width:0;max-width:100%
+}
+body.login-page.login-motion .login-side .brand b .directorate-line{
+ display:block;white-space:nowrap;font-size:clamp(11.5px,.96vw,14px);
+ line-height:1.42;letter-spacing:0;font-weight:700
+}
+@media(max-width:370px){
+ body.login-page.login-motion .login-side .brand b .directorate-line{font-size:11px}
+}
+
+/* REV17 login: two deliberate lines, never four; responsive to narrow viewports. */
+body.login-page.login-motion .login-side .brand{display:flex!important;align-items:center!important;width:max-content!important;max-width:100%!important;gap:12px!important}
+body.login-page.login-motion .login-side .brand>span:last-child{width:max-content!important;max-width:calc(100% - 45px)!important;min-width:0!important;flex-shrink:1}
+body.login-page.login-motion .login-side .brand b{max-width:none!important;width:max-content!important;white-space:nowrap!important}
+body.login-page.login-motion .login-side .brand .directorate-line{display:block!important;white-space:nowrap!important;word-break:normal!important;overflow-wrap:normal!important;font-size:clamp(10px,1vw,14px)!important;letter-spacing:-.018em!important}
+body.login-page.login-motion .login-side .brand small{white-space:nowrap!important;color:#f5f9ff!important;opacity:1!important}
+@media(max-width:480px){body.login-page.login-motion .login-side .brand .directorate-line{font-size:clamp(9px,2.75vw,12px)!important}}
+
+/* REV21NOV: Explicit two-line directorate title for login only. */
+body.login-page.login-motion .login-side .brand b .directorate-line{display:block!important;white-space:nowrap!important;overflow-wrap:normal!important;font-size:clamp(11px,1.08vw,15px)!important;line-height:1.44!important;letter-spacing:-.025em!important}
+body.login-page.login-motion .login-side .brand>span:last-child{max-width:none!important;width:max-content!important;flex-shrink:1!important}
+body.login-page.login-motion .login-side .brand small{font-size:clamp(10px,.95vw,12px)!important;line-height:1.4!important}
+@media(max-width:800px){body.login-page.login-motion .login-side .brand b .directorate-line{font-size:clamp(9px,2.55vw,14px)!important}}
+
+/* REV21NOV #login composition: middle block vertically balanced between brand and lower edge. */
+body.login-page.login-motion .login-side{display:flex!important;flex-direction:column!important;justify-content:flex-start!important;gap:0!important}
+body.login-page.login-motion .login-side>.brand{flex:0 0 auto!important}
+body.login-page.login-motion .login-side>div{flex:1 1 auto!important;display:flex!important;flex-direction:column!important;justify-content:center!important;min-height:0!important;padding-block:clamp(24px,5vh,58px)!important}
+body.login-page.login-motion .login-side>div .login-kicker{margin:0 0 18px!important}
+body.login-page.login-motion .login-side>div h1{margin:0 0 24px!important;line-height:1.08!important}
+body.login-page.login-motion .login-side>div p:not(.login-kicker){margin:0!important;max-width:580px!important;line-height:1.65!important}
+@media(max-width:800px){body.login-page.login-motion .login-side>div{padding-block:44px 24px!important}body.login-page.login-motion .login-side>div h1{font-size:clamp(32px,8vw,48px)!important;margin-bottom:15px!important}}

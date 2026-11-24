@@ -1,0 +1,6 @@
+STATUS REVISI V142
+- Sudah diperbaiki di source: akurasi dan stabilitas KPI Task Deadline; transparansi sumber angka; perubahan modal Agenda/Task terlihat sebelum simpan; peringatan tutup tanpa simpan; konsistensi font; landing HD dan revisi V141 dipertahankan.
+- Query Supabase READ ONLY pada 10 November 2026: 53 total task_deadline, 40 belum selesai, 13 selesai.
+- Tes offline lulus: npm run check, npm run frontend-test, npm run revisi-27-29-test, npm run postgres-contract-test, npm run postgres-data-parity-test, node scripts/v142-dashboard-regression-test.js.
+- Tes yang butuh berkas .env: deploy-config-check tidak dijalankan karena memerlukan kredensial dan konfigurasi khusus lokal. Tidak ada database dipindah/dihapus.
+- BELUM 100% produksi: perlu uji login dan simpan/update CRUD di Preview Vercel dengan user valid. Jangan langsung Production.

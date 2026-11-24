@@ -1,0 +1,23 @@
+'use strict';
+const assert=require('node:assert/strict');
+const {createPostgresSessionRepository}=require('../backend/postgres-session-repository');
+(async()=>{
+ const calls=[]; const pool={query:async(sql,params=[])=>{calls.push({sql,params});return {rows:[{id:'s1',account_id:'a1'}],rowCount:1};}};
+ const r=createPostgresSessionRepository(pool);
+ assert.equal(await r.create({id:'s1',accountId:'a1',tokenHash:'hash',expiresAt:'2030-01-01T00:00:00Z'}),true);
+ assert.deepEqual(calls[0].params,['s1','a1','hash','2030-01-01T00:00:00Z','','']);
+ assert.equal((await r.findActiveByTokenHash('hash','2029-01-01')).id,'s1');
+ await r.activeForAccount('a1','2029-01-01');
+ assert.equal(await r.touch('s1'),true);
+ assert.equal(await r.revokeById('s1'),true);
+ assert.equal(await r.revokeByTokenHash('hash'),true);
+ assert.equal(await r.revokeForAccount('a1','s1'),1);
+ assert.deepEqual(calls[6].params,['a1','s1']);
+ assert.equal(await r.revokeForAccount('a1'),1);
+ await r.listActiveForAccount('a1','2029-01-01');
+ assert.equal((await r.ownedSession('s1','a1')).id,'s1');
+ assert.equal(calls.length,10);
+ assert.ok(calls.every(c=>!c.sql.includes("'hash'")&&!c.sql.includes('a1')));
+ assert.throws(()=>createPostgresSessionRepository(null),TypeError);
+ console.log('V34 PostgreSQL session adapter self-test LULUS');
+})().catch(e=>{console.error(e);process.exitCode=1});

@@ -1,1 +1,70 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Jenis Fasilitasi | E-DITRENDUK</title><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/fasilitasi-v132.css"></head><body data-page="fasilitasi"><div id="appHeader"></div><div id="appSidebar"></div><main class="main"><div class="crumb">E-DITRENDUK · FASILITASI</div><div class="page-head"><div><h1>Jenis Fasilitasi</h1><p>Kelola fasilitasi data, narasumber, metode kegiatan, dan bukti dukung.</p></div></div><section><h2 id="formTitle">Tambah fasilitasi</h2><form id="form"><input type="hidden" id="itemId"><label>Nama kegiatan <input id="judul" required maxlength="200"></label><label>Tanggal <input id="tanggal" type="date" required></label><label>Metode <select id="metode"><option>Offline</option><option>Online</option><option>Hybrid</option></select></label><label>Jenis fasilitasi <select id="jenis"><option>Fasilitasi Data</option><option>Narasumber</option></select></label><label>Narasumber <input id="narasumber" maxlength="200"></label><label>Link bukti dukung (URL dokumen/foto) <input id="bukti" type="url" placeholder="https://..."></label><label>Catatan <textarea id="catatan" rows="3"></textarea></label><div class="actions"><button type="submit">Simpan fasilitasi</button><button type="button" id="cancel">Batal edit</button></div></form><p id="msg" role="status"></p></section><section><h2>Daftar fasilitasi</h2><p id="summary" class="muted" aria-live="polite"></p><div class="fasilitasi-toolbar"><label>Cari <input id="search" placeholder="Cari kegiatan/narasumber"></label><label>Filter jenis fasilitasi <select id="jenisFilter"><option value="">Semua jenis</option><option>Fasilitasi Data</option><option>Narasumber</option></select></label><label>Filter metode <select id="metodeFilter"><option value="">Semua metode</option><option>Offline</option><option>Online</option><option>Hybrid</option></select></label><label>Urutan tanggal <select id="sort"><option value="desc">Terbaru dahulu</option><option value="asc">Terlama dahulu</option></select></label></div><div id="rows" aria-live="polite"></div></section></main><dialog id="confirmDialog" style="border:0;border-radius:16px;max-width:440px;width:calc(100% - 32px);box-shadow:0 15px 70px #0005;padding:25px"><h2>Konfirmasi penghapusan</h2><p id="confirmText"></p><div class="actions"><button type="button" id="confirmCancel" style="background:#64748b">Batal</button><button type="button" id="confirmAccept" class="danger">Ya, hapus</button></div></dialog><script src="js/api.js"></script><script src="js/layout.js"></script><script src="js/fasilitasi.js"></script><script src="js/ux.js"></script></body></html>
+<!doctype html>
+<html lang="id">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <title>Jenis Fasilitasi | E-DITRENDUK</title>
+ <link rel="stylesheet" href="css/style.css">
+ <link rel="stylesheet" href="css/fasilitasi-v132.css?v=162">
+ <link rel="stylesheet" href="css/rev14.css?v=146">
+ <link rel="stylesheet" href="css/fasilitasi-uniform.css?v=164">
+</head>
+<body data-page="fasilitasi">
+<div id="appHeader"></div><div id="appSidebar"></div>
+<main class="main">
+ <div class="crumb">E-DITRENDUK · FASILITASI</div>
+ <div class="page-head"><div><h1>Jenis Fasilitasi</h1><p>Kelola kegiatan, metode, pelaksana, pemohon, dan bukti dukung.</p></div></div>
+ <section class="card fac-list-section" aria-labelledby="facListTitle">
+  <div class="section-title"><div><h3 id="facListTitle">Daftar Fasilitasi</h3><span>Kelola kegiatan dan bukti dukung secara terstruktur.</span></div><button class="btn btn-navy" type="button" id="addFac">+ Tambah fasilitasi</button></div>
+  <div class="fasilitasi-toolbar">
+   <label for="search">Cari kegiatan<input id="search" class="field" type="search" placeholder="Cari kegiatan, pelaksana, pemohon"></label>
+   <label for="jenisFilter">Filter jenis fasilitasi<select id="jenisFilter" class="field"><option value="">Semua jenis</option><option>Fasilitasi Data</option><option>Narasumber</option><option>Belum diklasifikasikan</option></select></label>
+   <label for="metodeFilter">Filter metode<select id="metodeFilter" class="field"><option value="">Semua metode</option><option>Offline</option><option>Online</option><option>Hybrid</option><option value="unassigned">Belum tercatat</option></select></label>
+   <label for="tahunFilter" class="fac-year-filter">Tahun kegiatan<select id="tahunFilter" class="field"><option value="">Semua tahun</option><option value="2026">2026</option><option value="2027">2027</option></select></label>
+   <button type="button" id="sort" class="fasilitasi-sort-toggle" data-order="desc" aria-label="Urutkan tanggal dari terbaru ke terlama">Tanggal terbaru ↓</button>
+   <button type="button" id="facReset" class="btn btn-outline">Reset filter</button>
+   <span id="summary" class="muted" aria-live="polite"></span>
+  </div>
+  <div class="fac-draft-actions">
+   <button class="btn btn-navy" id="facSaveDraft" type="button" disabled>Simpan Perubahan</button>
+   <button class="btn btn-outline" id="facCancelDraft" type="button" disabled>Batalkan draf</button>
+   <span id="facDraftCount" aria-live="polite"></span>
+  </div>
+  <div class="fac-table-wrap table-wrap">
+   <table class="table fac-table">
+    <colgroup><col class="fac-col-number"><col class="fac-col-date"><col class="fac-col-title"><col class="fac-col-type"><col class="fac-col-method"><col class="fac-col-exec"><col class="fac-col-applicant"><col class="fac-col-proof"><col class="fac-col-actions"></colgroup>
+    <thead><tr><th>No.</th><th>Tanggal</th><th>Nama Kegiatan</th><th>Jenis Fasilitasi</th><th>Metode</th><th>Pelaksana</th><th>Pemohon</th><th>Bukti Dukung</th><th>Aksi</th></tr></thead>
+    <tbody id="rows"><tr><td colspan="9">Memuat data fasilitasi…</td></tr></tbody>
+   </table>
+  </div>
+  <div class="fasilitasi-directory">
+   <span>Referensi dokumen:</span>
+   <a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/folders/1mdq6wJVyxTd1xB4bx88apjt7lbHgN-UT">Buka arsip Rapat Luar 2025–2026</a>
+   <small>Tautan bukti masing-masing kegiatan hanya ditampilkan jika sudah tercatat.</small>
+  </div>
+  <p id="msg" class="muted" role="status"></p>
+ </section>
+</main>
+<div class="modal-overlay" id="facFormModal">
+ <div class="modal fac-modal">
+  <div class="modal-head"><div><small>E-DITRENDUK</small><h3 id="formTitle">Tambah fasilitasi</h3></div><button class="modal-close" type="button" id="facClose" aria-label="Tutup">×</button></div>
+  <form id="form">
+   <input type="hidden" id="itemId">
+   <div class="modal-body">
+    <div class="fac-form-grid">
+     <label>Nama kegiatan<input id="judul" class="field" required maxlength="200"></label>
+     <label>Tanggal<input id="tanggal" class="field" type="date" required></label>
+     <label>Metode<select id="metode" class="field" required><option value="">— Pilih metode —</option><option>Offline</option><option>Online</option><option>Hybrid</option></select></label>
+     <label>Jenis fasilitasi<select id="jenis" class="field" required><option>Fasilitasi Data</option><option>Narasumber</option><option>Belum diklasifikasikan</option></select></label>
+     <label>Pelaksana (boleh beberapa nama)<textarea id="narasumber" class="field" rows="2" maxlength="1000" placeholder="Pisahkan nama dengan koma atau baris baru"></textarea></label>
+     <label>Pemohon<select id="pemohon" class="field"><option value="">— Pilih kategori pemohon —</option><option>Komponen Internal</option><option>Kementerian/Lembaga</option><option>Pemerintah Provinsi</option><option>BKKBN Perwakilan</option><option>Pemerintah Kabupaten/Kota</option></select></label>
+     <label>Link bukti dukung (Google Drive)<input id="bukti" class="field" type="url" placeholder="https://drive.google.com/…"></label>
+     <label>Catatan<textarea id="catatan" class="field" rows="3"></textarea></label>
+    </div>
+   </div>
+   <div class="modal-foot"><button type="button" id="cancel" class="btn btn-outline">Batal</button><button type="submit" class="btn btn-navy">Simpan fasilitasi</button></div>
+  </form>
+ </div>
+</div>
+<dialog id="confirmDialog" class="fac-confirm-dialog"><h2>Konfirmasi penghapusan</h2><p id="confirmText"></p><div class="actions"><button type="button" id="confirmCancel">Batal</button><button type="button" id="confirmAccept" class="danger">Ya, hapus</button></div></dialog>
+<script src="js/api.js"></script><script src="js/layout.js"></script><script src="js/fasilitasi.js?v=192"></script><script src="js/ux.js"></script>
+</body></html>

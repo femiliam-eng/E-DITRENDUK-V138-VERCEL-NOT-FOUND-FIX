@@ -1,0 +1,1 @@
+V113: Removed unconditional notulen upload rate-limit bypass in PostgreSQL-only runtime. Added bounded 12 uploads per 15 minutes per account per process, plus deterministic tests. This is not a complete feature parity or live PostgreSQL certification. Hosting deferred.

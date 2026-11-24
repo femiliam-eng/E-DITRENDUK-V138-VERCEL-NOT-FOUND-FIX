@@ -1,0 +1,14 @@
+body[data-page="pengguna"] .admin-account-actions{display:flex!important;gap:16px!important;align-items:center!important;flex-wrap:wrap!important}
+body[data-page="pengguna"] .admin-account-actions>.btn{min-height:39px!important;padding:9px 16px!important;border-radius:8px!important;font-size:12px!important;white-space:nowrap!important}
+body[data-page="pengguna"] #bulkResetModal{z-index:500!important}
+body[data-page="pengguna"] #bulkResultModal{z-index:520!important}
+body[data-page="pengguna"] :is(#bulkResetModal,#bulkResultModal)>.modal{display:flex!important;flex-direction:column!important;max-height:90vh!important;overflow:hidden!important}
+body[data-page="pengguna"] :is(#bulkResetModal,#bulkResultModal) .modal-body{overflow-y:auto!important;min-height:0!important;flex:1 1 auto!important;padding:20px 24px!important}
+body[data-page="pengguna"] :is(#bulkResetModal,#bulkResultModal) .modal-foot{display:flex!important;align-items:center!important;justify-content:flex-end!important;flex-wrap:wrap!important;gap:16px!important;padding:18px 24px!important;position:relative!important;z-index:2!important;background:#fff!important}
+body[data-page="pengguna"] :is(#bulkResetModal,#bulkResultModal) .modal-foot>.btn{min-height:40px!important;padding:9px 17px!important;white-space:nowrap!important;font-size:12px!important;pointer-events:auto!important}
+body[data-page="pengguna"] #bulkResetExecute:disabled{opacity:.45!important;cursor:not-allowed!important}
+body[data-page="pengguna"] .bulk-target-preview{border:1px solid #dbe5f3;padding:10px 13px;border-radius:8px;margin:10px 0 4px}
+body[data-page="pengguna"] .bulk-target-preview summary{color:#173d82;font-size:12px;font-weight:650;cursor:pointer}
+body[data-page="pengguna"] #bulkTargetList{max-height:150px;overflow:auto;padding-left:20px;line-height:1.7;font-size:12px}
+body[data-page="pengguna"] .bulk-excluded{font-size:12px;color:#63738b;line-height:1.55;margin:6px 0 0}
+@media(max-width:650px){body[data-page="pengguna"] .admin-account-actions{gap:12px!important}body[data-page="pengguna"] :is(#bulkResetModal,#bulkResultModal) .modal-foot{gap:12px!important;justify-content:flex-start!important}}

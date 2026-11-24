@@ -1,0 +1,18 @@
+'use strict';
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const {assess}=require('./hosting-preflight');
+const root=path.resolve(__dirname,'..');
+const pkg=require('../package.json');
+assert.equal(pkg.main,'server-postgres.js');
+assert.equal(pkg.scripts.start,'node server-postgres.js');
+assert.match(pkg.scripts.dev,/server-postgres\.js/);
+assert.match(pkg.scripts.check,/server-postgres\.js/);
+assert.match(fs.readFileSync(path.join(root,'Dockerfile'),'utf8'),/CMD \["node","server-postgres\.js"\]/);
+assert.match(fs.readFileSync(path.join(root,'api/index.js'),'utf8'),/require\('\.\.\/server-postgres'\)/);
+const env={NODE_ENV:'production',APP_ORIGIN:'https://portal.instansi.go.id',DATABASE_URL:'postgresql://user:strong-password@db.instansi.go.id:5432/app',NOTULEN_STORAGE_PROVIDER:'supabase',SUPABASE_URL:'https://project.supabase.co',SUPABASE_SERVICE_ROLE_KEY:'server-secret',SUPABASE_STORAGE_BUCKET:'notulen-private',AGENDA_STORAGE_BUCKET:'agenda-private'};
+assert.equal(assess(env).ready,true,'Correct PostgreSQL production environment must pass without old flags');
+for(const change of [{APP_ORIGIN:'http://localhost'},{DATABASE_URL:'sqlite:db'},{AGENDA_STORAGE_BUCKET:''},{NODE_ENV:'development'}])assert.equal(assess({...env,...change}).ready,false,JSON.stringify(change));
+assert(!JSON.stringify(assess(env)).includes('server-secret'));
+console.log('PASS V120: npm start/dev, Docker, Vercel use PostgreSQL-only; consistent hosting preflight and fail-closed checks');

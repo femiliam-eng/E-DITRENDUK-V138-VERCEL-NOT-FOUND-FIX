@@ -1,0 +1,26 @@
+/* V141 — gambar asli dari pengguna; form/login/API tetap sama. */
+body.login-page.login-motion{background:#dfe8fa}
+body.login-page.login-motion .login-shell{grid-template-columns:52% 48%;position:relative;background:#eaf0fb;min-height:100vh}
+body.login-page.login-motion .login-side{background:linear-gradient(118deg,rgba(29,72,137,.13),rgba(27,60,110,.08)),url("../assets/login-background-hd.png") center center/100% 100% no-repeat;padding:clamp(32px,5.4vw,85px)}
+body.login-page.login-motion .login-side::before{display:none}
+body.login-page.login-motion .login-card{position:relative;z-index:1;background:rgba(255,255,255,.96);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);box-shadow:0 18px 64px rgba(32,54,110,.17);border:1px solid rgba(255,255,255,.95);padding:clamp(26px,3vw,42px);width:min(440px,88%);border-radius:17px}
+body.login-page.login-motion .login-card label{font-size:13px}
+body.login-page.login-motion .login-card>div p,body.login-page.login-motion .login-note{font-size:12px}
+body.login-page.login-motion .login-row{font-size:12px}
+body.login-page.login-motion .login-side h1{font-size:clamp(38px,4vw,64px);letter-spacing:-.045em}
+body.login-page.login-motion .login-side p{font-size:clamp(13px,1.05vw,16px);max-width:480px}
+body.login-page.login-motion .login-card .field{font-size:14px}
+body.login-page.login-motion .login-card .btn-navy{min-height:44px}
+body.login-page.login-motion .login-side>a{font-size:12px}
+body.login-page.login-motion .login-shell::before{content:"";position:absolute;inset:0 0 0 52%;pointer-events:none;background:url("../assets/login-background-hd.png") right center/auto 100% no-repeat;z-index:0}
+/* Hero image has left blue/right illustrated panels, so use the corresponding halves
+   without stretching the illustration across the form. */
+body.login-page.login-motion .login-side{background:linear-gradient(118deg,rgba(29,72,137,.06),rgba(27,60,110,.02)),url("../assets/login-background-hd.png") left center/auto 100% no-repeat}
+@media(max-width:800px){
+ body.login-page.login-motion .login-shell{display:flex;flex-direction:column;background:#eaf0fb}
+ body.login-page.login-motion .login-shell::before{inset:280px 0 0 0;background-size:cover;background-position:right center;opacity:.8}
+ body.login-page.login-motion .login-side{min-height:280px;padding:30px 26px;gap:22px;background:#214b88}
+ body.login-page.login-motion .login-side h1{font-size:36px}
+ body.login-page.login-motion .login-card{margin:28px auto 45px;width:min(440px,calc(100% - 36px))}
+}
+@media(prefers-reduced-motion:reduce){body.login-page.login-motion .login-card{animation:none}}

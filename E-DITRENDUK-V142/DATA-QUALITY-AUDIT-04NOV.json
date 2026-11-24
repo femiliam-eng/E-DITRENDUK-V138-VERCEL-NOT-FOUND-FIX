@@ -1,0 +1,36 @@
+{
+  "tables": {
+    "agenda_kegiatan": {
+      "rows": 393,
+      "duplicate_ids": 0,
+      "empty_required_field": 0,
+      "empty_date": 0,
+      "non_iso_date_needs_review": 0
+    },
+    "task_deadline": {
+      "rows": 53,
+      "duplicate_ids": 0,
+      "empty_required_field": 0,
+      "empty_date": 15,
+      "non_iso_date_needs_review": 6
+    },
+    "monitoring": {
+      "rows": 43,
+      "duplicate_ids": 0,
+      "empty_required_field": 0,
+      "empty_date": 1,
+      "non_iso_date_needs_review": 5
+    },
+    "disposisi": {
+      "rows": 225,
+      "duplicate_ids": 0,
+      "empty_required_field": 0,
+      "empty_date": 0,
+      "non_iso_date_needs_review": 0
+    }
+  },
+  "notes": [
+    "Non-ISO dates may be valid Indonesian text or date ranges; flagged for manual review, not automatically classified as invalid. Source records are not changed.",
+    "SQLite data quality does not establish parity with Excel or live PostgreSQL."
+  ]
+}

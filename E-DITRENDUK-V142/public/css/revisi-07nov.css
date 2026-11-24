@@ -1,0 +1,16 @@
+/* Revisi 7 November 2026: no data changes */
+.brand{width:320px!important;max-width:370px!important;flex:0 0 320px!important;min-width:0}
+.brand>span{min-width:0;display:block}
+.brand b{font-size:11px!important;line-height:1.2!important;white-space:nowrap}
+.brand small{font-size:9px!important;margin-top:3px}
+.weekly-progress-detail{display:block;margin-top:3px;max-width:100px;font-size:9px;line-height:1.25;color:#4b3900}
+.hero-score{min-width:126px;width:126px;min-height:126px;height:auto;padding:12px 8px}
+.hero-score b{font-size:31px}
+.repo-count{color:#66788a;font-size:11px;margin:13px 0 10px}
+.repo-status.state-green,.ar-nasib.state-blue,.ar-nasib.state-yellow,.ar-nasib.state-red{font-weight:700}
+.state-neutral{background:#f2f4f7!important;color:#64748b!important;border-color:#dbe0e7!important}
+.ar-nasib.state-red{background:#fee2e2!important;color:#991b1b!important;border-color:#fecaca!important}
+.ar-nasib.state-yellow{background:#fef9c3!important;color:#854d0e!important;border-color:#fde68a!important}
+.ar-nasib.state-blue{background:#e0f2fe!important;color:#075985!important;border-color:#bae6fd!important}
+@media(max-width:900px){.brand{width:auto!important;flex:0 1 auto!important}.brand b{white-space:normal}.hero-score{min-width:110px;width:110px}}
+@media(max-width:760px){.brand{max-width:220px!important}.brand>span{display:none}}

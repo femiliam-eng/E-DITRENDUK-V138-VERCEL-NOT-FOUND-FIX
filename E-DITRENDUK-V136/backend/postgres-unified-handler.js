@@ -1,7 +1,7 @@
 'use strict';
 // V71: unified PostgreSQL API for seven existing modules, dashboard, and audit.
 const crypto=require('node:crypto');
-const ROUTES=Object.freeze({monitoring:['monitoring','monitoring'],logbook:['logbook','logbook'],archive:['archive','arsip'],users:['users_data','pengguna'],disposisi:['disposisi','rakom'],petugas:['petugas','agenda'],schedules:['schedules','agenda'],fasilitasi:['fasilitasi','agenda']});
+const ROUTES=Object.freeze({monitoring:['monitoring','monitoring'],logbook:['logbook','logbook'],archive:['archive','arsip'],users:['users_data','pengguna'],disposisi:['disposisi','rakom'],'manajemen-plan':['manajemen_plan','rakom'],petugas:['petugas','agenda'],schedules:['schedules','agenda'],fasilitasi:['fasilitasi','fasilitasi']});
 const BOOTSTRAP=Object.freeze({monitoring:'monitoring',logbook:'logbook',archive:'archive',users:'users_data',disposisi:'disposisi',petugas:'petugas',schedules:'schedules',fasilitasi:'fasilitasi'});
 function allowed(user,module){
  if(!user||user.status!=='Aktif')return false;
@@ -11,7 +11,7 @@ function allowed(user,module){
  if(module!=='agenda'&&String(user.role).includes('Admin'))return true;
  let permissions=user.permissions||[];
  try{if(typeof permissions==='string')permissions=JSON.parse(permissions)}catch{return false}
- return Array.isArray(permissions)&&permissions.includes(module);
+ return Array.isArray(permissions)&&(permissions.includes(module)||(module==='fasilitasi'&&permissions.includes('agenda')));
 }
 function unpack(record){return record?(typeof record.payload==='string'?JSON.parse(record.payload):record.payload):null}
 // V130: strict calendar-day parser; never rely on Date.parse for ambiguous legacy data.
@@ -50,7 +50,7 @@ async function handle({req,res,url,user,repo,pool,readJson,json}){
  };
  const attachmentMatch=url.pathname.match(/^\/api\/fasilitasi\/([a-zA-Z0-9_-]{1,100})\/attachments(?:\/([a-zA-Z0-9_-]{1,100})(?:\/file)?)?$/);
  if(attachmentMatch){
-  if(!allowed(user,'agenda'))return json(res,403,{ok:false,message:'Tidak memiliki izin fasilitasi.'});
+  if(!allowed(user,'fasilitasi'))return json(res,403,{ok:false,message:'Tidak memiliki izin fasilitasi.'});
   const [,id,fileId]=attachmentMatch;
   const current=unpack(await repo.get('fasilitasi',id));
   if(!current)return json(res,404,{ok:false,message:'Kegiatan tidak ditemukan.'});
@@ -87,7 +87,7 @@ async function handle({req,res,url,user,repo,pool,readJson,json}){
   }
   return json(res,405,{ok:false,message:'Metode tidak didukung.'});
  }
- const match=url.pathname.match(/^\/api\/(monitoring|logbook|archive|users|disposisi|petugas|schedules|fasilitasi)(?:\/([a-zA-Z0-9_-]{1,100}))?$/);
+ const match=url.pathname.match(/^\/api\/(monitoring|logbook|archive|users|disposisi|manajemen-plan|petugas|schedules|fasilitasi)(?:\/([a-zA-Z0-9_-]{1,100}))?$/);
  if(match){
   const [,resource,id]=match,[table,module]=ROUTES[resource];
   if(!allowed(user,module))return json(res,403,{ok:false,message:'Anda tidak memiliki akses ke modul ini.'});
@@ -95,7 +95,11 @@ async function handle({req,res,url,user,repo,pool,readJson,json}){
   // Never allow clients to mutate identity, roles, or access permissions via generic payload APIs.
   if(resource==='users' && req.method!=='GET')return json(res,403,{ok:false,message:'Data pengguna hanya dapat dibaca melalui modul ini.'});
   if(req.method==='GET'&&!id){
-   const rows=(await repo.list(table)).map(unpack).map(row=>publicRow(row,resource));
+   const rows=(await repo.list(table)).map(record=>{
+     const row=unpack(record);
+     // Excel source payloads were imported without a nested id. Restore the stable primary key for editing.
+     return publicRow(resource==='manajemen-plan'?{...row,id:record.id}:row,resource);
+    });
    const wantsPage=['page','limit','q'].some(k=>url.searchParams.has(k));
    if(!wantsPage)return json(res,200,{ok:true,data:rows});
    const q=String(url.searchParams.get('q')||'').trim().slice(0,120).toLowerCase();
@@ -153,11 +157,54 @@ async function handle({req,res,url,user,repo,pool,readJson,json}){
   return json(res,200,{ok:true,data:items,generatedAt:new Date().toISOString()});
  }
  if(url.pathname==='/api/dashboard'&&req.method==='GET'){
-  const [monitoring,logbook,disposisi]=await Promise.all(['monitoring','logbook','disposisi'].map(async table=>allowed(user,ROUTES[table][1])?(await repo.list(table)).map(unpack):[]));
-  const complete=monitoring.filter(x=>['lengkap','final'].includes(String(x.verifikasi||'').toLowerCase())).length;
-  const pending=disposisi.filter(x=>!['done','selesai'].includes(String(x.status||'').toLowerCase())).length;
-  const recent=await pool.query('SELECT id,action,resource,resource_id,created_at FROM audit_logs WHERE account_id=$1 ORDER BY created_at DESC LIMIT 5',[user.id]);
-  return json(res,200,{ok:true,data:{monitoring:monitoring.length,pending,complete,logbook:logbook.length,completion:monitoring.length?Math.round(100*complete/monitoring.length):0,recent:recent.rows}});
+  // REV14: All-workspace totals are only sent to Superadmin.
+  // Regular employees see records explicitly assigned to their account.
+  const superadmin=String(user.role||'').toLowerCase()==='superadmin';
+  const canMonitor=allowed(user,'monitoring');
+  const canTask=allowed(user,'task-deadline');
+  const canLog=allowed(user,'logbook');
+  const [monitoring,tasks,logbook]=await Promise.all([
+    canMonitor?repo.list('monitoring').then(rows=>rows.map(unpack)):Promise.resolve([]),
+    canTask?repo.list('task_deadline').then(rows=>rows.map(unpack)):Promise.resolve([]),
+    canLog?repo.list('logbook').then(rows=>rows.map(unpack)):Promise.resolve([])
+  ]);
+  const identities=[user.id,user.username,user.name]
+    .map(x=>String(x||'').trim().toLocaleLowerCase('id-ID')).filter(Boolean);
+  const assigned=(row,keys)=>{
+    return keys.some(key=>{
+      const value=row && row[key];
+      if(value==null)return false;
+      const names=Array.isArray(value)?value:String(value).split(/[;,|\n]+/);
+      return names.some(name=>identities.includes(String(name||'').trim().toLocaleLowerCase('id-ID')));
+    });
+  };
+  const ownedTasks=superadmin?tasks:tasks.filter(x=>assigned(x,['assignedTo','assignee','pic','penanggungJawab','accountId']));
+  const ownedMonitoring=superadmin?monitoring:monitoring.filter(x=>assigned(x,['assignedTo','assignee','pic','penanggungJawab','accountId']));
+  const ownedLogs=superadmin?logbook:logbook.filter(x=>assigned(x,['pegawai','assignedTo','accountId']));
+  const finished=x=>['done','selesai','completed','selesai dikerjakan'].includes(String(x.status||'').trim().toLowerCase());
+  const verified=x=>['lengkap','final'].includes(String(x.verifikasi||'').trim().toLowerCase());
+  const pendingTasks=ownedTasks.filter(x=>!finished(x));
+  const pendingMonitoring=ownedMonitoring.filter(x=>!verified(x));
+  const activities=await pool.query(
+    superadmin
+      ? 'SELECT id,action,resource,resource_id,created_at FROM audit_logs ORDER BY created_at DESC,id DESC LIMIT 6'
+      : 'SELECT id,action,resource,resource_id,created_at FROM audit_logs WHERE account_id=$1 ORDER BY created_at DESC,id DESC LIMIT 6',
+    superadmin?[]:[user.id]
+  );
+  return json(res,200,{ok:true,data:{
+    scope:superadmin?'all':'personal',
+    monitoring:superadmin?monitoring.length:pendingMonitoring.length,
+    pending:pendingTasks.length,
+    complete:superadmin?monitoring.filter(verified).length:pendingMonitoring.length,
+    logbook:ownedLogs.length,
+    taskTotal:ownedTasks.length,
+    taskDone:ownedTasks.filter(finished).length,
+    taskAssignable:canTask,
+    taskAssignmentMissing:!superadmin && tasks.length>0 && !tasks.some(x=>assigned(x,['assignedTo','assignee','pic','penanggungJawab','accountId'])),
+    recent:activities.rows,
+    ownTasks:pendingTasks.slice(0,4).map(x=>({id:x.id,tugas:x.tugas,deadline:x.deadline,status:x.status})),
+    ownMonitoring:pendingMonitoring.slice(0,4).map(x=>({id:x.id,nama:x.nama,tanggal:x.tanggal,tim:x.tim}))
+  }});
  }
  if(url.pathname==='/api/audit'&&req.method==='GET'){
   if(user.role!=='Superadmin')return json(res,403,{ok:false,message:'Hanya Superadmin.'});

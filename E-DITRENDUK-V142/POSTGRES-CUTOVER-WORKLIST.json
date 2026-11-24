@@ -1,0 +1,125 @@
+{
+  "status": "NOT_MIGRATED",
+  "sqlite_calls": [
+    {
+      "line": 96,
+      "code": "if (!primaryPgPayload) { const row=db.prepare(`SELECT payload FROM ${table} WHERE id=?`).get(id); return row ? JSON.parse(row.payload) : null; }"
+    },
+    {
+      "line": 102,
+      "code": "async function primaryRemove(table,id) { if(primaryPgPayload) return primaryPgPayload.remove(table,id); db.prepare(`DELETE FROM ${table} WHERE id=?`).run(id); return true"
+    },
+    {
+      "line": 123,
+      "code": "db.exec(`"
+    },
+    {
+      "line": 291,
+      "code": "if (!Array.isArray(rows) || db.prepare(`SELECT COUNT(*) c FROM ${table}`).get().c) return;"
+    },
+    {
+      "line": 292,
+      "code": "const stmt = db.prepare(`INSERT INTO ${table}(id,payload) VALUES(?,?)`);"
+    },
+    {
+      "line": 327,
+      "code": "if (!IS_PROD && !db.prepare('SELECT COUNT(*) c FROM accounts').get().c) {"
+    },
+    {
+      "line": 328,
+      "code": "db.prepare('INSERT INTO accounts(id,username,email,password_hash,name,role,status) VALUES(?,?,?,?,?,?,?)')"
+    },
+    {
+      "line": 333,
+      "code": "const existingNames=new Set(db.prepare('SELECT name FROM accounts').all().map(x=>x.name));"
+    },
+    {
+      "line": 334,
+      "code": "const usedUsers=new Set(db.prepare('SELECT username FROM accounts').all().map(x=>x.username));"
+    },
+    {
+      "line": 340,
+      "code": "db.prepare('INSERT INTO accounts(id,username,email,password_hash,name,role,status,unit,permissions,must_change_password) VALUES(?,?,?,?,?,?,?,?,?,?)')"
+    },
+    {
+      "line": 350,
+      "code": "if (!db.prepare('SELECT COUNT(*) c FROM schedules').get().c) {"
+    },
+    {
+      "line": 352,
+      "code": "const stmt=db.prepare('INSERT INTO schedules(id,payload) VALUES(?,?)');"
+    },
+    {
+      "line": 479,
+      "code": "get:async(table,id)=>db.prepare('SELECT payload FROM agenda_kegiatan WHERE id=?').get(id),"
+    },
+    {
+      "line": 480,
+      "code": "update:async(table,id,payload)=>db.prepare('UPDATE agenda_kegiatan SET payload=? WHERE id=?').run(JSON.stringify(payload),id)"
+    },
+    {
+      "line": 710,
+      "code": "const counts=Object.fromEntries(tableNames.map(name=>[name,Number(db.prepare(`SELECT COUNT(*) c FROM ${name}`).get().c||0)]));"
+    },
+    {
+      "line": 713,
+      "code": "const integrity=db.prepare('PRAGMA quick_check').get().quick_check;"
+    },
+    {
+      "line": 819,
+      "code": "return json(res,200,{ok:true,data:db.prepare(`SELECT payload FROM ${table} ORDER BY id`).all().map(x=>JSON.parse(x.payload))});"
+    },
+    {
+      "line": 826,
+      "code": "const existingAgenda=kind==='agenda'?(pgAgendaTask?await pgAgendaTask.get(table,id):db.prepare('SELECT payload FROM agenda_kegiatan WHERE id=?').get(id)):null;"
+    },
+    {
+      "line": 827,
+      "code": "const deleted=pgAgendaTask?await pgAgendaTask.remove(table,id):Boolean(db.prepare(`DELETE FROM ${table} WHERE id=?`).run(id).changes);"
+    },
+    {
+      "line": 846,
+      "code": "const existing=id?(pgAgendaTask?await pgAgendaTask.get(table,id):db.prepare(`SELECT payload FROM ${table} WHERE id=?`).get(id)):null;"
+    },
+    {
+      "line": 871,
+      "code": "} else db.prepare(`INSERT INTO ${table}(id,payload) VALUES(?,?) ON CONFLICT(id) DO UPDATE SET payload=excluded.payload`).run(newId,JSON.stringify(row));"
+    },
+    {
+      "line": 910,
+      "code": "const rows=db.prepare('SELECT n.*,a.name AS uploader_name FROM notulen_submissions n JOIN accounts a ON a.id=n.uploaded_by ORDER BY n.uploaded_at DESC LIMIT 200').all();"
+    },
+    {
+      "line": 931,
+      "code": "try{db.prepare('INSERT INTO notulen_submissions(id,topic,team,meeting_date,file_name,stored_path,mime_type,size_bytes,uploaded_by) VALUES(?,?,?,?,?,?,?,?,?)').run(id,topi"
+    },
+    {
+      "line": 939,
+      "code": "const row=db.prepare('SELECT * FROM notulen_submissions WHERE id=?').get(downloadMatch[1]);"
+    },
+    {
+      "line": 999,
+      "code": "db.exec(fs.readFileSync(path.join(__dirname, 'migrations', '005-password-reset-requests.sql'), 'utf8'));"
+    },
+    {
+      "line": 1001,
+      "code": "for(const table of ['agenda_kegiatan','task_deadline'])db.exec(`CREATE TABLE IF NOT EXISTS ${table}(id TEXT PRIMARY KEY,payload TEXT NOT NULL)`);"
+    },
+    {
+      "line": 1004,
+      "code": "if(!IS_PROD && db.prepare(`SELECT COUNT(*) AS n FROM ${table}`).get().n===0){"
+    },
+    {
+      "line": 1005,
+      "code": "const put=db.prepare(`INSERT INTO ${table}(id,payload) VALUES(?,?)`);"
+    },
+    {
+      "line": 1016,
+      "code": "const accounts=db.prepare('SELECT username,password_hash FROM accounts').all();"
+    },
+    {
+      "line": 1022,
+      "code": "db.exec(\"UPDATE accounts SET role = CASE WHEN role LIKE '%Admin%' THEN 'Superadmin' ELSE 'Pegawai' END WHERE role NOT IN ('Superadmin','Pegawai')\");"
+    }
+  ]
+}
