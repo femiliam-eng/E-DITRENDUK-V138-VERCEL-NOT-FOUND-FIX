@@ -36,3 +36,33 @@ body[data-page="rakom"] .plan-form-grid .field{margin-top:6px;font-size:13px;min
 body[data-page="rakom"] .plan-form-grid .wide{grid-column:1/-1}
 body[data-page="rakom"] .plan-note{font-size:12px;color:#64748b;line-height:1.6}
 @media(max-width:650px){body[data-page="rakom"] .plan-form-grid{grid-template-columns:1fr}body[data-page="rakom"] .plan-form-grid .wide{grid-column:auto}}
+
+/* Revisi 23 Nov 2026 — Concept Note grouped once per date. */
+body[data-page="rakom"] .plan-filters .plan-sort-toggle{min-height:37px!important;min-width:150px;padding:8px 12px!important;white-space:nowrap;font-size:12px!important;font-weight:700!important;color:#173d82!important}
+body[data-page="rakom"] .plan-table{min-width:1280px!important}
+body[data-page="rakom"] .plan-table .plan-number-col{width:4%}
+body[data-page="rakom"] .plan-table .plan-date-col{width:8%}
+body[data-page="rakom"] .plan-table .plan-team-col{width:11%}
+body[data-page="rakom"] .plan-table .plan-direction-col{width:20%}
+body[data-page="rakom"] .plan-table .plan-pic-col{width:14%}
+body[data-page="rakom"] .plan-table .plan-output-col{width:10%}
+body[data-page="rakom"] .plan-table .plan-status-col{width:10%}
+body[data-page="rakom"] .plan-table .plan-proof-col{width:15%}
+body[data-page="rakom"] .plan-table .plan-action-col{width:8%}
+body[data-page="rakom"] .plan-table .plan-group-number{font-weight:750;color:#173d82;text-align:center;vertical-align:top;white-space:nowrap}
+body[data-page="rakom"] .plan-table .plan-group-date{font-weight:700;color:#243b62;white-space:nowrap;vertical-align:top}
+body[data-page="rakom"] .plan-table .plan-stack{display:flex;flex-direction:column;min-width:0}
+body[data-page="rakom"] .plan-table .plan-point{min-width:0;padding:8px 0;border-bottom:1px solid #e8edf5}
+body[data-page="rakom"] .plan-table .plan-point:first-child{padding-top:0}
+body[data-page="rakom"] .plan-table .plan-point:last-child{padding-bottom:0;border-bottom:0}
+body[data-page="rakom"] .plan-table .plan-arahan .plan-point{white-space:pre-wrap;vertical-align:top}
+body[data-page="rakom"] .plan-table .plan-direction-item{white-space:pre-wrap;overflow-wrap:anywhere}
+body[data-page="rakom"] .plan-table .plan-pic-input{min-height:34px}
+body[data-page="rakom"] .plan-table .plan-proof-edit{display:flex;flex-direction:column;gap:4px;min-width:0}
+body[data-page="rakom"] .plan-table .plan-proof-input{width:100%;min-width:0;max-width:100%;box-sizing:border-box;min-height:34px;padding:6px 8px;border:1px solid #cfd9e8;border-radius:7px;font-size:11px}
+body[data-page="rakom"] .plan-table .plan-proof-link{font-size:10px;white-space:nowrap}
+body[data-page="rakom"] .plan-table .plan-edit{font-size:11px!important;padding:6px 8px!important;min-width:48px}
+body[data-page="rakom"] .plan-table .plan-action{text-align:center;vertical-align:top}
+body[data-page="rakom"] .plan-table .plan-action .plan-point{display:flex;justify-content:center}
+body[data-page="rakom"] .plan-table .plan-status-select{min-height:34px;padding:6px 7px}
+@media(max-width:760px){body[data-page="rakom"] .plan-filters .plan-sort-toggle{flex:1 1 150px}}

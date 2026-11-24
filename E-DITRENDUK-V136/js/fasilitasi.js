@@ -72,9 +72,13 @@ function fresh(){
 }
 function edit(id){
  const x=rowById(id);if(!x)return;
+ const applicant=$('pemohon');
+ [...applicant.options].filter(option=>option.dataset.legacy==='true').forEach(option=>option.remove());
  for(const field of fields){
   const select=$(field),val=field==='tanggal'?dateInput(x[field]):draftValue(x,field);
-  if(select.tagName==='SELECT'&&val&&![...select.options].some(o=>o.value===val))select.add(new Option(val,val),0);
+  if(select.tagName==='SELECT'&&val&&![...select.options].some(o=>o.value===val)){
+   const legacy=new Option(val,val);if(field==='pemohon')legacy.dataset.legacy='true';select.add(legacy,field==='pemohon'?1:0);
+  }
   select.value=val;
  }
  $('itemId').value=x.id;$('formTitle').textContent='Edit fasilitasi';ED.open('facFormModal');

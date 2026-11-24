@@ -1,0 +1,12 @@
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const html=fs.readFileSync('rakom.html','utf8'),js=fs.readFileSync('js/management-plan.js','utf8');
+const fac=fs.readFileSync('fasilitasi.html','utf8'),facJs=fs.readFileSync('js/fasilitasi.js','utf8');
+assert.match(html,/<th>No\.<\/th><th>Tanggal<\/th>/,'number column beside date');
+assert.match(html,/id="planSort"[^>]*data-order="desc"/,'newest-first default');
+assert.match(js,/function groupByDate\(/,'group Concept Note rows by date');
+assert.match(js,/sourceOrder\(y\)-sourceOrder\(x\)/,'latest input first within each date');
+assert.match(js,/colspan="9"/,'nine-column grouped table');
+for(const value of ['Komponen Internal','Kementerian/Lembaga','Pemerintah Provinsi','BKKBN Perwakilan','Pemerintah Kabupaten/Kota'])assert(fac.includes(value));
+assert.match(fac,/<select id="pemohon"/,'Pemohon dropdown');
+assert(facJs.includes("option.dataset.legacy='true'"),'legacy applicant values preserved');
+console.log('Revisi 23 November 2026 regression: PASS');

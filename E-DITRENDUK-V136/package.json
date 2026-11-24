@@ -26,6 +26,7 @@
     "postgres-import": "node scripts/postgres-import.js",
     "frontend-test": "node scripts/frontend-contract-test.js",
     "revisi-27-29-test": "node scripts/revisi-27-29-nov4-regression-test.js",
+    "revisi-23nov26-test": "node scripts/revisi-23nov26-test.js",
     "production-audit": "node scripts/production-audit.js",
     "verify-backup": "node scripts/verify-backup.js",
     "restore-drill": "node scripts/restore-drill.js",
