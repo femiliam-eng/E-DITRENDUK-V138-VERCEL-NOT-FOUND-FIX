@@ -43,3 +43,37 @@ body[data-page="fasilitasi"] .fac-table .fac-actions-cell button.fac-edit{width:
 body[data-page="fasilitasi"] .fac-method{font-size:10px!important;min-height:35px!important;height:35px!important;padding:6px 8px!important}
 body[data-page="fasilitasi"] .fasilitasi-directory{margin-top:15px!important;padding:9px 12px!important;font-size:10px!important}
 @media(max-width:750px){body[data-page="fasilitasi"] main.main>.fac-list-section{padding:14px!important}body[data-page="fasilitasi"] .fasilitasi-toolbar>label:first-child{flex:1 1 100%!important;width:100%!important;max-width:none!important}body[data-page="fasilitasi"] .fac-list-section .section-title{flex-wrap:wrap!important}}
+
+/* REV25NOV — applicant select and balanced modal */
+body[data-page=fasilitasi] .fac-table{min-width:1320px!important}
+body[data-page=fasilitasi] .fac-col-number{width:4%!important}
+body[data-page=fasilitasi] .fac-col-date{width:9%!important}
+body[data-page=fasilitasi] .fac-col-title{width:20%!important}
+body[data-page=fasilitasi] .fac-col-type{width:10%!important}
+body[data-page=fasilitasi] .fac-col-method{width:9%!important}
+body[data-page=fasilitasi] .fac-col-exec{width:10%!important}
+body[data-page=fasilitasi] .fac-col-applicant{width:19%!important}
+body[data-page=fasilitasi] .fac-col-proof{width:14%!important}
+body[data-page=fasilitasi] .fac-col-actions{width:5%!important}
+body[data-page=fasilitasi] .fac-applicant-cell{overflow-wrap:normal!important}
+body[data-page=fasilitasi] select.fac-applicant{display:block!important;width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important;height:36px!important;min-height:36px!important;padding:7px 24px 7px 9px!important;font-size:11px!important;font-weight:700!important;border:1px solid!important;border-radius:8px!important;cursor:pointer!important;text-overflow:ellipsis!important}
+body[data-page=fasilitasi] select.fac-applicant.fac-applicant-internal{background:#f2e8ff!important;color:#6422a1!important;border-color:#d4b8f4!important}
+body[data-page=fasilitasi] select.fac-applicant.fac-applicant-ministry{background:#dff7e5!important;color:#19623a!important;border-color:#a5d9b2!important}
+body[data-page=fasilitasi] select.fac-applicant.fac-applicant-province{background:#f2e1d4!important;color:#77452e!important;border-color:#d9b49f!important}
+body[data-page=fasilitasi] select.fac-applicant.fac-applicant-bkkbn{background:#dfeeff!important;color:#204a92!important;border-color:#a9c6eb!important}
+body[data-page=fasilitasi] select.fac-applicant.fac-applicant-regency{background:#fff2bf!important;color:#765500!important;border-color:#efd781!important}
+body[data-page=fasilitasi] select.fac-applicant.fac-applicant-unknown{background:#f4f7fb!important;color:#53647e!important;border-color:#d5dfed!important}
+body[data-page=fasilitasi] select.fac-applicant option{background:white;color:#21314d}
+body[data-page=fasilitasi] select.fac-applicant:focus{outline:2px solid #b1c9ed!important;outline-offset:1px!important}
+body[data-page=fasilitasi] #facFormModal .fac-modal{display:flex!important;flex-direction:column!important;box-sizing:border-box!important;width:min(980px,calc(100vw - 32px))!important;max-width:980px!important;max-height:calc(100dvh - 32px)!important;overflow:hidden!important}
+body[data-page=fasilitasi] #facFormModal #form{display:flex!important;flex-direction:column!important;grid-template-columns:none!important;gap:0!important;align-items:stretch!important;min-height:0!important;flex:1 1 auto!important;width:100%!important;max-width:none!important}
+body[data-page=fasilitasi] #facFormModal .modal-head{flex:0 0 auto!important;padding:20px 26px!important}
+body[data-page=fasilitasi] #facFormModal .modal-body{display:block!important;box-sizing:border-box!important;width:100%!important;max-width:none!important;flex:1 1 auto!important;overflow-y:auto!important;min-height:0!important;padding:22px 26px!important}
+body[data-page=fasilitasi] #facFormModal .fac-form-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:17px 22px!important;width:100%!important;min-width:0!important;max-width:100%!important;align-items:start!important}
+body[data-page=fasilitasi] #facFormModal .fac-form-grid label{display:block!important;width:100%!important;min-width:0!important;margin:0!important;font-size:13px!important;line-height:1.4!important;font-weight:650!important}
+body[data-page=fasilitasi] #facFormModal .fac-form-grid :is(input,select,textarea){display:block!important;box-sizing:border-box!important;width:100%!important;max-width:100%!important;min-width:0!important;min-height:43px!important;margin-top:8px!important;padding:10px 12px!important;font-size:13px!important;line-height:1.4!important;border-radius:9px!important}
+body[data-page=fasilitasi] #facFormModal .fac-form-grid textarea{min-height:82px!important;resize:vertical!important}
+body[data-page=fasilitasi] #facFormModal #pemohon{height:43px!important;min-height:43px!important}
+body[data-page=fasilitasi] #facFormModal .modal-foot{display:flex!important;flex:0 0 auto!important;grid-column:auto!important;box-sizing:border-box!important;justify-content:flex-end!important;align-items:center!important;gap:12px!important;width:100%!important;margin:0!important;padding:16px 26px!important;background:#fff!important;border-top:1px solid #e2e8f2!important}
+body[data-page=fasilitasi] #facFormModal .modal-foot button{width:auto!important;min-height:40px!important;padding:9px 17px!important;font-size:12px!important;border-radius:8px!important;white-space:nowrap!important}
+@media(max-width:670px){body[data-page=fasilitasi] #facFormModal .fac-form-grid{grid-template-columns:minmax(0,1fr)!important;gap:13px!important}body[data-page=fasilitasi] #facFormModal .modal-body{padding:16px!important}body[data-page=fasilitasi] #facFormModal .modal-head{padding:16px!important}body[data-page=fasilitasi] #facFormModal .modal-foot{padding:14px 16px!important}}

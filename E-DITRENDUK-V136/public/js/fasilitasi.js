@@ -1,6 +1,11 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
 const methods=['Offline','Online','Hybrid'];
+const applicantOptions=['Komponen Internal','Kementerian/Lembaga','Pemerintah Provinsi','BKKBN Perwakilan','Pemerintah Kabupaten/Kota'];
+const applicantTones=['fac-applicant-internal','fac-applicant-ministry','fac-applicant-province','fac-applicant-bkkbn','fac-applicant-regency'];
+const applicantClass=value=>{const i=applicantOptions.indexOf(String(value??''));return i<0?'fac-applicant-unknown':applicantTones[i]};
+function updateApplicantTone(el){el.className=(el.id==='pemohon'?'field ':'')+'fac-applicant '+applicantClass(el.value)}
+
 const fields=['judul','tanggal','metode','jenis','narasumber','pemohon','bukti','catatan'];
 const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 let rows=[],drafts=new Map(),busy=false;
@@ -35,6 +40,12 @@ function methodSelect(x){
  return '<select class="fac-method '+methodClass(val)+'" data-method-id="'+esc(x.id)+'" aria-label="Metode kegiatan"'+(busy?' disabled':'')+'>'+
  variants.map(v=>'<option value="'+esc(v)+'"'+(v===val?' selected':'')+'>'+esc(v||'— Pilih —')+'</option>').join('')+'</select>';
 }
+function applicantSelect(row){
+ const selected=draftValue(row,'pemohon');
+ const choices=selected&&!applicantOptions.includes(selected)?[selected,...applicantOptions]:['',...applicantOptions];
+ return '<select class="fac-applicant '+applicantClass(selected)+'" data-applicant-id="'+esc(row.id)+'" aria-label="Kategori Pemohon"'+(busy?' disabled':'')+'>'+
+ choices.map(v=>'<option value="'+esc(v)+'"'+(v===selected?' selected':'')+'>'+esc(v||'— Pilih pemohon —')+'</option>').join('')+'</select>';
+}
 function evidence(x){
  const proof=draftValue(x,'bukti').trim(),files=Array.isArray(x.attachments)?x.attachments:[];
  const links=[];
@@ -47,28 +58,32 @@ function render(){
  const query=$('search').value.trim().toLocaleLowerCase('id-ID'),kind=$('jenisFilter').value,met=$('metodeFilter').value,year=$('tahunFilter').value,asc=$('sort').dataset.order==='asc';
  const data=rows.filter(x=>{
   const m=methodValue(x);
-  const parsed=dateParts(x.tanggal);return(!year||(parsed&&String(parsed.y)===year))&&(!kind||x.jenis===kind)&&(!met||(met==='unassigned'?!methods.includes(m):m===met))&&(!query||[x.judul,x.tanggal,x.metode,x.jenis,x.narasumber,x.pemohon,x.catatan,draftValue(x,'bukti')].some(v=>String(v??'').toLocaleLowerCase('id-ID').includes(query)));
+  const parsed=dateParts(x.tanggal);return(!year||(parsed&&String(parsed.y)===year))&&(!kind||x.jenis===kind)&&(!met||(met==='unassigned'?!methods.includes(m):m===met))&&(!query||[x.judul,x.tanggal,x.metode,x.jenis,x.narasumber,draftValue(x,'pemohon'),x.catatan,draftValue(x,'bukti')].some(v=>String(v??'').toLocaleLowerCase('id-ID').includes(query)));
  }).slice().sort((a,b)=>(asc?1:-1)*(dateValue(a.tanggal)-dateValue(b.tanggal)));
  $('summary').textContent=data.length+' dari '+rows.length+' kegiatan';
- $('rows').innerHTML=data.map((x,i)=>'<tr><td class="fac-number-cell">'+(i+1)+'</td><td>'+esc(dateDisplay(x.tanggal))+'</td><td class="fac-title-cell" title="'+esc(x.judul)+'">'+esc(x.judul||'—')+'</td><td>'+esc(x.jenis||'—')+'</td><td>'+methodSelect(x)+'</td><td class="fac-person-cell">'+esc(x.narasumber||'—')+'</td><td class="fac-person-cell">'+esc(x.pemohon||'—')+'</td><td class="fac-proof-cell">'+evidence(x)+'</td><td class="fac-actions-cell"><button type="button" class="btn btn-outline fac-edit" data-edit-id="'+esc(x.id)+'">Edit</button></td></tr>').join('')||'<tr><td colspan="9" class="fac-empty-row">Tidak ada kegiatan yang sesuai filter.</td></tr>';
+ $('rows').innerHTML=data.map((x,i)=>'<tr><td class="fac-number-cell">'+(i+1)+'</td><td>'+esc(dateDisplay(x.tanggal))+'</td><td class="fac-title-cell" title="'+esc(x.judul)+'">'+esc(x.judul||'—')+'</td><td>'+esc(x.jenis||'—')+'</td><td>'+methodSelect(x)+'</td><td class="fac-person-cell">'+esc(x.narasumber||'—')+'</td><td class="fac-applicant-cell">'+applicantSelect(x)+'</td><td class="fac-proof-cell">'+evidence(x)+'</td><td class="fac-actions-cell"><button type="button" class="btn btn-outline fac-edit" data-edit-id="'+esc(x.id)+'">Edit</button></td></tr>').join('')||'<tr><td colspan="9" class="fac-empty-row">Tidak ada kegiatan yang sesuai filter.</td></tr>';
  $('rows').querySelectorAll('[data-method-id]').forEach(select=>select.onchange=()=>{
   const x=rowById(select.dataset.methodId);if(!x)return;
   const val=select.value;
   setDraft(x.id,'metode',val);
   select.className='fac-method '+methodClass(val);updateDraftUI();
  });
+ $('rows').querySelectorAll('[data-applicant-id]').forEach(select=>select.onchange=()=>{
+  const row=rowById(select.dataset.applicantId);if(!row)return;
+  setDraft(row.id,'pemohon',select.value);updateApplicantTone(select);
+ });
  $('rows').querySelectorAll('[data-proof-id]').forEach(input=>input.addEventListener('input',()=>setDraft(input.dataset.proofId,'bukti',input.value)));
  $('rows').querySelectorAll('[data-edit-id]').forEach(btn=>btn.onclick=()=>edit(btn.dataset.editId));
  updateDraftUI();
 }
 async function load(){
- if(drafts.size&&!confirm('Ada perubahan metode atau bukti dukung yang belum disimpan. Batalkan draf dan perbarui daftar?'))return;
+ if(drafts.size&&!confirm('Ada perubahan metode, pemohon, atau bukti dukung yang belum disimpan. Batalkan draf dan perbarui daftar?'))return;
  try{const r=await api('fasilitasi');if(!Array.isArray(r.data))throw Error('Format data tidak valid');rows=r.data;drafts.clear();render();$('msg').textContent=''}
  catch(e){$('msg').textContent='Gagal memuat data: '+e.message}
 }
 function close(){ED.close('facFormModal')}
 function fresh(){
- $('form').reset();$('itemId').value='';$('formTitle').textContent='Tambah fasilitasi';$('metode').value='Offline';ED.open('facFormModal');
+ $('form').reset();[...$('pemohon').options].filter(o=>o.dataset.legacy==='true').forEach(o=>o.remove());$('itemId').value='';$('formTitle').textContent='Tambah fasilitasi';$('metode').value='Offline';updateApplicantTone($('pemohon'));ED.open('facFormModal');
 }
 function edit(id){
  const x=rowById(id);if(!x)return;
@@ -81,7 +96,7 @@ function edit(id){
   }
   select.value=val;
  }
- $('itemId').value=x.id;$('formTitle').textContent='Edit fasilitasi';ED.open('facFormModal');
+ $('itemId').value=x.id;$('formTitle').textContent='Edit fasilitasi';updateApplicantTone($('pemohon'));ED.open('facFormModal');
 }
 async function saveDrafts(){
  if(busy||!drafts.size)return;
@@ -95,8 +110,8 @@ async function saveDrafts(){
  $('msg').textContent=errors.length?saved+' tersimpan, '+errors.length+' gagal. Draf yang gagal tetap ada.':saved+' kegiatan berhasil disimpan.';
 }
 $('facSaveDraft').onclick=saveDrafts;
-$('facCancelDraft').onclick=()=>{if(!drafts.size||!confirm('Batalkan perubahan metode dan bukti yang belum disimpan?'))return;drafts.clear();render()};
-$('search').oninput=render;$('jenisFilter').onchange=render;$('metodeFilter').onchange=render;$('tahunFilter').onchange=render;
+$('facCancelDraft').onclick=()=>{if(!drafts.size||!confirm('Batalkan perubahan metode, pemohon, dan bukti yang belum disimpan?'))return;drafts.clear();render()};
+$('pemohon').onchange=()=>updateApplicantTone($('pemohon'));updateApplicantTone($('pemohon'));$('search').oninput=render;$('jenisFilter').onchange=render;$('metodeFilter').onchange=render;$('tahunFilter').onchange=render;
 $('facReset').onclick=()=>{$('search').value='';$('jenisFilter').value='';$('metodeFilter').value='';$('tahunFilter').value='';$('sort').dataset.order='desc';$('sort').textContent='Tanggal terbaru ↓';render()};
 $('sort').onclick=()=>{const asc=$('sort').dataset.order!=='asc';$('sort').dataset.order=asc?'asc':'desc';$('sort').textContent=asc?'Tanggal terlama ↑':'Tanggal terbaru ↓';$('sort').setAttribute('aria-label',asc?'Urutkan tanggal dari terlama ke terbaru':'Urutkan tanggal dari terbaru ke terlama');render()};
 $('addFac').onclick=fresh;$('facClose').onclick=close;$('cancel').onclick=close;
