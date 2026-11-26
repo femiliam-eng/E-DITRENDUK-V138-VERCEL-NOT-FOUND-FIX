@@ -66,3 +66,10 @@ body[data-page="rakom"] .plan-table .plan-action{text-align:center;vertical-alig
 body[data-page="rakom"] .plan-table .plan-action .plan-point{display:flex;justify-content:center}
 body[data-page="rakom"] .plan-table .plan-status-select{min-height:34px;padding:6px 7px}
 @media(max-width:760px){body[data-page="rakom"] .plan-filters .plan-sort-toggle{flex:1 1 150px}}
+
+/* Nov 26: exactly one status control for the whole date group; preserve status colors. */
+body[data-page="rakom"] .plan-table .plan-group-status{vertical-align:top!important;overflow-wrap:normal!important;padding-top:12px!important}
+body[data-page="rakom"] .plan-group-status-control{display:flex;flex-direction:column;align-items:stretch;gap:6px;min-width:0;width:100%}
+body[data-page="rakom"] .plan-group-status-control .plan-status-select{width:100%!important;max-width:100%!important;min-width:0!important;min-height:35px!important;height:35px!important;font-size:12px!important;box-sizing:border-box!important}
+body[data-page="rakom"] .plan-status-select.status-mixed{background:#eef2f7!important;color:#475569!important;border-color:#d3dce9!important}
+body[data-page="rakom"] .plan-status-hint{font-size:10px;line-height:1.3;color:#64748b}

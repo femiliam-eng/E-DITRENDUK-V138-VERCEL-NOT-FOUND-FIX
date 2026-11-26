@@ -50,11 +50,30 @@ function groupByDate(items){
  const groups=new Map();
  for(const row of items){
   const parsed=dateInfo(row.tanggal,row),key=parsed?parsed.key:'text-'+String(row.tanggal??'').trim().toLocaleLowerCase('id-ID');
-  if(!groups.has(key))groups.set(key,{items:[],date:parsed,latestSource:sourceOrder(row)});
+  if(!groups.has(key))groups.set(key,{key,items:[],date:parsed,latestSource:sourceOrder(row)});
   const group=groups.get(key);group.items.push(row);group.latestSource=Math.max(group.latestSource,sourceOrder(row));
  }
  for(const group of groups.values()){group.items.sort((x,y)=>sourceOrder(y)-sourceOrder(x));group.label=String(group.items[0]?.tanggal??'').trim()||'—'}
  return [...groups.values()];
+}
+// One displayed status per calendar date, while individual records retain their stored status.
+// Existing divergent statuses are never silently overwritten; only an explicit selection stages a change.
+function dateGroupKey(row){
+ const parsed=dateInfo(row.tanggal,row);
+ return parsed?parsed.key:'text-'+String(row.tanggal??'').trim().toLocaleLowerCase('id-ID');
+}
+function rowsForDate(key){return rows.filter(row=>dateGroupKey(row)===key)}
+function groupStatusControl(group){
+ const dateRows=rowsForDate(group.key);
+ const values=[...new Set(dateRows.map(row=>displayStatus(effective(row,'status'))))];
+ const shared=values.length===1?values[0]:'';
+ const choices=(shared?'':'<option value="" selected disabled>Status beragam</option>')+
+  statuses.map(v=>'<option value="'+v+'"'+(v===shared?' selected':'')+'>'+v+'</option>').join('');
+ return '<div class="plan-group-status-control"><select class="plan-status-select '+
+  (shared?statusTone(shared):'status-mixed')+
+  '" data-group-status="'+esc(group.key)+'" aria-label="Status seluruh arahan tanggal '+esc(group.label)+
+  '" title="Terapkan ke semua arahan pada tanggal ini">'+choices+'</select>'+
+  (shared?'':'<span class="plan-status-hint">Status sebelumnya berbeda</span>')+'</div>';
 }
 function pointStack(items,renderItem){return '<div class="plan-stack">'+items.map((row,index)=>'<div class="plan-point" data-point="'+(index+1)+'">'+renderItem(row,index)+'</div>').join('')+'</div>'}
 function paint(){
@@ -72,14 +91,21 @@ function paint(){
    '<td class="plan-arahan">'+pointStack(items,x=>'<div class="plan-direction-item">'+cell(x.arahan)+'</div>')+'</td>'+
    '<td>'+pointStack(items,x=>'<input class="plan-pic-input" type="text" maxlength="250" aria-label="PIC kegiatan" data-pic-id="'+esc(x.id)+'" value="'+esc(effective(x,'pic'))+'" placeholder="Nama PIC">')+'</td>'+
    '<td class="plan-output">'+pointStack(items,x=>cell(x.output))+'</td>'+
-   '<td>'+pointStack(items,x=>statusControl(x))+'</td>'+
+   '<td class="plan-group-status">'+groupStatusControl(group)+'</td>'+
    '<td class="plan-proof-cell">'+pointStack(items,x=>proofControl(x))+'</td>'+
    '<td class="plan-action">'+pointStack(items,x=>'<button class="btn btn-outline plan-edit" type="button" data-id="'+esc(x.id)+'">Edit</button>')+'</td></tr>';
  }).join('')||'<tr><td colspan="9">Belum ada arahan sesuai filter.</td></tr>';
  $('planBody').querySelectorAll('[data-id]').forEach(button=>button.onclick=()=>edit(button.dataset.id));
  $('planBody').querySelectorAll('[data-pic-id]').forEach(input=>input.addEventListener('input',()=>draft(input.dataset.picId,'pic',input.value)));
  $('planBody').querySelectorAll('[data-proof-id]').forEach(input=>input.addEventListener('input',()=>{draft(input.dataset.proofId,'bukti',input.value);const link=input.parentElement.querySelector('.plan-proof-link');if(link)link.remove()}));
- $('planBody').querySelectorAll('[data-status-id]').forEach(select=>select.onchange=()=>{draft(select.dataset.statusId,'status',select.value);select.className='plan-status-select '+statusTone(select.value)});
+ $('planBody').querySelectorAll('[data-group-status]').forEach(select=>select.onchange=()=>{
+  const value=select.value;if(!statuses.includes(value))return;
+  const affected=rowsForDate(select.dataset.groupStatus);
+  for(const row of affected)draft(row.id,'status',value);
+  select.className='plan-status-select '+statusTone(value);
+  select.closest('.plan-group-status-control')?.querySelector('.plan-status-hint')?.remove();
+  updateDraftIndicator();
+ });
  updateDraftIndicator();
 }
 async function load(){
